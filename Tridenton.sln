@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1706.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{55D61D70-E02F-441E-BAB0-6BB0D2350815}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tridenton.Core", "src\Core\Tridenton.Core\Tridenton.Core.csproj", "{43EC0548-7809-48F1-BA9B-07DDFFF8B082}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{43EC0548-7809-48F1-BA9B-07DDFFF8B082}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43EC0548-7809-48F1-BA9B-07DDFFF8B082}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43EC0548-7809-48F1-BA9B-07DDFFF8B082}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43EC0548-7809-48F1-BA9B-07DDFFF8B082}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3D70024D-3FAB-4B0B-B008-F93AD1712F67}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{43EC0548-7809-48F1-BA9B-07DDFFF8B082} = {55D61D70-E02F-441E-BAB0-6BB0D2350815}
+	EndGlobalSection
+EndGlobal
