@@ -3,7 +3,7 @@
 /// <summary>
 /// 
 /// </summary>
-public abstract class Operation : Durable, IExecutable, IUnique
+public abstract class Operation : Durable, IExecutable<OperationContext>, IUnique
 {
     public Ulid Id { get; }
 
@@ -34,7 +34,7 @@ public abstract class Operation : Durable, IExecutable, IUnique
         _status = OperationStatus.NotStarted;
     }
 
-    public async ValueTask<Result> ExecuteAsync(CancellationToken cancellationToken = default)
+    public async ValueTask<Result> ExecuteAsync(OperationContext context, CancellationToken cancellationToken = default)
     {
         Status = OperationStatus.InProgress;
         StartUtc = DateTime.UtcNow;
@@ -42,7 +42,7 @@ public abstract class Operation : Durable, IExecutable, IUnique
         Result result;
         try
         {
-            result = await ExecuteCoreAsync(cancellationToken);
+            result = await ExecuteCoreAsync(context, cancellationToken);
 
             Status = result.Successful
                 ? OperationStatus.Completed
@@ -73,20 +73,6 @@ public abstract class Operation : Durable, IExecutable, IUnique
         return result;
     }
 
-    protected abstract ValueTask<Result> ExecuteCoreAsync(CancellationToken cancellationToken = default);
+    protected abstract ValueTask<Result> ExecuteCoreAsync(OperationContext context, CancellationToken cancellationToken = default);
     protected abstract ValueTask<Result> RollbackCoreAsync();
-}
-
-public sealed class OperationStatus : Enumeration
-{
-    private OperationStatus(string value) : base(value) { }
-
-    public static readonly OperationStatus NotStarted        = new("Not started");
-    public static readonly OperationStatus InProgress        = new("In progress");
-    public static readonly OperationStatus Completed         = new("Completed");
-    public static readonly OperationStatus Failed            = new("Failed");
-    public static readonly OperationStatus Canceled          = new("Canceled");
-    public static readonly OperationStatus RollbackStarted   = new("Rollback started");
-    public static readonly OperationStatus RollbackCompleted = new("Rollback completed");
-    public static readonly OperationStatus RollbackFailed    = new("Rollback failed");
 }

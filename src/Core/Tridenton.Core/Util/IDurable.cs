@@ -1,11 +1,23 @@
 ﻿namespace Tridenton.Core.Util;
 
+/// <summary>
+/// Durable abstraction
+/// </summary>
 public interface IDurable
 {
+    /// <summary>
+    /// Process start UTC
+    /// </summary>
     DateTime? StartUtc { get; }
 
+    /// <summary>
+    /// Process finish UTC
+    /// </summary>
     DateTime? FinishUtc { get; }
 
+    /// <summary>
+    /// Total processing time
+    /// </summary>
     TimeSpan ProcessingTime { get; }
 }
 

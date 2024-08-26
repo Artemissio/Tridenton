@@ -15,12 +15,12 @@ public abstract class DatabaseWriteOperation<TDbContext> : Operation, IAsyncDisp
         DbContext = dbContext;
     }
 
-    protected sealed override async ValueTask<Result> ExecuteCoreAsync(CancellationToken cancellationToken = default)
+    protected sealed override async ValueTask<Result> ExecuteCoreAsync(OperationContext context, CancellationToken cancellationToken = default)
     {
         _transaction = DbContext.Database.CurrentTransaction ??
             await DbContext.Database.BeginTransactionAsync(cancellationToken);
 
-        await WriteToDbAsync(cancellationToken);
+        await WriteToDbAsync(context, cancellationToken);
 
         await _transaction.CommitAsync(cancellationToken);
 
@@ -47,5 +47,5 @@ public abstract class DatabaseWriteOperation<TDbContext> : Operation, IAsyncDisp
         GC.SuppressFinalize(this);
     }
 
-    protected abstract ValueTask WriteToDbAsync(CancellationToken cancellationToken = default);
+    protected abstract ValueTask WriteToDbAsync(OperationContext context, CancellationToken cancellationToken = default);
 }
