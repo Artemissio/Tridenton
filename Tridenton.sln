@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{55D61D70-E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tridenton.Core", "src\Core\Tridenton.Core\Tridenton.Core.csproj", "{43EC0548-7809-48F1-BA9B-07DDFFF8B082}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tridenton.Core.UI", "src\Core\Tridenton.Core.UI\Tridenton.Core.UI.csproj", "{4B7050DD-48FD-4909-A93F-B246B6B855C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{43EC0548-7809-48F1-BA9B-07DDFFF8B082}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43EC0548-7809-48F1-BA9B-07DDFFF8B082}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43EC0548-7809-48F1-BA9B-07DDFFF8B082}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B7050DD-48FD-4909-A93F-B246B6B855C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B7050DD-48FD-4909-A93F-B246B6B855C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B7050DD-48FD-4909-A93F-B246B6B855C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B7050DD-48FD-4909-A93F-B246B6B855C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -26,5 +32,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{43EC0548-7809-48F1-BA9B-07DDFFF8B082} = {55D61D70-E02F-441E-BAB0-6BB0D2350815}
+		{4B7050DD-48FD-4909-A93F-B246B6B855C5} = {55D61D70-E02F-441E-BAB0-6BB0D2350815}
 	EndGlobalSection
 EndGlobal
