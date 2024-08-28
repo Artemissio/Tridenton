@@ -1,14 +1,17 @@
 ﻿using System.Collections.Concurrent;
+using Microsoft.Extensions.Options;
 
 namespace Tridenton.Core.Operations.Internal;
 
 internal sealed class OperationsFlowsManager : IOperationsFlowsManager
 {
+    private readonly OperationsFlowsOptionsBuilder _options;
     private readonly ConcurrentDictionary<Ulid, IOperationsFlow> _flows;
     private readonly ConcurrentDictionary<Ulid, CancellationTokenSource> _flowsTokens;
 
-    public OperationsFlowsManager()
+    public OperationsFlowsManager(IOptions<OperationsFlowsOptionsBuilder> options)
 	{
+        _options = options.Value;
         _flows = new();
         _flowsTokens = new();
 	}
@@ -40,14 +43,14 @@ internal sealed class OperationsFlowsManager : IOperationsFlowsManager
 
     public async ValueTask<Result> CancelFlowAsync(CancelFlowRequest request)
     {
-        var pipelineResult = await GetFlowAsync(new GetFlowRequest(request.PipelineId));
+        var pipelineResult = await GetFlowAsync(new GetFlowRequest(request.FlowId));
 
         if (pipelineResult.Failed)
         {
             return pipelineResult.Error!;
         }
 
-        _flowsTokens[request.PipelineId].Cancel();
+        _flowsTokens[request.FlowId].Cancel();
 
         return Result.Success;
     }

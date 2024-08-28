@@ -35,9 +35,9 @@ internal sealed class OperationsFlow : Durable, IOperationsFlow
 
     public OperationsFlow(OperationsFlowContext context)
     {
-        Context = context;
-
         Id = Ulid.NewUlid();
+
+        Context = context;
 
         _notStartedOperations       = new(Context.Operations);
         _completedOperations        = new(Context.Operations.Length);
