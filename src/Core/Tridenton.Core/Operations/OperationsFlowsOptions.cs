@@ -23,7 +23,7 @@ public record OperationsFlowsOptionsBuilder
     /// </summary>
     public OperationsFlowsOptionsBuilder()
     {
-        Properties = new();
+        Properties = [];
         RollbackPreviousOperationsOnCancel = true;
         KeepDuration = TimeSpan.FromMinutes(30);
     }

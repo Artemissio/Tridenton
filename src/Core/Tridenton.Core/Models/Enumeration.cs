@@ -55,6 +55,10 @@ public class Enumeration
 
     private static TEnumeration[] GetValues<TEnumeration>() where TEnumeration : Enumeration
     {
-        return typeof(TEnumeration).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).Select(f => f.GetValue(null)).Cast<TEnumeration>().ToArray();
+        return typeof(TEnumeration)
+            .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
+            .Select(f => f.GetValue(null))
+            .Cast<TEnumeration>()
+            .ToArray();
     }
 }

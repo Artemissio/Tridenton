@@ -1,4 +1,4 @@
-﻿namespace Tridenton.Core.Util;
+﻿namespace Tridenton.Core.Utilities;
 
 /// <summary>
 /// Durable abstraction
