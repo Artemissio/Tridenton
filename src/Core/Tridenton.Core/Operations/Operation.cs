@@ -26,7 +26,7 @@ public abstract class Operation : Durable, IExecutable<OperationContext>, IUniqu
 
     public Operation(string name = Constants.EmptyString)
     {
-        Name = name.IsEmpty()
+        Name = string.IsNullOrWhiteSpace(name)
             ? GetType().Name
             : name;
 

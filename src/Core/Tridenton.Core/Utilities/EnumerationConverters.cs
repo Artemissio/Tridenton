@@ -36,12 +36,27 @@ public sealed class EnumerationTypeConverter<TEnumeration> : TypeConverter where
 
     public override object? ConvertFrom(ITypeDescriptorContext? context, CultureInfo? culture, object? value)
     {
-        return Enumeration.GetValue<TEnumeration>(value!.ToString()!);
+        if (value is string strValue)
+        {
+            return Enumeration.GetValue<TEnumeration>(strValue);
+        }
+
+        return null;
     }
 
     public override object? ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType)
     {
-        return value is TEnumeration constant ? constant.Value : base.ConvertTo(context, culture, value, destinationType);
+        if (value is TEnumeration enumeration)
+        {
+            return enumeration.Value;
+        }
+
+        if (value is string strValue)
+        {
+            return strValue;
+        }
+
+        return null;
     }
 }
 

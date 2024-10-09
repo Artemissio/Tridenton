@@ -2,24 +2,11 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Tridenton.Core.Models;
 
-public sealed record InvalidTreidError : BadRequestError
-{
-    public InvalidTreidError() : base("InvalidTreid", $"TREID is in incorrect format. TREID format is: {Constants.Treid}{Constants.TreidDelimiter}<partition>{Constants.TreidDelimiter}<account-id>{Constants.TreidDelimiter}<service>{Constants.TreidDelimiter}<resource-type>{Constants.TreidDelimiter}<resource-id>")
-    {
-        
-    }
-
-    public InvalidTreidError(string message) : base("InvalidTreid", $"Malformed TREID - {message}")
-    {
-
-    }
-}
-
 /// <summary>
 /// <b>T</b>ridenton <b>RE</b>source <b>ID</b>
 /// </summary>
 [JsonConverter(typeof(TreidJsonConverter))]
-public record Treid
+public record Treid : IParsable<Treid>
 {
     /// <summary>
     /// Partition
@@ -49,12 +36,12 @@ public record Treid
     /// <summary>
     /// Defines whether specified resource does not belong to specific user
     /// </summary>
-    public bool IsAccountIndependent => AccountId.IsEmpty();
+    public bool IsAccountIndependent => string.IsNullOrWhiteSpace(AccountId);
 
     /// <summary>
     /// Defines whether specified resource does not belong to specific service
     /// </summary>
-    public bool IsGeneralResource => Service.IsEmpty();
+    public bool IsGeneralResource => string.IsNullOrWhiteSpace(Service);
 
     /// <summary>
     /// Initializes a new instance of <see cref="Treid"/>
@@ -98,80 +85,84 @@ public record Treid
     /// </summary>
     /// <param name="input">Specified string</param>
     /// <returns><see langword="true"/> if the string starts with "treid:"; otherwise, <see langword="false"/></returns>
-    public static bool IsTreid(string input) => !input.IsEmpty() && input.StartsWith($"{Constants.Treid}{Constants.TreidDelimiter}");
-
-    /// <summary>
-    /// Converts the string representation of TREID to the equivalent <see cref="Treid"/> structure.
-    /// </summary>
-    /// <param name="input">A string containing the TREID to convert</param>
-    /// <param name="treid">A Treid instance to contain the parsed value. If the method returns true, result contains a valid Treid. If the method returns false, result equals <see cref="Empty"/></param>
-    /// <returns><see langword="true"/> if the parse operation was successful; otherwise, <see langword="false"/></returns>
-    public static bool TryParse(string? input, out Treid treid)
-    {
-        var parseResult = Parse(input);
-
-        if (parseResult.Failed)
-        {
-            treid = Empty;
-            return false;
-        }
-
-        treid = parseResult.Value;
-        return !treid.Equals(Empty);
-    }
+    public static bool IsTreid(string? input) => !string.IsNullOrWhiteSpace(input) && input!.StartsWith($"{Constants.Treid}{Constants.TreidDelimiter}");
 
     /// <summary>
     /// Converts the string representation of TREID to the equivalent <see cref="Treid"/> structure.
     /// </summary>
     /// <param name="input">The string to convert</param>
+    /// <param name="provider">Format provider (optional)</param>
     /// <returns>A structure that contains the value that was parsed</returns>
-    public static Result<Treid> Parse(string? input)
+    public static Treid Parse(string? input, IFormatProvider? provider)
     {
-        if (input.IsEmpty())
+        if (string.IsNullOrWhiteSpace(input))
         {
-            return new InvalidTreidError();
+            throw new MalformedTreidException();
         }
 
         var segments = input!
-            .Split(Constants.TreidDelimiter)
+            .Split(Constants.TreidDelimiter, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
             .AsSpan();
 
         if (segments.Length != 6)
         {
-            return new InvalidTreidError();
+            throw new MalformedTreidException();
         }
 
         if (segments[0] != Constants.TreidDelimiter)
         {
-            return new InvalidTreidError();
+            throw new MalformedTreidException();
         }
 
         var partition = segments[1];
-        if (partition.IsEmpty())
+        if (string.IsNullOrWhiteSpace(input))
         {
-            return new InvalidTreidError("no partition specified");
+            throw new MalformedTreidException("no Partition specified");
         }
 
-        var accountID = segments[2];
+        var accountId = segments[2];
         var service = segments[3];
 
         var resourceType = segments[4];
-        if (resourceType.IsEmpty())
+        if (string.IsNullOrWhiteSpace(input))
         {
-            return new InvalidTreidError("no resource type specified");
+            throw new MalformedTreidException("no Resource type specified");
         }
 
-        string resourceIDString = segments[5];
-        if (resourceIDString.IsEmpty())
+        var resourceIdString = segments[5];
+        if (string.IsNullOrWhiteSpace(input))
         {
-            return new InvalidTreidError("no resource Id specified");
+            throw new MalformedTreidException("no Resource Id specified");
         }
         
-        if (resourceIDString != Constants.Wildcard && (!Ulid.TryParse(resourceIDString, out var resourceId) || resourceId == Ulid.Empty))
+        if (resourceIdString != Constants.Wildcard && (!Ulid.TryParse(resourceIdString, out var resourceId) || resourceId == Ulid.Empty))
         {
-            return new InvalidTreidError("resource ID is not valid");
+            throw new MalformedTreidException("Resource Id is invalid");
         }
 
-        return new Treid(partition, accountID, service, resourceType, resourceIDString);
+        return new Treid(partition, accountId, service, resourceType, resourceIdString);
+    }
+
+    /// <summary>
+    /// Converts the string representation of TREID to the equivalent <see cref="Treid"/> structure.
+    /// </summary>
+    /// <param name="input">A string containing the TREID to convert</param>
+    /// <param name="provider">Format provider (optional)</param>
+    /// <param name="treid">A Treid instance to contain the parsed value. If the method returns true, result contains a valid Treid. If the method returns false, result equals <see cref="Empty"/></param>
+    /// <returns><see langword="true"/> if the parse operation was successful; otherwise, <see langword="false"/></returns>
+    public static bool TryParse([NotNullWhen(true)] string? input, IFormatProvider? provider, [MaybeNullWhen(false)] out Treid result)
+    {
+        try
+        {
+            result = IsTreid(input)
+                ? Parse(input, provider)
+                : Empty;
+        }
+        catch (MalformedTreidException)
+        {
+            result = Empty;
+        }
+
+        return !result.Equals(Empty);
     }
 }

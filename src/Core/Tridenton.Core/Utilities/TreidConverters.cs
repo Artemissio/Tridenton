@@ -6,7 +6,7 @@ internal sealed class TreidJsonConverter : JsonConverter<Treid>
     {
         var value = reader.GetString();
 
-        return Treid.TryParse(value, out var treid)
+        return Treid.TryParse(value, null, out var treid)
             ? treid
             : null;
     }
