@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tridenton.ERP.Core", "src\E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ERP", "ERP", "{3F7ABFE6-5708-42A9-A55A-B8D4767BDCDA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tridenton.Core.Operations", "src\Core\Tridenton.Core.Operations\Tridenton.Core.Operations.csproj", "{7D544FE6-488F-4940-A1D8-949A1B78E731}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{A38676DB-1203-429C-9FEB-372649B2B939}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A38676DB-1203-429C-9FEB-372649B2B939}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A38676DB-1203-429C-9FEB-372649B2B939}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D544FE6-488F-4940-A1D8-949A1B78E731}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D544FE6-488F-4940-A1D8-949A1B78E731}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D544FE6-488F-4940-A1D8-949A1B78E731}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D544FE6-488F-4940-A1D8-949A1B78E731}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 		{4B7050DD-48FD-4909-A93F-B246B6B855C5} = {55D61D70-E02F-441E-BAB0-6BB0D2350815}
 		{6DB3ED7C-EA34-410E-8358-33B6B6965EF8} = {F8CF490F-1DDD-45E8-92C8-0D9044B28C6D}
 		{A38676DB-1203-429C-9FEB-372649B2B939} = {3F7ABFE6-5708-42A9-A55A-B8D4767BDCDA}
+		{7D544FE6-488F-4940-A1D8-949A1B78E731} = {55D61D70-E02F-441E-BAB0-6BB0D2350815}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3D70024D-3FAB-4B0B-B008-F93AD1712F67}

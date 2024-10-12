@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Tridenton.Core.Operations.Internal;
 
-namespace Tridenton.Core;
+namespace Tridenton.Core.Operations;
 
 public static class DependencyInjection
 {

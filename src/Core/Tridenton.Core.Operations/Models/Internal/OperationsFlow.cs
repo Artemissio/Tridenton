@@ -1,4 +1,7 @@
-﻿namespace Tridenton.Core.Operations.Internal;
+﻿using Tridenton.Core.Models;
+using Tridenton.Core.Utilities;
+
+namespace Tridenton.Core.Operations.Internal;
 
 internal sealed class OperationsFlow : Durable, IOperationsFlow
 {
@@ -39,11 +42,11 @@ internal sealed class OperationsFlow : Durable, IOperationsFlow
 
         Context = context;
 
-        _notStartedOperations       = new(Context.Operations);
-        _completedOperations        = new(Context.Operations.Length);
-        _failedOperations           = new(Context.Operations.Length);
-        _rolledBackOperations       = new(Context.Operations.Length);
-        _failedToRollbackOperations = new(Context.Operations.Length);
+        _notStartedOperations       = [..Context.Operations];
+        _completedOperations        = new List<Operation>(Context.Operations.Length);
+        _failedOperations           = new List<Operation>(Context.Operations.Length);
+        _rolledBackOperations       = new List<Operation>(Context.Operations.Length);
+        _failedToRollbackOperations = new List<Operation>(Context.Operations.Length);
     }
 
     internal async ValueTask<Result> ExecuteAsync(CancellationToken cancellationToken = default)
