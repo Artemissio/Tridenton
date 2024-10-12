@@ -3,7 +3,7 @@
 /// <summary>
 /// 
 /// </summary>
-public abstract class Operation : Durable, IExecutable<OperationContext>, IUnique
+public abstract record Operation : Durable, IExecutable<OperationContext>, IUlidUnique
 {
     public Ulid Id { get; }
 

@@ -1,6 +1,9 @@
 ﻿namespace Tridenton.Core.Utilities;
 
-public interface IUnique
+public interface IUnique<TKey> where TKey : struct
 {
-    Ulid Id { get; }
+    TKey Id { get; }
 }
+
+public interface IUlidUnique : IUnique<Ulid> { }
+public interface IGuidUnique : IUnique<Guid> { }

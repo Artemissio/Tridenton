@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Tridenton.Core.Operations;
 
-public abstract class DatabaseWriteOperation<TDbContext> : Operation, IAsyncDisposable
+public abstract record DatabaseWriteOperation<TDbContext> : Operation, IAsyncDisposable
     where TDbContext : DbContext
 {
     protected readonly TDbContext DbContext;

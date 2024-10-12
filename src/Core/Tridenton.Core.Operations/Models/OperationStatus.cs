@@ -1,5 +1,6 @@
 ﻿namespace Tridenton.Core.Operations;
 
+[JsonConverter(typeof(EnumerationJsonConverter<OperationStatus>))]
 public sealed class OperationStatus : Enumeration
 {
     private OperationStatus(int index, string value) : base(index, value) { }

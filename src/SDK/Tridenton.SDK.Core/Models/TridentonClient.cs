@@ -1,12 +1,10 @@
-using Tridenton.Core.Models;
-
-namespace Tridenton.SDK.Core.Models;
+namespace Tridenton.SDK.Core;
 
 public abstract class TridentonClient : IDisposable
 {
     private readonly HttpClient _httpClient;
 
-    public TridentonClient()
+    protected TridentonClient()
     {
         _httpClient = new();
     }

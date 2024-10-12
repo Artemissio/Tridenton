@@ -1,16 +1,10 @@
-﻿namespace Tridenton.Core.Models;
+﻿namespace Tridenton.Core;
 
 /// <summary>
 /// 
 /// </summary>
 public readonly struct Result
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    [JsonIgnore]
-    public static readonly Result Success = new();
-
     /// <summary>
     /// 
     /// </summary>
@@ -35,6 +29,12 @@ public readonly struct Result
         Failed = !Successful;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    [JsonIgnore]
+    public static readonly Result Success = new();
+    
     public static implicit operator Result(Error error) => new(error);
 }
 

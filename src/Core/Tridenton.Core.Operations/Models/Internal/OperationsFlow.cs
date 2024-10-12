@@ -1,9 +1,6 @@
-﻿using Tridenton.Core.Models;
-using Tridenton.Core.Utilities;
+﻿namespace Tridenton.Core.Operations.Internal;
 
-namespace Tridenton.Core.Operations.Internal;
-
-internal sealed class OperationsFlow : Durable, IOperationsFlow
+internal sealed record OperationsFlow : Durable, IOperationsFlow
 {
     private readonly List<Operation> _notStartedOperations;
     private readonly List<Operation> _completedOperations;

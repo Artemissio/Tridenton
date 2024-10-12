@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 
-namespace Tridenton.Core.Models;
+namespace Tridenton.Core;
 
 [DebuggerDisplay("{Value}")]
 public class Enumeration

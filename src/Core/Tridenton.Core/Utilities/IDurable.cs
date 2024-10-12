@@ -21,7 +21,7 @@ public interface IDurable
     TimeSpan ProcessingTime { get; }
 }
 
-public abstract class Durable : IDurable
+public abstract record Durable : IDurable
 {
     public DateTime? StartUtc { get; protected set; }
 

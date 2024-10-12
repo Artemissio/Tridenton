@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
-namespace Tridenton.Core.Models;
+namespace Tridenton.Core;
 
 /// <summary>
 /// <b>T</b>ridenton <b>RE</b>source <b>ID</b>
@@ -17,6 +18,11 @@ public record Treid : IParsable<Treid>
     /// Account ID
     /// </summary>
     public readonly string Account;
+
+    /// <summary>
+    /// Services group
+    /// </summary>
+    public readonly string ServicesGroup;
 
     /// <summary>
     /// Service
@@ -46,33 +52,83 @@ public record Treid : IParsable<Treid>
     /// <summary>
     /// Initializes a new instance of <see cref="Treid"/>
     /// </summary>
-    /// <param name="partition"></param>
-    /// <param name="account"></param>
-    /// <param name="service"></param>
-    /// <param name="resourceType"></param>
-    /// <param name="resourceId"></param>
-    public Treid(string partition, string account, string service, string resourceType, string resourceId)
+    /// <param name="partition">Partition</param>
+    /// <param name="account">Account number</param>
+    /// <param name="servicesGroup">Services group</param>
+    /// <param name="service">Service</param>
+    /// <param name="resourceType">Resource type</param>
+    /// <param name="resourceId">Resource Id</param>
+    public Treid(string partition, string account, string servicesGroup, string service, string resourceType, string resourceId = Constants.Wildcard)
     {
         Partition = partition;
         Account = account;
+        ServicesGroup = servicesGroup;
         Service = service;
         ResourceType = resourceType;
         ResourceId = resourceId;
     }
 
-    public Treid(string partition, string accountID, string service, string resourceType) : this(partition, accountID, service, resourceType, Constants.Wildcard) { }
+    public virtual bool Equals(Treid? other)
+    {
+        if (other is null)
+        {
+            return false;
+        }
+
+        if (other.Partition != Partition)
+        {
+            return false;
+        }
+
+        if (other.Account != Account)
+        {
+            return false;
+        }
+
+        if (other.ServicesGroup != ServicesGroup)
+        {
+            return false;
+        }
+
+        if (other.Service != Service)
+        {
+            return false;
+        }
+
+        if (other.ResourceType != ResourceType)
+        {
+            return false;
+        }
+
+        return other.ResourceId == ResourceId;
+    }
 
     /// <summary>
-    /// A read-only instance of the <see cref="Treid"/> structure whose value is all empty strings.
-    /// </summary>
-    public static Treid Empty => new(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
-
-    /// <summary>
-    /// Converts current TREID structure to string format "treid:partition:account:service:resource-type:resource-id"
+    /// Converts current TREID structure to the following string format:
+    /// <code>
+    ///     treid:{partition}:{account}:{services-group}:{service}:{resource-type}:{resource-id}
+    /// </code>
     /// </summary>
     /// <returns>String representation of <see cref="Treid"/></returns>'
-    public override string ToString() => $"{Constants.Treid}{Constants.TreidDelimiter}{Partition}{Constants.TreidDelimiter}{Account}{Constants.TreidDelimiter}{Service}{Constants.TreidDelimiter}{ResourceType}{Constants.TreidDelimiter}{ResourceId}";
-
+    public override string ToString()
+    {
+        return new StringBuilder()
+            .Append(Constants.Treid)
+            .Append(Constants.TreidDelimiter)
+            .Append(Partition)
+            .Append(Constants.TreidDelimiter)
+            .Append(Account)
+            .Append(Constants.TreidDelimiter)
+            .Append(ServicesGroup)
+            .Append(Constants.TreidDelimiter)
+            .Append(Service)
+            .Append(Constants.TreidDelimiter)
+            .Append(ResourceType)
+            .Append(Constants.TreidDelimiter)
+            .Append(ResourceId)
+            .ToString();
+    }
+    
     /// <summary>
     /// Returns the hash code for this instance
     /// </summary>
@@ -80,13 +136,10 @@ public record Treid : IParsable<Treid>
     public override int GetHashCode() => ToString().GetHashCode();
 
     /// <summary>
-    /// Returns <see langword="true"/> if the string appears to be an TREID by seeing if the string starts with "treid:".
-    /// This method doesn't guarantee the string is a valid TREID. To validate the string call <see cref="TryParse(string, out Treid?)"/>
+    /// A read-only instance of the <see cref="Treid"/> structure whose value is all empty strings.
     /// </summary>
-    /// <param name="input">Specified string</param>
-    /// <returns><see langword="true"/> if the string starts with "treid:"; otherwise, <see langword="false"/></returns>
-    public static bool IsTreid(string? input) => !string.IsNullOrWhiteSpace(input) && input!.StartsWith($"{Constants.Treid}{Constants.TreidDelimiter}");
-
+    public static readonly Treid Empty = new(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
+    
     /// <summary>
     /// Converts the string representation of TREID to the equivalent <see cref="Treid"/> structure.
     /// </summary>
@@ -100,11 +153,11 @@ public record Treid : IParsable<Treid>
             throw new MalformedTreidException();
         }
 
-        var segments = input!
+        var segments = input
             .Split(Constants.TreidDelimiter, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
             .AsSpan();
 
-        if (segments.Length != 6)
+        if (segments.Length != 7)
         {
             throw new MalformedTreidException();
         }
@@ -121,26 +174,22 @@ public record Treid : IParsable<Treid>
         }
 
         var account = segments[2];
-        var service = segments[3];
+        var servicesGroup = segments[3];
+        var service = segments[4];
 
-        var resourceType = segments[4];
+        var resourceType = segments[5];
         if (string.IsNullOrWhiteSpace(input))
         {
             throw new MalformedTreidException("no Resource type specified");
         }
 
-        var resourceIdString = segments[5];
+        var resourceIdString = segments[6];
         if (string.IsNullOrWhiteSpace(input))
         {
             throw new MalformedTreidException("no Resource Id specified");
         }
-        
-        if (resourceIdString != Constants.Wildcard && (!Ulid.TryParse(resourceIdString, out var resourceId) || resourceId == Ulid.Empty))
-        {
-            throw new MalformedTreidException("Resource Id is invalid");
-        }
 
-        return new Treid(partition, account, service, resourceType, resourceIdString);
+        return new Treid(partition, account, servicesGroup, service, resourceType, resourceIdString);
     }
 
     /// <summary>
@@ -148,7 +197,7 @@ public record Treid : IParsable<Treid>
     /// </summary>
     /// <param name="input">A string containing the TREID to convert</param>
     /// <param name="provider">Format provider (optional)</param>
-    /// <param name="treid">A Treid instance to contain the parsed value. If the method returns true, result contains a valid Treid. If the method returns false, result equals <see cref="Empty"/></param>
+    /// <param name="result">A Treid instance to contain the parsed value. If the method returns true, result contains a valid Treid. If the method returns false, result equals <see cref="Empty"/></param>
     /// <returns><see langword="true"/> if the parse operation was successful; otherwise, <see langword="false"/></returns>
     public static bool TryParse([NotNullWhen(true)] string? input, IFormatProvider? provider, [MaybeNullWhen(false)] out Treid result)
     {
@@ -165,4 +214,15 @@ public record Treid : IParsable<Treid>
 
         return !result.Equals(Empty);
     }
+    
+    /// <summary>
+    /// Returns <see langword="true"/> if the string appears to be an TREID by seeing if the string starts with "treid:".
+    /// This method doesn't guarantee the string is a valid TREID.
+    /// <para>
+    /// To validate the string call <see cref="TryParse"/>f
+    /// </para>
+    /// </summary>
+    /// <param name="input">Specified string</param>
+    /// <returns><see langword="true"/> if the string starts with "treid:"; otherwise, <see langword="false"/></returns>
+    private static bool IsTreid(string? input) => !string.IsNullOrWhiteSpace(input) && input.StartsWith($"{Constants.Treid}{Constants.TreidDelimiter}");
 }

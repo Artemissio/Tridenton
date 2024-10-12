@@ -3,7 +3,7 @@
 /// <summary>
 /// Operations execution flow abstraction
 /// </summary>
-public interface IOperationsFlow : IDurable, IUnique
+public interface IOperationsFlow : IDurable, IUlidUnique
 {
     /// <summary>
     /// Flow start event

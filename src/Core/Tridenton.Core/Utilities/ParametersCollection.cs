@@ -26,7 +26,17 @@ public sealed class ParametersCollection : SortedDictionary<string, ParameterVal
     /// <param name="values"></param>
     public void Add(string key, List<string> values)
     {
-        Add(key, new StringListParameterValue(values));
+        switch (values.Count)
+        {
+            case 0:
+                return;
+            case 1:
+                Add(key, values[0]);
+                return;
+            default:
+                Add(key, new StringListParameterValue(values));
+                break;
+        }
     }
 
     /// <summary>
@@ -43,9 +53,9 @@ public sealed class ParametersCollection : SortedDictionary<string, ParameterVal
     /// Converts the current parameters into a list of key-value pairs.
     /// </summary>
     /// <returns></returns>
-    public List<KeyValuePair<string, string>> GetSortedParametersList()
+    public KeyValuePair<string, string>[] GetSortedParametersList()
     {
-        return GetParametersEnumerable().ToList();
+        return GetParametersEnumerable().ToArray();
     }
 
     private IEnumerable<KeyValuePair<string, string>> GetParametersEnumerable()

@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Tridenton.Core.Models;
+namespace Tridenton.Core;
 
 public record Error(HttpStatusCode Code, string Key, string Description);
 
