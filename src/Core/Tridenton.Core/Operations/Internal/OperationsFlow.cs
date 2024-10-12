@@ -59,7 +59,7 @@ internal sealed class OperationsFlow : Durable, IOperationsFlow
 
             await InvokeOperationStatusChangedEventAsync(OnOperationStarted);
 
-            var result = await CurrentOperation.ExecuteAsync(new OperationContext(Context.Properties), cancellationToken);
+            var result = await CurrentOperation.ExecuteAsync(new OperationContext(Context.Parameters), cancellationToken);
 
             if (result.Successful)
             {

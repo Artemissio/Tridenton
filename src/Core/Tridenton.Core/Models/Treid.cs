@@ -16,7 +16,7 @@ public record Treid : IParsable<Treid>
     /// <summary>
     /// Account ID
     /// </summary>
-    public readonly string AccountId;
+    public readonly string Account;
 
     /// <summary>
     /// Service
@@ -36,7 +36,7 @@ public record Treid : IParsable<Treid>
     /// <summary>
     /// Defines whether specified resource does not belong to specific user
     /// </summary>
-    public bool IsAccountIndependent => string.IsNullOrWhiteSpace(AccountId);
+    public bool IsAccountIndependent => string.IsNullOrWhiteSpace(Account);
 
     /// <summary>
     /// Defines whether specified resource does not belong to specific service
@@ -47,14 +47,14 @@ public record Treid : IParsable<Treid>
     /// Initializes a new instance of <see cref="Treid"/>
     /// </summary>
     /// <param name="partition"></param>
-    /// <param name="accountId"></param>
+    /// <param name="account"></param>
     /// <param name="service"></param>
     /// <param name="resourceType"></param>
     /// <param name="resourceId"></param>
-    public Treid(string partition, string accountId, string service, string resourceType, string resourceId)
+    public Treid(string partition, string account, string service, string resourceType, string resourceId)
     {
         Partition = partition;
-        AccountId = accountId;
+        Account = account;
         Service = service;
         ResourceType = resourceType;
         ResourceId = resourceId;
@@ -68,10 +68,10 @@ public record Treid : IParsable<Treid>
     public static Treid Empty => new(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
 
     /// <summary>
-    /// Converts current TREID structure to string format "treid:partition:account-id:service:resource-type:resource-id"
+    /// Converts current TREID structure to string format "treid:partition:account:service:resource-type:resource-id"
     /// </summary>
     /// <returns>String representation of <see cref="Treid"/></returns>'
-    public override string ToString() => $"{Constants.Treid}{Constants.TreidDelimiter}{Partition}{Constants.TreidDelimiter}{AccountId}{Constants.TreidDelimiter}{Service}{Constants.TreidDelimiter}{ResourceType}{Constants.TreidDelimiter}{ResourceId}";
+    public override string ToString() => $"{Constants.Treid}{Constants.TreidDelimiter}{Partition}{Constants.TreidDelimiter}{Account}{Constants.TreidDelimiter}{Service}{Constants.TreidDelimiter}{ResourceType}{Constants.TreidDelimiter}{ResourceId}";
 
     /// <summary>
     /// Returns the hash code for this instance
@@ -120,7 +120,7 @@ public record Treid : IParsable<Treid>
             throw new MalformedTreidException("no Partition specified");
         }
 
-        var accountId = segments[2];
+        var account = segments[2];
         var service = segments[3];
 
         var resourceType = segments[4];
@@ -140,7 +140,7 @@ public record Treid : IParsable<Treid>
             throw new MalformedTreidException("Resource Id is invalid");
         }
 
-        return new Treid(partition, accountId, service, resourceType, resourceIdString);
+        return new Treid(partition, account, service, resourceType, resourceIdString);
     }
 
     /// <summary>

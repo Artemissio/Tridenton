@@ -1,3 +1,3 @@
 ﻿namespace Tridenton.Core.Operations;
 
-public record OperationContext(PropertiesCollection Properties);
+public record OperationContext(ParametersCollection Parameters);

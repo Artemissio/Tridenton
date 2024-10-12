@@ -11,7 +11,7 @@ public record OperationsFlowsOptionsBuilder
     /// <summary>
     /// Additional properties
     /// </summary>
-    public PropertiesCollection Properties { get; init; }
+    public ParametersCollection Parameters { get; init; }
 
     /// <summary>
     /// Identifies duration while flow is accessible after completion. By default - 30 minutes
@@ -23,7 +23,7 @@ public record OperationsFlowsOptionsBuilder
     /// </summary>
     public OperationsFlowsOptionsBuilder()
     {
-        Properties = [];
+        Parameters = [];
         RollbackPreviousOperationsOnCancel = true;
         KeepDuration = TimeSpan.FromMinutes(30);
     }
