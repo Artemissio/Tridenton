@@ -19,7 +19,7 @@ internal sealed record OperationsFlow : Durable, IOperationsFlow
     public event AsyncEventHandler<OperationStatusChangedEventArgs>? OnOperationRollbackCompleted;
     public event AsyncEventHandler<OperationStatusChangedEventArgs>? OnOperationRollbackFailed;
 
-    public Ulid Id { get; }
+    public Ulid Id { get; init; }
 
     public Operation? CurrentOperation { get; private set; }
 

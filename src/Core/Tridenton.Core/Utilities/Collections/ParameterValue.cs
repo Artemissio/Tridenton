@@ -1,4 +1,4 @@
-namespace Tridenton.Core.Utilities;
+namespace Tridenton.Core.Utilities.Collections;
 
 /// <summary>
 /// Abstract parameter value.

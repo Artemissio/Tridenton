@@ -1,4 +1,4 @@
-namespace Tridenton.Core.Utilities;
+namespace Tridenton.Core.Utilities.Converters;
 
 internal sealed class TreidJsonConverter : JsonConverter<Treid>
 {

@@ -7,4 +7,6 @@ public readonly struct Constants
     public const string Treid = "treid";
     public const string TreidDelimiter = ":";
     public const string Wildcard = "*";
+    
+    public const string RequestIdHeader = "X-Tridenton-Request-Id";
 }

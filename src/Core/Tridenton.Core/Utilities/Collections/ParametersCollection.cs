@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace Tridenton.Core.Utilities;
+namespace Tridenton.Core.Utilities.Collections;
 
 public sealed class ParametersCollection : SortedDictionary<string, ParameterValue>
 {

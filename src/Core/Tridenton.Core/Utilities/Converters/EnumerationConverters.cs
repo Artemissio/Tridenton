@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Globalization;
 
-namespace Tridenton.Core.Utilities;
+namespace Tridenton.Core.Utilities.Converters;
 
 /// <summary>
 /// JSON converter

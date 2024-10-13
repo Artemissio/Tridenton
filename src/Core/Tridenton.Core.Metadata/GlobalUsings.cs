@@ -1,5 +1,6 @@
 global using Tridenton.Core;
 global using Tridenton.Core.Utilities;
+global using Tridenton.Core.Utilities.Collections;
 
 global using Tridenton.Core.Metadata;
 global using Tridenton.Core.Metadata.Tracing;

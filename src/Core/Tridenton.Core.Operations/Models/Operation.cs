@@ -5,7 +5,7 @@
 /// </summary>
 public abstract record Operation : Durable, IExecutable<OperationContext>, IUlidUnique
 {
-    public Ulid Id { get; }
+    public Ulid Id { get; init; }
 
     public string Name { get; }
 
