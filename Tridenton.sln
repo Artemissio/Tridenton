@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tridenton.Tests.Core", "Tri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tridenton.Tests.Metadata", "Tridenton.Tests.Metadata\Tridenton.Tests.Metadata.csproj", "{CA8DF29D-6E73-4E11-947D-C442B876198F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Internal", "Internal", "{9B642F83-A124-47ED-890A-76B082B4BEE7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

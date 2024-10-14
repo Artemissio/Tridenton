@@ -1,11 +1,7 @@
 ﻿using System.Net;
+using BenchmarkDotNet.Running;
 using Tridenton.Core;
 using Tridenton.Core.Utilities;
+using Tridenton.Tests.Core;
 
-var error = new Error(HttpStatusCode.NoContent, "Test", "Test Error");
-
-var json = Serializer.ToJson(error);
-
-Console.WriteLine(json);
-
-Console.ReadKey();
+var benchmark = BenchmarkRunner.Run<EnumerationBenchmarks>();

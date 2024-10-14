@@ -17,12 +17,28 @@ public class Enumeration
 
     public static TEnumeration? GetValue<TEnumeration>(int index) where TEnumeration : Enumeration
     {
-        return GetValues<TEnumeration>().FirstOrDefault(v => v.Index == index);
+        foreach (var enumeration in GetValues<TEnumeration>())
+        {
+            if (enumeration.IndexEquals(index))
+            {
+                return enumeration;
+            }
+        }
+        
+        return null;
     }
 
     public static TEnumeration? GetValue<TEnumeration>(string value) where TEnumeration : Enumeration
     {
-        return GetValues<TEnumeration>().FirstOrDefault(v => v.ValueEquals(value));
+        foreach (var enumeration in GetValues<TEnumeration>())
+        {
+            if (enumeration.ValueEquals(value))
+            {
+                return enumeration;
+            }
+        }
+        
+        return null;
     }
 
     public override string ToString() => Value;
@@ -35,7 +51,7 @@ public class Enumeration
         {
             Enumeration enumeration => enumeration.ValueEquals(Value),
             string str => ValueEquals(str),
-            int index => Index == index,
+            int index => IndexEquals(index),
             _ => false
         };
     }
@@ -57,20 +73,20 @@ public class Enumeration
     public static bool operator ==(string? a, Enumeration b) => b.ValueEquals(a);
     public static bool operator !=(string? a, Enumeration b) => !b.ValueEquals(a);
 
-    public static bool operator ==(Enumeration a, int b) => a.Index == b;
-    public static bool operator !=(Enumeration a, int b) => a.Index != b;
+    public static bool operator ==(Enumeration a, int b) => a.IndexEquals(b);
+    public static bool operator !=(Enumeration a, int b) => !a.IndexEquals(b);
 
-    public static bool operator ==(int a, Enumeration b) => a == b.Index;
-    public static bool operator !=(int a, Enumeration b) => a != b.Index;
+    public static bool operator ==(int a, Enumeration b) => b.IndexEquals(a);
+    public static bool operator !=(int a, Enumeration b) => !b.IndexEquals(a);
 
-    private bool ValueEquals(string? value) => Value.Equals(value?.Trim(), StringComparison.OrdinalIgnoreCase);
-
-    private static TEnumeration[] GetValues<TEnumeration>() where TEnumeration : Enumeration
+    public bool ValueEquals(string? value) => Value.Equals(value?.Trim(), StringComparison.OrdinalIgnoreCase);
+    public bool IndexEquals(int value) => Index == value;
+    
+    public static IEnumerable<TEnumeration> GetValues<TEnumeration>() where TEnumeration : Enumeration
     {
         return typeof(TEnumeration)
             .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
             .Select(f => f.GetValue(null))
-            .Cast<TEnumeration>()
-            .ToArray();
+            .Cast<TEnumeration>();
     }
 }
