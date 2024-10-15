@@ -13,7 +13,7 @@ public abstract class ExtendedList<TKey, TItem> : List<TItem>
     /// 
     /// </summary>
     public readonly ExtendedListInvalidOperationBehavior InvalidOperationBehavior;
-
+    
     /// <summary>
     /// 
     /// </summary>
@@ -26,8 +26,38 @@ public abstract class ExtendedList<TKey, TItem> : List<TItem>
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="items"></param>
+    /// <param name="invalidOperationBehavior"></param>
+    protected ExtendedList(IEnumerable<TItem> items, ExtendedListInvalidOperationBehavior invalidOperationBehavior = ExtendedListInvalidOperationBehavior.Return)
+        : this(invalidOperationBehavior)
+    {
+        AddRange(items);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     /// <param name="id"></param>
-    public TItem this[TKey id] => this.First(i => i.Id.Equals(id));
+    // public TItem this[TKey id] => this.First(i => i.Id.Equals(id));
+
+    public TItem GetById(TKey id)
+    {
+        foreach (var item in this)
+        {
+            if (item.Id.Equals(id))
+            {
+                return item;
+            }
+        }
+
+        throw new InvalidOperationException($"Item with id {id} not found");
+    }
+    
+    [Obsolete("Use GetById instead")]
+    public TItem GetByIdLinq(TKey id)
+    {
+        return this.First(i => i.Id.Equals(id));
+    }
 
     /// <summary>
     /// 
@@ -39,7 +69,7 @@ public abstract class ExtendedList<TKey, TItem> : List<TItem>
     {
         try
         {
-            item = this[id];
+            item = GetById(id);
             return false;
         }
         catch (InvalidOperationException)

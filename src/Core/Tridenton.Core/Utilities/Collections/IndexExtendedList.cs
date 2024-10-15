@@ -6,6 +6,14 @@ public abstract class IndexExtendedList<TItem> : ExtendedList<int, TItem>
     protected IndexExtendedList(ExtendedListInvalidOperationBehavior behavior = ExtendedListInvalidOperationBehavior.Return)
         : base(behavior) { }
     
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="items"></param>
+    /// <param name="invalidOperationBehavior"></param>
+    protected IndexExtendedList(IEnumerable<TItem> items, ExtendedListInvalidOperationBehavior invalidOperationBehavior = ExtendedListInvalidOperationBehavior.Return)
+        : base(items, invalidOperationBehavior) { }
+    
     protected sealed override int GenerateNewKey(TItem item)
     {
         if (Count == 0)

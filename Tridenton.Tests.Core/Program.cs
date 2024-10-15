@@ -1,7 +1,7 @@
-﻿using System.Net;
-using BenchmarkDotNet.Running;
-using Tridenton.Core;
-using Tridenton.Core.Utilities;
+﻿using BenchmarkDotNet.Running;
 using Tridenton.Tests.Core;
 
-var benchmark = BenchmarkRunner.Run<EnumerationBenchmarks>();
+// var benchmark = BenchmarkRunner.Run<EnumerationBenchmarks>();
+// var benchmark = BenchmarkRunner.Run<GuidVsUlidBenchmarks>();
+var benchmark = BenchmarkRunner.Run<ExtendedCollectionsBenchmarks>();
+// var benchmark = BenchmarkRunner.Run<GetByKeyBenchmarks>();

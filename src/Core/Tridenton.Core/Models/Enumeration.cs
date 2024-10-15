@@ -49,7 +49,7 @@ public class Enumeration
     {
         return obj switch
         {
-            Enumeration enumeration => enumeration.ValueEquals(Value),
+            Enumeration enumeration => IndexEquals(enumeration.Index),
             string str => ValueEquals(str),
             int index => IndexEquals(index),
             _ => false
@@ -60,7 +60,10 @@ public class Enumeration
 
     public static bool operator ==(Enumeration? a, Enumeration? b)
     {
-        if (ReferenceEquals(a, b)) return true;
+        if (ReferenceEquals(a, b))
+        {
+            return true;
+        }
 
         return a is not null && a.Equals(b);
     }

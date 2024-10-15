@@ -13,9 +13,5 @@
     <ItemGroup>
       <ProjectReference Include="..\Tridenton.Core\Tridenton.Core.csproj" />
     </ItemGroup>
-    
-    <ItemGroup>
-      <Folder Include="Utilities\" />
-    </ItemGroup>
 
 </Project>
