@@ -1,0 +1,8 @@
+@import "root.css";
+@import "styles.buttons.css";
+@import "styles.inputs.css";
+@import "styles.links.css";
+
+* {
+    box-sizing: border-box;
+}

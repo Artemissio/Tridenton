@@ -41,6 +41,32 @@ public class Enumeration
         return null;
     }
 
+    public static Enumeration? GetValue(Type enumerationType, int index)
+    {
+        foreach (var enumeration in GetValues(enumerationType))
+        {
+            if (enumeration.IndexEquals(index))
+            {
+                return enumeration;
+            }
+        }
+        
+        return null;
+    }
+
+    public static Enumeration? GetValue(Type enumerationType, string value)
+    {
+        foreach (var enumeration in GetValues(enumerationType))
+        {
+            if (enumeration.ValueEquals(value))
+            {
+                return enumeration;
+            }
+        }
+        
+        return null;
+    }
+
     public override string ToString() => Value;
 
     public override int GetHashCode() => ToString().GetHashCode();
@@ -87,9 +113,15 @@ public class Enumeration
     
     public static IEnumerable<TEnumeration> GetValues<TEnumeration>() where TEnumeration : Enumeration
     {
-        return typeof(TEnumeration)
+        return GetValues(typeof(TEnumeration))
+            .Cast<TEnumeration>();
+    }
+    
+    public static IEnumerable<Enumeration> GetValues(Type enumerationType)
+    {
+        return enumerationType
             .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
             .Select(f => f.GetValue(null))
-            .Cast<TEnumeration>();
+            .Cast<Enumeration>();
     }
 }
