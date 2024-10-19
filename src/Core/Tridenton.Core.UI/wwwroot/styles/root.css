@@ -1,3 +1,9 @@
 :root {
     --ui-size-font-default: 14px;
+    
+    --ui-size-border-width-default: 1px;
+
+    --ui-color-common-success: #147000;
+    --ui-color-common-info: #0366c8;
+    --ui-color-common-error: #d13212;
 }

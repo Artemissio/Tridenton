@@ -26,5 +26,5 @@ in terms of both memory and speed.
 
 The second place is `GetByIndexLinq` / `GetByValueLinq`.
 
-The best performance belongs to **GetByIndexForeach** / **GetByValueForeach**
+The best performance belongs to `GetByIndexForeach` / `GetByValueForeach`
 which is why this implementation is used at `Enumeration.GetValue`

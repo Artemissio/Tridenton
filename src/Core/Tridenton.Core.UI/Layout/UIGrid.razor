@@ -1,0 +1,41 @@
+@using System.Text
+@inherits UIWrapperComponent
+
+<div id="@Id" class="@ClassList" style="@_styleString" @attributes="Attributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public int Columns { get; set; }
+    
+    [Parameter]
+    public int Rows { get; set; }
+    
+    private string _styleString = string.Empty;
+    
+    protected override void OnParametersSet()
+    {
+        if (Columns <= 0)
+        {
+            Columns = 1;
+        }
+        
+        if (Rows <= 0)
+        {
+            Rows = 1;
+        }
+
+        var strBuilder = new StringBuilder();
+
+        strBuilder.Append($"grid-template-columns: {string.Join(' ', Enumerable.Repeat<string>("1fr", Columns))}");
+        strBuilder.Append($"grid-template-rows: {string.Join(' ', Enumerable.Repeat<string>("1fr", Rows))}");
+
+        _styleString = strBuilder.ToString();
+    }
+    
+    protected override string GetUIComponentClass()
+    {
+        return "tridenton-ui-grid";
+    }
+}

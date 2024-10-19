@@ -65,7 +65,7 @@ public readonly struct Result<T>
         Successful = Error is null;
         Failed = !Successful;
     }
-
+    
     public static implicit operator Result<T>(T value) => new(value);
     public static implicit operator Result<T>(Error error) => new(default!, error);
 }

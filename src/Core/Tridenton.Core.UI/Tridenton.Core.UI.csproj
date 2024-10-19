@@ -20,9 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Buttons\" />
-    <Folder Include="Layout\" />
+    <Folder Include="Inputs\" />
     <Folder Include="Links\" />
     <Folder Include="Utilities\" />
+    <Folder Include="wwwroot\scripts\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tridenton.Core\Tridenton.Core.csproj" />

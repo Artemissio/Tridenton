@@ -18,5 +18,5 @@ public static class StringExtensions
     /// <param name="value">String value</param>
     /// <param name="pattern">Regular expression pattern</param>
     /// <returns><see langword="true"/> if <paramref name="value"/> matches to regular expression, defined by <paramref name="pattern"/>; otherwise - <see langword="false"/></returns>
-    public static bool MatchesRegex(this string value, string pattern) => new Regex(pattern).IsMatch(value);
+    public static bool MatchesRegex(this string value, string pattern) => Regex.IsMatch(value, pattern);
 }

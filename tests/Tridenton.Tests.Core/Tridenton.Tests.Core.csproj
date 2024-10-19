@@ -8,7 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\src\Core\Tridenton.Core.Metadata\Tridenton.Core.Metadata.csproj" />
+      <ProjectReference Include="..\..\src\Core\Tridenton.Core\Tridenton.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
     </ItemGroup>
 
 </Project>

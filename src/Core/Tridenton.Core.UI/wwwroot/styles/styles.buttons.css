@@ -1,0 +1,13 @@
+:root {
+    --ui-size-border-button-default: 1px;
+    
+    --ui-color-background-button-default-default: #d5d5d5;
+    --ui-color-background-button-default-hover: #d5d5d5;
+    --ui-color-background-button-default-active: #d5d5d5;
+    --ui-color-background-button-default-disabled: #d5d5d5;
+
+    --ui-color-background-button-primary-default: #d5d5d5;
+    --ui-color-background-button-primary-hover: #d5d5d5;
+    --ui-color-background-button-primary-active: #d5d5d5;
+    --ui-color-background-button-primary-disabled: #d5d5d5;
+}
