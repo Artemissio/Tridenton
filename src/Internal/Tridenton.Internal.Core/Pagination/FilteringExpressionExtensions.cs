@@ -23,5 +23,4 @@ public static class FilteringExpressionExtensions
     }
     
     public static string FormatExpression(this ExpressionOperator expressionOperator, string property, object value) => string.Format(expressionOperator.Expression, property, value);
-    public static string FormatBetweenExpression(this ExpressionOperator expressionOperator, string property, object min, object max) => string.Format(expressionOperator.Expression, property, min, max);
 }

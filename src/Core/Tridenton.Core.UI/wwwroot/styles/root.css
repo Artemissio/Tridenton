@@ -1,9 +1,19 @@
 :root {
-    --ui-size-font-default: 14px;
+    --size-font-default: 14px;
     
-    --ui-size-border-width-default: 1px;
+    --size-border-width-default: 1px;
 
-    --ui-color-common-success: #147000;
-    --ui-color-common-info: #0366c8;
-    --ui-color-common-error: #d13212;
+    --color-background: #333335;
+    --color-foreground: #d5d5d5;
+    
+    --color-primary-lightest: #FFC507;
+    --color-primary-light: #CF9F05;
+    --color-primary-default: #A17B00;
+    
+    --color-secondary-default: #25599C;
+    --color-accent-default: #803CB8;
+    
+    --color-common-success: #147000;
+    --color-common-info: #0366c8;
+    --color-common-error: #d13212;
 }

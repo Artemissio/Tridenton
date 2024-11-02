@@ -2,6 +2,8 @@ namespace Tridenton.Core.Metadata.Tracing;
 
 public readonly struct TracingConstants
 {
+    public const string EnableTracingHeader = "X-Tridenton-Tracing-Enabled";
+    
     public const char TraceSegmentIdSeparator = '|';
     
     public const string TraceIdHeader = "X-Tridenton-Trace-Id";

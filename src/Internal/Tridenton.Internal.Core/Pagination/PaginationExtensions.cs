@@ -1,5 +1,4 @@
 using System.Linq.Dynamic.Core;
-using Microsoft.EntityFrameworkCore;
 using Tridenton.Internal.Core.Extensions;
 
 // ReSharper disable AccessToModifiedClosure
@@ -9,14 +8,14 @@ namespace Tridenton.Internal.Core.Pagination;
 public static class PaginationExtensions
 {
     /// <summary>
-    ///     Asynchronously filters, sorts and divides <paramref name="source"/> into paginated response
+    /// Asynchronously filters, sorts and divides <paramref name="source"/> into paginated response
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="source">Input source</param>
     /// <param name="request">Request instance</param>
     /// <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> to observe while waiting for the task to complete.</param>
     /// <returns>
-    ///     A task that represents the asynchronous operation. The task result contains the <see cref="PaginatedResponse{TEntity}"/>
+    /// A task that represents the asynchronous operation. The task result contains the <see cref="PaginatedResponse{TEntity}"/>
     /// </returns>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="OperationCanceledException"></exception>
@@ -49,17 +48,19 @@ public static class PaginationExtensions
     }
 
     /// <summary>
-    ///     Filters <paramref name="source"/> by specified conditions
+    /// Filters <paramref name="source"/> by specified conditions
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="source">Input source</param>
     /// <param name="request">Pagination request</param>
     /// <returns>
-    ///     A filtered <see cref="IQueryable{T}"/>
+    /// A filtered <see cref="IQueryable{T}"/>
     /// </returns>
     private static Result<IQueryable<TEntity>> FilterQuery<TEntity>(this IQueryable<TEntity> source, PaginatedRequest request) where TEntity : class
     {
-        var filteringExpressions = request.Filtering.Where(f => !f.IsEmpty()).ToArray();
+        var filteringExpressions = request.Filtering
+            .Where(f => !f.IsEmpty())
+            .ToArray();
 
         if (filteringExpressions.Length == 0)
         {
@@ -83,15 +84,14 @@ public static class PaginationExtensions
 
             var property = entityType.GetProperty(group.Key);
 
-            ArgumentNullException.ThrowIfNull(property, $"Property {group.Key} does not exist");
+            if (property is null)
+            {
+                return new BadRequestError("Pagination.FilteringPropertyNotFound", $"Property {group.Key} does not exist");
+            }
 
-            var filtersCount = filters.Length;
-
-            for (var i = 0; i < filtersCount; i++)
+            foreach (var filter in filters)
             {
                 var predicatePart = "(";
-
-                var filter = filters[i];
 
                 if (property.PropertyType.BaseType == typeof(Enumeration))
                 {
@@ -175,8 +175,8 @@ public static class PaginationExtensions
 
                         if (filter.Operator == ExpressionOperator.Between)
                         {
-                            predicatePart += filter.Operator.FormatBetweenExpression(filter.Property,
-                                currentFilterIndex, currentFilterIndex + 1);
+                            predicatePart += string.Format(filter.Operator.Expression, property, currentFilterIndex, currentFilterIndex + 1);
+
                             currentFilterIndex += filter.Operator.ParamsCount;
                         }
                         else
@@ -209,37 +209,38 @@ public static class PaginationExtensions
     }
 
     /// <summary>
-    ///     Orders <paramref name="source"/> by specified property and direction
+    /// Orders <paramref name="source"/> by specified property and direction
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="source">Input source</param>
     /// <param name="request">Pagination request</param>
     /// <returns>
-    ///     A re-ordered <see cref="IQueryable{T}"/>
+    /// A re-ordered <see cref="IQueryable{T}"/>
     /// </returns>
     private static IQueryable<TEntity> OrderQuery<TEntity>(this IQueryable<TEntity> source, PaginatedRequest request) where TEntity : class
     {
-        if (request.Ordering.IsEmpty())
+        if (string.IsNullOrWhiteSpace(request.Ordering.OrderBy))
         {
             return source;
         }
 
         source = source.OrderBy(request.Ordering.OrderBy);
 
-        return request.Ordering.Direction == OrderingDirection.Descending ? source.Reverse() : source;
+        return request.Ordering.Direction == OrderingDirection.Descending
+            ? source.Reverse()
+            : source;
     }
 
     /// <summary>
-    ///     Asynchronously calculates the amount of pages into which the <paramref name="source"/> will be divided according to <paramref name="request"/>
+    /// Asynchronously calculates the amount of pages into which the <paramref name="source"/> will be divided according to <paramref name="request"/>
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="source">Input source</param>
     /// <param name="request">Pagination request</param>
     /// <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> to observe while waiting for the task to complete.</param>
     /// <returns>
-    ///     A task that represents the asynchronous operation. The task result contains the amount of pages into which the <paramref name="source"/> will be divided according to <paramref name="request"/>
+    /// A task that represents the asynchronous operation. The task result contains the amount of pages into which the <paramref name="source"/> will be divided according to <paramref name="request"/>
     /// </returns>
-    /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="OperationCanceledException"></exception>
     private static async ValueTask<int> GetQueryPagesAsync<TEntity>(this IQueryable<TEntity> source, PaginatedRequest request, CancellationToken cancellationToken = default) where TEntity : class
     {
@@ -251,24 +252,23 @@ public static class PaginationExtensions
     }
 
     /// <summary>
-    ///     Asynchronously retrieves a specific amount of items at specific page, specified at <paramref name="request"/>, from <paramref name="source"/>
+    /// Asynchronously retrieves a specific amount of items at specific page, specified at <paramref name="request"/>, from <paramref name="source"/>
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <param name="source">Input source</param>
     /// <param name="request">Pagination request</param>
     /// <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> to observe while waiting for the task to complete.</param>
     /// <returns>
-    ///     A task that represents the asynchronous operation. The task result contains an <see cref="IQueryable{T}"/> of specific amount of items at specific page, specified at <paramref name="request"/>
+    /// A task that represents the asynchronous operation. The task result contains an <see cref="IQueryable{T}"/> of specific amount of items at specific page, specified at <paramref name="request"/>
     /// </returns>
-    /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="OperationCanceledException"></exception>
     private static async ValueTask<IQueryable<TEntity>> DivideQueryIntoPagesAsync<TEntity>(IQueryable<TEntity> source, PaginatedRequest request, CancellationToken cancellationToken = default) where TEntity : class
     {
         var pages = await source.GetQueryPagesAsync(request, cancellationToken);
 
-        request.Page = pages < request.Page ? pages : request.Page;
+        var page = pages < request.Page ? pages : request.Page;
 
-        source = source.Skip((request.Page - 1) * request.Size).Take(request.Size);
+        source = source.Skip((page - 1) * request.Size).Take(request.Size);
 
         return source;
     }

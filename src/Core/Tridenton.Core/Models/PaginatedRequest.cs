@@ -17,23 +17,23 @@ public record PaginatedRequest
     /// Index of page to display
     /// </summary>
     [ValidateProperty(Required = true, Min = PaginationConstants.DefaultPageIndex, Max = int.MaxValue, ErrorMessage = $"Page is required and should be between 1 and 2147483647")]
-    public int Page { get; set; }
+    public int Page { get; init; }
 
     /// <summary>
     /// Amount of elements to display per one page
     /// </summary>
-    [ValidateProperty(Required = true, Min = 1, Max = int.MaxValue, ErrorMessage = $"Size is required and should be between 1 and 2147483647")]
-    public int Size { get; set; }
+    [ValidateProperty(Required = true, Min = 1, Max = int.MaxValue, ErrorMessage = "Size is required and should be between 1 and 2147483647")]
+    public int Size { get; init; }
 
     /// <summary>
     /// Ordering specification
     /// </summary>
-    public Ordering Ordering { get; set; }
+    public Ordering Ordering { get; init; }
 
     /// <summary>
     /// Filtering expressions
     /// </summary>
-    public FilteringExpression[] Filtering { get; set; }
+    public FilteringExpression[] Filtering { get; init; }
 
     /// <summary>
     /// Initializes a new instance of <see cref="PaginatedRequest"/>
@@ -43,8 +43,8 @@ public record PaginatedRequest
         Page = PaginationConstants.DefaultPageIndex;
         Size = PaginationConstants.DefaultPageSize;
 
-        Ordering = new Ordering();
-        Filtering = Array.Empty<FilteringExpression>();
+        Ordering = new();
+        Filtering = [];
     }
 }
 
@@ -70,6 +70,13 @@ public sealed record Ordering
     {
         OrderBy = string.Empty;
         Direction = OrderingDirection.Ascending;
+    }
+
+    public override string ToString()
+    {
+        return string.IsNullOrWhiteSpace(OrderBy)
+            ? string.Empty
+            : $"{OrderBy} {Direction}";
     }
 }
 
@@ -102,7 +109,15 @@ public sealed record FilteringExpression
         Operator = ExpressionOperator.None;
     }
 
-    public override string ToString() => $"{Property} {Operator} '{Value}'";
+    public override string ToString()
+    {
+        if (string.IsNullOrWhiteSpace(Property) || Operator == ExpressionOperator.None)
+        {
+            return string.Empty;
+        }
+
+        return $"{Property} {Operator} '{Value}'";
+    }
 }
 
 [TypeConverter(typeof(EnumerationTypeConverter<OrderingDirection>))]

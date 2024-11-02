@@ -16,18 +16,6 @@ public static class QueryableExtensions
         }
     }
     
-    public static async ValueTask<List<TSource>> TryToListAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            return await source.ToListAsync(cancellationToken);
-        }
-        catch (NotImplementedException)
-        {
-            return source.ToList();
-        }
-    }
-    
     public static async ValueTask<TSource[]> TryToArrayAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default)
     {
         try
