@@ -31,6 +31,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tridenton.Tests.Metadata", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tridenton.Tests.Core", "tests\Tridenton.Tests.Core\Tridenton.Tests.Core.csproj", "{7004626F-044B-4EA7-9C38-A74486A7FF1E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tridenton.EventLink", "src\EventLink\Tridenton.EventLink\Tridenton.EventLink.csproj", "{F391A7C8-EC5A-4DA2-ADF5-4B804898C9BA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventLink", "EventLink", "{DC7BE62D-145D-45F0-96C4-19F9FE588FE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +77,10 @@ Global
 		{7004626F-044B-4EA7-9C38-A74486A7FF1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7004626F-044B-4EA7-9C38-A74486A7FF1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7004626F-044B-4EA7-9C38-A74486A7FF1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F391A7C8-EC5A-4DA2-ADF5-4B804898C9BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F391A7C8-EC5A-4DA2-ADF5-4B804898C9BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F391A7C8-EC5A-4DA2-ADF5-4B804898C9BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F391A7C8-EC5A-4DA2-ADF5-4B804898C9BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +95,7 @@ Global
 		{4922F77F-FFE1-4BF5-8E0F-D6F00EE2DD13} = {9B642F83-A124-47ED-890A-76B082B4BEE7}
 		{7004626F-044B-4EA7-9C38-A74486A7FF1E} = {F2F437FC-D22F-4B78-86B8-B4C9D83DF952}
 		{02A3179F-1615-473B-8139-84B0F76DC39E} = {F2F437FC-D22F-4B78-86B8-B4C9D83DF952}
+		{F391A7C8-EC5A-4DA2-ADF5-4B804898C9BA} = {DC7BE62D-145D-45F0-96C4-19F9FE588FE3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3D70024D-3FAB-4B0B-B008-F93AD1712F67}

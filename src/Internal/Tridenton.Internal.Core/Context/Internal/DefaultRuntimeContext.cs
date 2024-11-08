@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Http;
+using System.Globalization;
 using Tridenton.Internal.Core.Models;
 
 namespace Tridenton.Internal.Core.Context.Internal;
@@ -6,30 +6,20 @@ namespace Tridenton.Internal.Core.Context.Internal;
 internal sealed record DefaultRuntimeContext : IRuntimeContext
 {
     public RequestId RequestId { get; }
-    
-    public Error? InitializationError { get; }
+    public ILocalizationContext Localization { get; set; }
+    public string Warning { get; set; }
 
-    public DefaultRuntimeContext(IHttpContextAccessor httpContextAccessor)
+    private DefaultRuntimeContext()
     {
-        var httpContext = httpContextAccessor.HttpContext;
-
-        if (httpContext is null)
-        {
-            RequestId = RequestId.Empty;
-            return;
-        }
-        
-        var httpRequest = httpContext.Request;
-
-        if (!httpRequest.Headers.TryGetValue(Constants.RequestIdHeader, out var requestIdStr))
-        {
-            InitializationError = new BadRequestError("HTTP.MissingRequestId", $"{Constants.RequestIdHeader} header is missing.");
-            return;
-        }
-
-        if (!RequestId.TryParse(requestIdStr.ToString(), null, out var requestId))
-        {
-            
-        }
+        RequestId = RequestId.Empty;
+        Localization = DefaultLocalizationContext.Empty;
+        Warning = string.Empty;
     }
+
+    public DefaultRuntimeContext(RequestId requestId) : this()
+    {
+        RequestId = requestId;
+    }
+
+    public static readonly DefaultRuntimeContext Empty = new();
 }
