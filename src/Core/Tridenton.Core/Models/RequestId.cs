@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace Tridenton.Internal.Core.Models;
+namespace Tridenton.Core;
 
 public readonly struct RequestId : IParsable<RequestId>
 {
@@ -11,6 +11,7 @@ public readonly struct RequestId : IParsable<RequestId>
         _value = value;
     }
 
+    public static RequestId NewId() => new(Ulid.NewUlid());
     public static readonly RequestId Empty = new(Ulid.Empty);
 
     public static RequestId Parse(string s, IFormatProvider? provider)

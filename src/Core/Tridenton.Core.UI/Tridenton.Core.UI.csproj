@@ -19,8 +19,6 @@
     <Content Remove="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Buttons\" />
-    <Folder Include="Inputs\" />
     <Folder Include="Links\" />
     <Folder Include="Utilities\" />
     <Folder Include="wwwroot\scripts\" />

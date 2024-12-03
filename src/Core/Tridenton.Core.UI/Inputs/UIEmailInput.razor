@@ -1,0 +1,26 @@
+@inherits UIInputComponent<string>
+@implements IReadonlyComponent
+
+@if (Disabled)
+{
+    <input id="@Id" class="@ClassList" type="email" title="@Tooltip" value="@Value" disabled />
+}
+else
+{
+    if (Readonly)
+    {
+        <input id="@Id" class="@ClassList" type="email" value="@Value" readonly />
+    }
+    else
+    {
+        <input id="@Id" class="@ClassList" type="email" value="@Value" @oninput="@ValueChanged" @onclick="OnClick" />
+    }
+}
+
+@code
+{
+    [Parameter]
+    public bool Readonly { get; set; }
+
+    protected override string GetUIComponentClass() => "tridenton-ui-input-email";
+}

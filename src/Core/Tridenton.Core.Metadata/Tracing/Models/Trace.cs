@@ -2,7 +2,7 @@ namespace Tridenton.Core.Metadata.Tracing;
 
 public sealed record Trace
 {
-    private readonly Ulid _initialRequestId;
+    private readonly RequestId _initialRequestId;
     private readonly TraceSegmentsCollection _segments;
     
     [JsonInclude]
@@ -12,7 +12,7 @@ public sealed record Trace
     public TraceSegment[] Segments => _segments.ToArray();
 
     [JsonConstructor]
-    public Trace(Ulid initialRequestId)
+    public Trace(RequestId initialRequestId)
     {
         _initialRequestId = initialRequestId;
         

@@ -2,7 +2,7 @@ using System.Globalization;
 
 namespace Tridenton.Internal.Core.Pagination;
 
-internal static class TypeParser
+internal readonly struct TypeParser
 {
     internal static bool TryGetTypeHandler(TypeCode typeCode,
         out Func<Type, FilteringExpression, Result<List<object>>>? handler)

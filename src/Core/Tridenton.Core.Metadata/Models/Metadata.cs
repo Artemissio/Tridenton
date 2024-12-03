@@ -3,13 +3,13 @@ namespace Tridenton.Core.Metadata;
 public sealed record Metadata
 {
     [JsonInclude]
-    public Ulid RequestId { get; }
+    public RequestId RequestId { get; }
     
     [JsonInclude]
     public Trace Trace { get; }
 
     [JsonConstructor]
-    public Metadata(Ulid requestId)
+    public Metadata(RequestId requestId)
     {
         RequestId = requestId;
         Trace = new(RequestId);

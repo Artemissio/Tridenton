@@ -10,7 +10,7 @@ public abstract class UIComponent : ComponentBase
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> Attributes { get; set; }
     
-    public Ulid Id { get; private set; }
+    protected Ulid Id { get; private set; }
     
     protected string ClassList => $"tridenton-ui {GetUIComponentClass()}{(string.IsNullOrWhiteSpace(Class) ? string.Empty : $" {Class}")}";
 
@@ -27,18 +27,22 @@ public abstract class UIComponent : ComponentBase
     
     protected override void OnAfterRender(bool firstRender)
     {
-        if (firstRender)
+        if (!firstRender)
         {
-            OnFirstRender();
+            return;
         }
+        
+        OnFirstRender();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
+        if (!firstRender)
         {
-            await OnFirstRenderAsync();
+            return;
         }
+        
+        await OnFirstRenderAsync();
     }
     
     protected virtual void OnFirstRender() { }

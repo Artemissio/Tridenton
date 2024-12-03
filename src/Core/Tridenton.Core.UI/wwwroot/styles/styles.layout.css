@@ -2,10 +2,19 @@
 
 }
 
-.tridenton-ui-flex {
+.tridenton-ui-grid {
+    display: grid;
+}
+
+.tridenton-ui-column,
+.tridenton-ui-row {
     display: flex;
 }
 
-.tridenton-ui-grid {
-    display: grid;
+.tridenton-ui-column {
+    flex-direction: column;
+}
+
+.tridenton-ui-row {
+    flex-direction: row;
 }

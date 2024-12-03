@@ -1,0 +1,28 @@
+@typeparam TValue
+
+@inherits UIInputComponent<TValue>
+@implements IReadonlyComponent
+
+@if (Disabled)
+{
+    <input id="@Id" class="@ClassList" type="number" title="@Tooltip" value="@Value" disabled />
+}
+else
+{
+    if (Readonly)
+    {
+        <input id="@Id" class="@ClassList" type="number" title="@Tooltip" value="@Value" readonly />
+    }
+    else
+    {
+        <input id="@Id" class="@ClassList" type="number" title="@Tooltip" value="@Value" @oninput="@ValueChanged" @onclick="OnClick" />
+    }
+}
+
+@code
+{
+    [Parameter]
+    public bool Readonly { get; set; }
+    
+    protected override string GetUIComponentClass() => "tridenton-ui-input-number";
+}

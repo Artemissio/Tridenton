@@ -1,0 +1,9 @@
+@inherits UIWrapperComponent
+
+<div id="@Id" @attributes="Attributes" class="@ClassList">
+    @ChildContent
+</div>
+
+@code {
+    protected override string GetUIComponentClass() => "tridenton-ui-column";
+}

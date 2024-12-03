@@ -1,6 +1,6 @@
 using System.Globalization;
 using Microsoft.AspNetCore.Http;
-using Tridenton.Internal.Core.Models;
+using Microsoft.Net.Http.Headers;
 using Tridenton.Internal.Core.Utilities;
 
 namespace Tridenton.Internal.Core.Context.Internal;
@@ -25,42 +25,56 @@ internal sealed class DefaultRuntimeContextAccessor : IRuntimeContextAccessor
         
         var httpRequest = httpContext.Request;
 
-        if (!httpRequest.Headers.TryGetValue(HttpRequestHeaders.RequestId, out var requestIdStr))
+        RequestId requestId;
+        if (httpRequest.Headers.TryGetValue(HttpRequestHeaders.RequestId, out var requestIdStr))
         {
-            return new BadRequestError("HTTP.MissingRequestId", $"{HttpRequestHeaders.RequestId} header is missing.");
+            if (!RequestId.TryParse(requestIdStr.ToString(), CultureInfo.InvariantCulture, out requestId))
+            {
+                return new BadRequestError("HTTP.InvalidRequestId", $"{HttpRequestHeaders.RequestId} header is invalid.");
+            }
         }
-
-        if (!RequestId.TryParse(requestIdStr.ToString(), CultureInfo.InvariantCulture, out var requestId))
+        else
         {
-            return new BadRequestError("HTTP.InvalidRequestId", $"{HttpRequestHeaders.RequestId} header is invalid.");
+            requestId = RequestId.NewId();
         }
 
         var runtimeContext = new DefaultRuntimeContext(requestId);
 
-        runtimeContext = SetLocalization(runtimeContext, httpRequest);
+        var localizationSetResult = GetLocalization(httpRequest);
+
+        if (localizationSetResult.Failed)
+        {
+            return localizationSetResult.Error!;
+        }
+        
+        runtimeContext.Localization = localizationSetResult.Value;
 
         return runtimeContext;
     }
 
-    private static DefaultRuntimeContext SetLocalization(DefaultRuntimeContext runtimeContext, HttpRequest httpRequest)
+    private static Result<ILocalizationContext> GetLocalization(HttpRequest httpRequest)
     {
-        if (!httpRequest.Headers.TryGetValue(HttpRequestHeaders.Locale, out var locale))
+        if (!httpRequest.Headers.TryGetValue(HeaderNames.AcceptLanguage, out var locale))
         {
-            return runtimeContext;
+            return DefaultLocalizationContext.Empty;
+        }
+        
+        var localeString = locale.ToString();
+
+        if (localeString == Constants.Wildcard)
+        {
+            return DefaultLocalizationContext.Empty;
         }
         
         try
         {
             var culture = CultureInfo.GetCultureInfo(locale.ToString());
             
-            runtimeContext.Localization = new DefaultLocalizationContext(culture);
+            return new DefaultLocalizationContext(culture);
         }
         catch (CultureNotFoundException)
         {
-            runtimeContext.Warning = "Current culture is not supported.";
-            // Ignore - the default culture (InvariantCulture) is set in DefaultRuntimeContext contructor
+            return new PreconditionError("HTTP.InvalidLanguage", $"The specified language '{locale}' is not supported.");
         }
-
-        return runtimeContext;
     }
 }

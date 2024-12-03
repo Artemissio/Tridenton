@@ -1,10 +1,13 @@
 :root {
     --size-font-default: 14px;
+    --size-line-height-body-default: 22px;
     
     --size-border-width-default: 1px;
+    --size-border-width-field-default: 1px;
+    --size-padding-block-default: 4px;
 
-    --color-background: #333335;
-    --color-foreground: #d5d5d5;
+    --color-background-body-default: #333335;
+    --color-foreground-body-default: #d5d5d5;
     
     --color-primary-lightest: #FFC507;
     --color-primary-light: #CF9F05;

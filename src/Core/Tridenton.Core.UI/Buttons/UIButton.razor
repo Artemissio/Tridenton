@@ -1,0 +1,15 @@
+@inherits UIWrapperComponent
+@implements ICollapsibleComponent
+@implements IInteractiveComponent
+
+@code {
+    [Parameter]
+    public bool Disabled { get; set; }
+    
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+    
+    public bool Collapsed { get; set; }
+
+    protected override string GetUIComponentClass() => $"tridenton-ui-button";
+}

@@ -1,0 +1,32 @@
+@inherits UIInputComponent<string>
+@implements IReadonlyComponent
+
+@if (Disabled)
+{
+    <textarea id="@Id" class="@ClassList" title="@Tooltip" disabled>
+        @Value
+    </textarea>
+}
+else
+{
+    if (Readonly)
+    {
+        <textarea id="@Id" class="@ClassList" title="@Tooltip" readonly>
+            @Value
+        </textarea>
+    }
+    else
+    {
+        <textarea id="@Id" class="@ClassList" title="@Tooltip" @oninput="@ValueChanged" @onclick="OnClick">
+            @Value
+        </textarea>
+    }
+}
+
+@code
+{
+    [Parameter]
+    public bool Readonly { get; set; }
+
+    protected override string GetUIComponentClass() => "tridenton-ui-input-textarea";
+}

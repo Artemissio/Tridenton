@@ -117,7 +117,7 @@ public class Enumeration
             .Cast<TEnumeration>();
     }
     
-    public static IEnumerable<Enumeration> GetValues(Type enumerationType)
+    private static IEnumerable<Enumeration> GetValues(Type enumerationType)
     {
         return enumerationType
             .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)

@@ -1,10 +1,11 @@
 ﻿using System.Net;
 using System.Net.Mime;
+using Tridenton.Core;
 using Tridenton.Core.Metadata;
 using Tridenton.Core.Metadata.Tracing;
 using Tridenton.Core.Utilities;
 
-var requestId = Ulid.NewUlid();
+var requestId = RequestId.NewId();
 
 var metadata = new Metadata(requestId);
 
