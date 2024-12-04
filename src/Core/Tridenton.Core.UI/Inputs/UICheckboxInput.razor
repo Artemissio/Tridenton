@@ -1,5 +1,15 @@
-<h3>UICheckboxInput</h3>
+@inherits UIInputComponent<bool>
 
-@code {
-    
+@if (Disabled)
+{
+    <input id="@Id" class="@ClassList" type="checkbox" title="@Tooltip" value="@Value" disabled />
+}
+else
+{
+    <input id="@Id" class="@ClassList" type="checkbox" title="@Tooltip" value="@Value" @oninput="@ValueChanged" @onclick="OnClick" />
+}
+
+@code
+{
+    protected override string GetUIComponentClass() => "tridenton-ui-input-checkbox";
 }
