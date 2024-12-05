@@ -2,12 +2,12 @@ namespace Tridenton.EventLink.Core;
 
 public record DataChangeEvent
 {
-    public EventType Type { get; init; }
+    public DataChangeEventMetadata Metadata { get; init; }
+    public DataChangeEventPayload Payload { get; init; }
     
-    public DataChangeEventTimestamps Timestamps { get; init; }
-
     public DataChangeEvent()
     {
-        Type = EventType.None;
+        Metadata = new();
+        Payload = new();
     }
 }
