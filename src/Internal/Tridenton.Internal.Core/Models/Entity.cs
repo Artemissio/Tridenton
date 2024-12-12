@@ -8,16 +8,16 @@ namespace Tridenton.Internal.Core.Models;
 public abstract record Entity
 {
     [NotMapped]
-    protected string Partition { get; }
-    
+    private readonly string _partition;
+
     [NotMapped]
-    protected string ServicesGroup { get; }
-    
+    private readonly string _servicesGroup;
+
     [NotMapped]
-    protected string Service { get; }
-    
+    private readonly string _service;
+
     [NotMapped]
-    protected string Resource { get; }
+    private readonly string _resourceType;
     
     /// <summary>
     /// 
@@ -32,7 +32,7 @@ public abstract record Entity
     /// <summary>
     /// 
     /// </summary>
-    public Account User { get; init; }
+    public User User { get; init; }
     
     /// <summary>
     /// 
@@ -49,24 +49,23 @@ public abstract record Entity
     /// </summary>
     public DateTimeOffset? DeleteUtc { get; init; }
 
-    // [NotMapped]
-    // public Treid Treid
-    // {
-    //     get
-    //     {
-    //         return new Treid(
-    //             partition: Partition,
-    //             servicesGroup: ServicesGroup,
-    //             service: Service,
-    //             )
-    //     }
-    // }
-    
-    protected Entity(string partition, string servicesGroup, string service, string resource)
+    [NotMapped]
+    public Treid Treid =>
+        new(
+            partition: _partition,
+            account: User.Account,
+            servicesGroup: _servicesGroup,
+            service: _service,
+            resourceType: _resourceType,
+            resourceId: Id.ToString()!);
+
+    protected Entity(string partition, string servicesGroup, string service, string resourceType)
     {
-        Partition = partition;
-        ServicesGroup = servicesGroup;
-        Service = service;
-        Resource = resource;
+        _partition = partition;
+        _servicesGroup = servicesGroup;
+        _service = service;
+        _resourceType = resourceType;
+
+        User = default!;
     }
 }
