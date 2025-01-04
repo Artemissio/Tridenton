@@ -8,13 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Core\Tridenton.Core\Tridenton.Core.csproj" />
-      <ProjectReference Include="..\..\..\EventLink\Tridenton.EventLink.Core\Tridenton.EventLink.Core.csproj" />
-      <ProjectReference Include="..\..\Tridenton.Internal.Core\Tridenton.Internal.Core.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Models\" />
-      <Folder Include="Utilities\" />
+      <ProjectReference Include="..\..\..\SDK\Tridenton.SDK.Core\Tridenton.SDK.Core.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-namespace Tridenton.EventLink.Core;
+namespace Tridenton.EventLink.SDK;
 
 [JsonConverter(typeof(EnumerationJsonConverter<EventType>))]
 public sealed class EventType : Enumeration

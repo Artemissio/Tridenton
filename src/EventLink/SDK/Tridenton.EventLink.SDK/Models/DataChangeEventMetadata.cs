@@ -1,4 +1,4 @@
-namespace Tridenton.EventLink.Core;
+namespace Tridenton.EventLink.SDK;
 
 public sealed record DataChangeEventMetadata
 {

@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Tridenton.EventLink.Core;
+namespace Tridenton.EventLink.SDK;
 
 [DebuggerDisplay("{_value}")]
 public readonly struct EventId : IParsable<EventId>
