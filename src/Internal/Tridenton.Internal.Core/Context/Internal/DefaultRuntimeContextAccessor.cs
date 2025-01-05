@@ -49,6 +49,8 @@ internal sealed class DefaultRuntimeContextAccessor : IRuntimeContextAccessor
         
         runtimeContext.Localization = localizationSetResult.Value;
 
+        await ValueTask.CompletedTask;
+        
         return runtimeContext;
     }
 

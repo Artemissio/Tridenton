@@ -8,7 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Core\Tridenton.Core\Tridenton.Core.csproj" />
-      <ProjectReference Include="..\Tridenton.EventLink.SDK\Tridenton.EventLink.SDK.csproj" />
+      <ProjectReference Include="..\..\SDK\Tridenton.EventLink.SDK.Sources.PostgreSQL\Tridenton.EventLink.SDK.Sources.PostgreSQL.csproj" />
     </ItemGroup>
 
 </Project>

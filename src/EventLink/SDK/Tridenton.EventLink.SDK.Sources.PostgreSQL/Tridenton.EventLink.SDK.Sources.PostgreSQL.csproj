@@ -6,4 +6,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Core\Tridenton.Core\Tridenton.Core.csproj" />
+      <ProjectReference Include="..\Tridenton.EventLink.SDK\Tridenton.EventLink.SDK.csproj" />
+    </ItemGroup>
+
 </Project>
