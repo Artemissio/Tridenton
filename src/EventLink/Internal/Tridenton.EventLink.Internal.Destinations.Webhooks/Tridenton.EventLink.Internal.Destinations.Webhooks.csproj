@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\..\Tridenton.EventLink.SDK.Destinations.Webhooks\Tridenton.EventLink.SDK.Destinations.Webhooks.csproj" />
       <ProjectReference Include="..\..\..\Core\Tridenton.Core\Tridenton.Core.csproj" />
     </ItemGroup>
 

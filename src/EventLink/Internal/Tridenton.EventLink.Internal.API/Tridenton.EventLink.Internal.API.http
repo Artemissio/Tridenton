@@ -1,0 +1,6 @@
+@Tridenton.EventLink.Internal.API_HostAddress = http://localhost:5029
+
+GET {{Tridenton.EventLink.Internal.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
