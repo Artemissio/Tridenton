@@ -1,4 +1,5 @@
 ﻿using BenchmarkDotNet.Running;
+using Tridenton.Core.Utilities;
 using Tridenton.Tests.Core;
 
 // _ = BenchmarkRunner.Run<EnumerationBenchmarks>();

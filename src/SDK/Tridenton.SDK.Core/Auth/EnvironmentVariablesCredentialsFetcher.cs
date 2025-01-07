@@ -15,14 +15,14 @@ public sealed class EnvironmentVariablesCredentialsFetcher : CredentialsFetcher
 
         if (string.IsNullOrWhiteSpace(accessKeyId))
         {
-            return new BadRequestError("SDK.MissingEnvironmentVariable", $"{AccessKeyIdVariable} is missing.");
+            return new BadRequestError("SDK.MissingAccessKeyId", $"{AccessKeyIdVariable} is missing.");
         }
         
         var secretAccessKey = Environment.GetEnvironmentVariable(SecretAccessKeyVariable);
 
         if (string.IsNullOrWhiteSpace(secretAccessKey))
         {
-            return new BadRequestError("SDK.MissingEnvironmentVariable", $"{SecretAccessKeyVariable} is missing.");
+            return new BadRequestError("SDK.MissingSecretAccessKey", $"{SecretAccessKeyVariable} is missing.");
         }
         
         var sessionToken = Environment.GetEnvironmentVariable(SessionTokenVariable);

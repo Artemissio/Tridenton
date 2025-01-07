@@ -15,26 +15,20 @@ public sealed record CreateEventLinkInstanceRequest : TridentonRequest
     /// </summary>
     [Required(ErrorMessage = "Title is required")]
     public required string Title { get; init; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    [Required(ErrorMessage = "Source Type is required")]
-    public required SourceType SourceType { get; init; }
     
     /// <summary>
     /// 
     /// </summary>
-    [Required(ErrorMessage = "Destination Type is required")]
-    public required DestinationType DestinationType { get; init; }
-
-    public PostgreSQLSettings? PostgreSQLSettings { get; init; }
-    public RabbitMQSettings? RabbitMQSettings { get; init; }
-    public WebhooksSettings? WebhooksSettings { get; init; }
+    [Required(ErrorMessage = "Source settings are required")]
+    public required SourceSettings SourceSettings { get; init; }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    [Required(ErrorMessage = "Destination settings are required")]
+    public required DestinationSettings DestinationSettings { get; init; }
 
     public CreateEventLinkInstanceRequest()
     {
-        SourceType = SourceType.None;
-        DestinationType = DestinationType.None;
     }
 }

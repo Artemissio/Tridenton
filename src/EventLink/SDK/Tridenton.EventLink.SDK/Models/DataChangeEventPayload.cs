@@ -8,4 +8,6 @@ public sealed record DataChangeEventPayload
     {
         Records = [];
     }
+    
+    public static readonly DataChangeEventPayload Empty = new();
 }

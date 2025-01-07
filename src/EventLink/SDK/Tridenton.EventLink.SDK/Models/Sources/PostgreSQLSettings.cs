@@ -1,6 +1,9 @@
 namespace Tridenton.EventLink.SDK.Sources;
 
-public sealed record PostgreSQLSettings : RelationalDatabaseSettings
+/// <summary>
+/// 
+/// </summary>
+public sealed record PostgreSQLSettings : RelationalDatabaseSettings, ISourceSettingsMarker
 {
     [JsonConstructor]
     public PostgreSQLSettings() : base(5432)
