@@ -1,4 +1,4 @@
-namespace Tridenton.Internal.EventLink.Core.Entities;
+namespace Tridenton.EventLink.Internal.Core.Entities;
 
 public sealed record EventLinkInstanceEntity : Entity
 {

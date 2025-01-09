@@ -1,12 +1,9 @@
-using DestinationSettings = Tridenton.EventLink.SDK.Destinations.DestinationSettings;
-using SourceSettings = Tridenton.EventLink.SDK.Sources.SourceSettings;
+using Tridenton.EventLink.SDK.Destinations;
+using Tridenton.EventLink.SDK.Sources;
 
-namespace Tridenton.EventLink.Internal.Core.Models;
+namespace Tridenton.EventLink.SDK;
 
-/// <summary>
-/// 
-/// </summary>
-public sealed record EventLinkOptions
+public sealed record EventLinkSettings
 {
     /// <summary>
     /// 

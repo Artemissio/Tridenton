@@ -13,12 +13,7 @@ public sealed record DestinationSettings
     /// 
     /// </summary>
     [Required(ErrorMessage = "Destination Type is required")]
-    public required DestinationType Type { get; init; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public EventLinkSettings? EventLink { get; init; }
+    public DestinationType Type { get; init; }
     
     /// <summary>
     /// 
@@ -49,19 +44,14 @@ public sealed record DestinationSettings
                 return true;
             }
 
-            if (settings.Type == DestinationType.EventLink)
+            if (settings.Type == DestinationType.Webhooks)
             {
-                return settings.EventLink is not null;
+                return settings.Webhooks is not null;
             }
 
             if (settings.Type == DestinationType.RabbitMq)
             {
                 return settings.RabbitMQ is not null;
-            }
-
-            if (settings.Type == DestinationType.Webhooks)
-            {
-                return settings.Webhooks is not null;
             }
 
             return false;

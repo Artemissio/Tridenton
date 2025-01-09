@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace Tridenton.Internal.EventLink.Core.Services;
+namespace Tridenton.EventLink.Core.Services;
 
 internal sealed class EventLinkDbContext : DbContext
 {

@@ -5,7 +5,7 @@ namespace Tridenton.EventLink.SDK.Sources;
 /// <summary>
 /// 
 /// </summary>
-public abstract record RelationalDatabaseSettings
+public abstract record RelationalDatabaseSettings : ISourceSettingsMarker
 {
     /// <summary>
     /// 

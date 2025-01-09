@@ -1,4 +1,7 @@
-namespace Tridenton.Internal.EventLink.Core.Entities;
+using Tridenton.EventLink.SDK.Destinations;
+using Tridenton.EventLink.SDK.Sources;
+
+namespace Tridenton.EventLink.Internal.Core.Entities;
 
 public sealed record InstanceSettings
 {
@@ -7,35 +10,7 @@ public sealed record InstanceSettings
 
     public InstanceSettings()
     {
-        Source = SourceSettings.None;
-        Destination = DestinationSettings.None;
+        Source = new();
+        Destination = new();
     }
-}
-
-public abstract record SourceSettings
-{
-    public SourceType Type { get; init; }
-
-    protected SourceSettings()
-    {
-        Type = SourceType.None;
-    }
-
-    public static readonly SourceSettings None = new DefaultSourceSettings();
-
-    private sealed record DefaultSourceSettings : SourceSettings { }
-}
-
-public abstract record DestinationSettings
-{
-    public DestinationType Type { get; init; }
-
-    protected DestinationSettings()
-    {
-        Type = DestinationType.None;
-    }
-
-    public static readonly DestinationSettings None = new DefaultDestinationSettings();
-
-    private sealed record DefaultDestinationSettings : DestinationSettings { }
 }

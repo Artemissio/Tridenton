@@ -13,13 +13,13 @@ public sealed record SourceSettings
     /// 
     /// </summary>
     [Required(ErrorMessage = "Source Type is required")]
-    public required SourceType Type { get; init; }
+    public SourceType Type { get; init; }
 
     [SourceSettingsValidation(ErrorMessage = "PostgreSQL is required")]
     public PostgreSQLSettings? PostgreSQL { get; init; }
     
     public SourceSettings()
-    {   
+    {
         Type = SourceType.None;
     }
     

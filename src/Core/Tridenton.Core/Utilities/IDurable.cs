@@ -18,16 +18,7 @@ public interface IDurable
     /// <summary>
     /// Total processing time
     /// </summary>
-    TimeSpan ProcessingTime { get; }
-}
-
-public abstract record Durable : RecordMarker, IDurable
-{
-    public DateTime? StartUtc { get; protected set; }
-
-    public DateTime? FinishUtc { get; protected set; }
-
-    public TimeSpan ProcessingTime
+    TimeSpan ProcessingTime
     {
         get
         {
@@ -44,4 +35,11 @@ public abstract record Durable : RecordMarker, IDurable
             return FinishUtc.Value - StartUtc.Value;
         }
     }
+}
+
+public abstract record Durable : RecordMarker, IDurable
+{
+    public DateTime? StartUtc { get; protected set; }
+
+    public DateTime? FinishUtc { get; protected set; }
 }
