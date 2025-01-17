@@ -10,10 +10,10 @@ public sealed class DispatcherStatus : Enumeration
     
     public static readonly DispatcherStatus NotStarted = new(0, "Not Started");
     public static readonly DispatcherStatus Starting = new(1, "Starting");
-    public static readonly DispatcherStatus FailedToStart = new(2, "Failed to Start");
-    public static readonly DispatcherStatus Started = new(3, "Started");
-    public static readonly DispatcherStatus Pausing = new(5, "Pausing");
-    public static readonly DispatcherStatus Paused = new(6, "Paused");
-    public static readonly DispatcherStatus Stopping = new(7, "Stopping");
-    public static readonly DispatcherStatus Stopped = new(8, "Stopped");
+    public static readonly DispatcherStatus Started = new(2, "Started");
+    public static readonly DispatcherStatus Pausing = new(3, "Pausing");
+    public static readonly DispatcherStatus Paused = new(4, "Paused");
+    public static readonly DispatcherStatus Stopping = new(5, "Stopping");
+    public static readonly DispatcherStatus Stopped = new(6, "Stopped");
+    public static readonly DispatcherStatus EmptyEventsStream = new(7, "Empty Events Stream");
 }
