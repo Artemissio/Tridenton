@@ -10,4 +10,10 @@ public sealed record DataChangeEvent
         Metadata = new();
         Payload = new();
     }
+
+    public static readonly DataChangeEvent Empty = new()
+    {
+        Metadata = new(),
+        Payload = DataChangeEventPayload.Empty,
+    };
 }

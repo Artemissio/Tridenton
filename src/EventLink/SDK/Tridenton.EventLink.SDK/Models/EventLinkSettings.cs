@@ -3,6 +3,9 @@ using Tridenton.EventLink.SDK.Sources;
 
 namespace Tridenton.EventLink.SDK;
 
+/// <summary>
+/// 
+/// </summary>
 public sealed record EventLinkSettings
 {
     /// <summary>
@@ -19,6 +22,11 @@ public sealed record EventLinkSettings
     /// 
     /// </summary>
     public required DestinationSettings DestinationSettings { get; init; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public required EventsFilteringSettings FilteringSettings { get; init; }
     
     /// <summary>
     /// 

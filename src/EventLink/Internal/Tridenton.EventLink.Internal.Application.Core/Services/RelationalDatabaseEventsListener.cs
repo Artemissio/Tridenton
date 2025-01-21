@@ -9,8 +9,12 @@ public abstract class RelationalDatabaseEventsListener<TSettings> : EventsListen
 {
     protected RelationalDatabaseEventsListener(
         IListeningLimiter limiter,
-        IEventsStream eventsStream)
-        : base(limiter, eventsStream)
+        IEventsStream eventsStream,
+        IEventsErrorsRepository errorsRepository,
+        IEventTypeDeterminator eventTypeDeterminator,
+        ISourceCommandParser commandParser,
+        IEnumerable<IEventsFilter> filters)
+        : base(limiter, eventsStream, errorsRepository, eventTypeDeterminator, commandParser, filters)
     {
     }
 }

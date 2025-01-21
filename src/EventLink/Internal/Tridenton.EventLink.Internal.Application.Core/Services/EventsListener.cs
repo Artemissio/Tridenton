@@ -7,17 +7,38 @@ namespace Tridenton.EventLink.Internal.Application.Core.Services;
 public abstract class EventsListener<TSettings> : IEventsListener
     where TSettings : ISourceSettingsMarker
 {
+    /*
+     * 
+     */
     private readonly IListeningLimiter _limiter;
     private readonly IEventsStream _eventsStream;
+    private readonly IEventsErrorsRepository _errorsRepository;
+    
+    /*
+     * 
+     */
+    private readonly IEventTypeDeterminator _eventTypeDeterminator;
+    private readonly ISourceCommandParser _commandParser;
+    private readonly IEnumerable<IEventsFilter> _filters;
 
     public ListenerStatus Status { get; private set; }
     
-    protected EventsListener(IListeningLimiter limiter, IEventsStream eventsStream)
+    protected EventsListener(
+        IListeningLimiter limiter,
+        IEventsStream eventsStream,
+        IEventsErrorsRepository errorsRepository,
+        IEventTypeDeterminator eventTypeDeterminator,
+        ISourceCommandParser commandParser,
+        IEnumerable<IEventsFilter> filters)
     {
-        Status = ListenerStatus.NotStarted;
-        
         _limiter = limiter;
         _eventsStream = eventsStream;
+        _errorsRepository = errorsRepository;
+        _eventTypeDeterminator = eventTypeDeterminator;
+        _commandParser = commandParser;
+        _filters = filters;
+        
+        Status = ListenerStatus.NotStarted;
     }
 
     public async ValueTask<Result> StartAsync()

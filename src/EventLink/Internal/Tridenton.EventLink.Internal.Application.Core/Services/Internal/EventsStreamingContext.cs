@@ -13,14 +13,14 @@ internal sealed record EventsStreamingContext : IEventsStreamingContext
     /// <summary>
     /// 
     /// </summary>
-    public DataChangeEventPayload Payload { get; }
+    public DataChangeEvent Payload { get; }
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="remainingItemsCount"></param>
     /// <param name="payload"></param>
-    public EventsStreamingContext(int remainingItemsCount, DataChangeEventPayload payload)
+    public EventsStreamingContext(int remainingItemsCount, DataChangeEvent payload)
     {
         ArgumentNullException.ThrowIfNull(payload);
         
@@ -31,5 +31,5 @@ internal sealed record EventsStreamingContext : IEventsStreamingContext
     /// <summary>
     /// 
     /// </summary>
-    public static EventsStreamingContext Empty => new(0, DataChangeEventPayload.Empty);
+    public static EventsStreamingContext Empty => new(0, DataChangeEvent.Empty);
 }

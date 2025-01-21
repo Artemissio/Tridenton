@@ -3,10 +3,12 @@ namespace Tridenton.EventLink.Internal.Application.Core.Services;
 /// <summary>
 /// 
 /// </summary>
-public interface IEventsDispatcher : ILaunchable, IPausable, IDisposable
+public interface IEventsFilter
 {
     /// <summary>
     /// 
     /// </summary>
-    DispatcherStatus Status { get; }
+    /// <param name="context"></param>
+    /// <returns></returns>
+    bool Matches(SourceEventContext context);
 }

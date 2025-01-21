@@ -13,5 +13,5 @@ public interface IEventsStreamingContext
     /// <summary>
     /// 
     /// </summary>
-    DataChangeEventPayload Payload { get; }
+    DataChangeEvent Payload { get; }
 }

@@ -26,7 +26,7 @@ public abstract class EventsDispatcher<TSettings> : IEventsDispatcher
         _stream.OnStreamFilledAsync += StartDispatchingAsync;
     }
 
-    public async ValueTask<Result> DispatchEventsAsync(DataChangeEventPayload payload)
+    public async ValueTask<Result> DispatchEventsAsync(DataChangeEvent payload)
     {
         try
         {
@@ -108,7 +108,7 @@ public abstract class EventsDispatcher<TSettings> : IEventsDispatcher
     protected abstract ValueTask StartCoreAsync();
     protected abstract ValueTask PauseCoreAsync();
     protected abstract ValueTask StopCoreAsync();
-    protected abstract ValueTask DispatchEventsCoreAsync(DataChangeEventPayload payload);
+    protected abstract ValueTask DispatchEventsCoreAsync(DataChangeEvent @event);
 
     protected virtual void OnDispose() { }
     

@@ -2,11 +2,14 @@ using System.Collections.Concurrent;
 
 namespace Tridenton.EventLink.Internal.Application.Core.Services.Internal;
 
+/// <summary>
+/// Default events stream implementation
+/// </summary>
 internal sealed class EventsStream : IEventsStream
 {
     private readonly SemaphoreSlim _readSemaphore;
     private readonly SemaphoreSlim _snapshotSemaphore;
-    private readonly ConcurrentQueue<DataChangeEventPayload> _internalQueue;
+    private readonly ConcurrentQueue<DataChangeEvent> _internalQueue;
     
     public event AsyncEventHandler? OnStreamFilledAsync;
 
@@ -21,7 +24,7 @@ internal sealed class EventsStream : IEventsStream
         Status = StreamStatus.Empty;
     }
     
-    public async ValueTask WriteAsync(DataChangeEventPayload payload)
+    public async ValueTask WriteAsync(DataChangeEvent @event)
     {
         if (_internalQueue.Count == int.MaxValue)
         {
@@ -29,7 +32,7 @@ internal sealed class EventsStream : IEventsStream
             return;
         }
         
-        _internalQueue.Enqueue(payload);
+        _internalQueue.Enqueue(@event);
         
         Status = StreamStatus.Ok;
 

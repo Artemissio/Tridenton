@@ -14,13 +14,13 @@ public interface IEventsStream : IDisposable
     /// 
     /// </summary>
     StreamStatus Status { get; }
-    
+
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="payload"></param>
+    /// <param name="event"></param>
     /// <returns></returns>
-    ValueTask WriteAsync(DataChangeEventPayload payload);
+    ValueTask WriteAsync(DataChangeEvent @event);
 
     /// <summary>
     /// 
