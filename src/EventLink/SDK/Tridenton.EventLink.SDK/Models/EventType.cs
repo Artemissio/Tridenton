@@ -6,7 +6,7 @@ public sealed class EventType : Enumeration
     private EventType(int index, string value) : base(index, value) { }
 
     public static readonly EventType None = new(0, string.Empty);
-    public static readonly EventType All = new(1, "*");
+    public static readonly EventType All = new(1, Constants.Wildcard);
     public static readonly EventType Read = new(2, "Read");
     public static readonly EventType ReadBatch = new(3, "ReadBatch");
     public static readonly EventType Create = new(4, "Create");

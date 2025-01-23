@@ -17,17 +17,17 @@ public struct DataChangeEventTimestamps
     /// </summary>
     public DateTime EmissionUtc { get; private set; }
 
-    internal void SetEventUtc()
+    public void SetEventUtc()
     {
         EventUtc = DateTime.UtcNow;
     }
 
-    internal void SetHandleUtc()
+    public void SetHandleUtc()
     {
         HandleUtc = DateTime.UtcNow;
     }
 
-    internal void SetEmissionUtc()
+    public void SetEmissionUtc()
     {
         EmissionUtc = DateTime.UtcNow;
     }

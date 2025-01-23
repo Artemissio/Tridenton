@@ -9,8 +9,12 @@ public static class DependencyInjection
     {
         services.AddSingleton<IEventLinkSettingsProvider, EventLinkSettingsProvider>();
         services.AddSingleton<IEventsStream, EventsStream>();
-        services.AddSingleton<IEventsErrorsRepository, EventsErrorsRepository>();
         services.AddSingleton<IListeningLimiter, ListeningLimiter>();
+
+        services.AddSingleton<EventsFilter, EventTypeFilter>();
+        services.AddSingleton<EventsFilter, CollectionFilter>();
+        
+        services.AddScoped<IEventsErrorsRepository, EventsErrorsRepository>();
         
         return services;
     }

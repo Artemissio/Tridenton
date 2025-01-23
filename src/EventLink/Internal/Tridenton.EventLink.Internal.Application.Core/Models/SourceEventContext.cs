@@ -22,6 +22,9 @@ public sealed record SourceEventContext
     /// </summary>
     public required SourceCommandParsedPayload ParsedPayload { get; init; }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public static readonly SourceEventContext Empty = new()
     {
         EventType = EventType.None,
@@ -35,11 +38,23 @@ public sealed record SourceEventContext
 /// </summary>
 public sealed record SourceCommand
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public required string CommandText { get; init; }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    public required string Collection { get; set; }
+    
+    /// <summary>
+    /// 
+    /// </summary>
     public static readonly SourceCommand Empty = new()
     {
         CommandText = string.Empty,
+        Collection = string.Empty,
     };
 }
 
@@ -48,13 +63,22 @@ public sealed record SourceCommand
 /// </summary>
 public sealed record SourceCommandParsedPayload
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public PropertiesCollection[] Properties { get; init; }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public SourceCommandParsedPayload()
     {
         Properties = [];
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public static readonly SourceCommandParsedPayload Empty = new()
     {
         Properties = []

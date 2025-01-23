@@ -13,8 +13,18 @@ public abstract class RelationalDatabaseEventsListener<TSettings> : EventsListen
         IEventsErrorsRepository errorsRepository,
         IEventTypeDeterminator eventTypeDeterminator,
         ISourceCommandParser commandParser,
-        IEnumerable<IEventsFilter> filters)
+        IEnumerable<EventsFilter> filters)
         : base(limiter, eventsStream, errorsRepository, eventTypeDeterminator, commandParser, filters)
     {
+    }
+
+    protected sealed override ValueTask StartCoreAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    protected sealed override ValueTask StopCoreAsync()
+    {
+        throw new NotImplementedException();
     }
 }

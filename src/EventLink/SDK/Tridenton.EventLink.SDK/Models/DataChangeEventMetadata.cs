@@ -6,13 +6,11 @@ public sealed record DataChangeEventMetadata
     public EventType Type { get; init; }
     
     public DataChangeEventTimestamps Timestamps { get; init; }
-    // public DataChangeEventDestination Destination { get; init; }
 
     public DataChangeEventMetadata()
     {
         EventId = EventId.NewId();
         Type = EventType.None;
-        // Destination = new();
     }
 
     public static readonly DataChangeEventMetadata Empty = new()

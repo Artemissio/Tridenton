@@ -14,4 +14,6 @@ public readonly struct Serializer
 
     public static TEntity? FromJson<TEntity>(string json) => FromJson<TEntity>(json, Options);
     public static TEntity? FromJson<TEntity>(string json, JsonSerializerOptions options) => JsonSerializer.Deserialize<TEntity>(json, options);
+
+    public static JsonElement ToJsonElement<TEntity>(TEntity entity) => JsonSerializer.SerializeToElement(entity);
 }
