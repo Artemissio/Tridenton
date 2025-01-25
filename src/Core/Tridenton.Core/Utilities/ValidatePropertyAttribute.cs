@@ -84,8 +84,6 @@ public sealed class ValidatePropertyAttribute : ValidationAttribute
             switch (value)
             {
                 case string valueStr when valueStr.Length < Min:
-                    return validationResult;
-
                 case int valueInt when valueInt < Min:
                 case long valueLong when valueLong < Min:
                 case double valueDouble when valueDouble < Min:
@@ -107,8 +105,6 @@ public sealed class ValidatePropertyAttribute : ValidationAttribute
             switch (value)
             {
                 case string valueStr when valueStr.Length > Max:
-                    return validationResult;
-
                 case int valueInt when valueInt > Max:
                 case long valueLong when valueLong > Max:
                 case double valueDouble when valueDouble > Max:
