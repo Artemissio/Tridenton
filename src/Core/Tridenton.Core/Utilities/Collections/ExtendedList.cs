@@ -123,8 +123,6 @@ public abstract class ExtendedList<TKey, TItem> : List<TItem>
                     throw new InvalidOperationException("Cannot update an item with an empty Id.");
 
                 case ExtendedListInvalidOperationBehavior.Return:
-                    return;
-                
                 default:
                     return;
             }
@@ -138,8 +136,6 @@ public abstract class ExtendedList<TKey, TItem> : List<TItem>
                     throw new InvalidOperationException("Cannot update an item that does not exist.");
                 
                 case ExtendedListInvalidOperationBehavior.Return:
-                    return;
-                
                 default:
                     return;
             }
@@ -204,8 +200,6 @@ public abstract class ExtendedList<TKey, TItem> : List<TItem>
                     throw new InvalidOperationException("Cannot remove an item with an empty Id.");
                 
                 case ExtendedListInvalidOperationBehavior.Return:
-                    return;
-                
                 default:
                     return;
             }
@@ -219,8 +213,6 @@ public abstract class ExtendedList<TKey, TItem> : List<TItem>
                     throw new InvalidOperationException("Cannot remove an item that does not exist.");
                 
                 case ExtendedListInvalidOperationBehavior.Return:
-                    return;
-                
                 default:
                     return;
             }
