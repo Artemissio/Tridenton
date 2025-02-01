@@ -5,7 +5,7 @@ namespace Tridenton.EventLink.Internal.Application.Core.Models;
 /// <summary>
 /// 
 /// </summary>
-public sealed record SourceEventContext
+public sealed record SourceEventContext : Extendable
 {
     /// <summary>
     /// 
@@ -36,7 +36,7 @@ public sealed record SourceEventContext
 /// <summary>
 /// 
 /// </summary>
-public sealed record SourceCommand
+public sealed record SourceCommand : Extendable
 {
     /// <summary>
     /// 
@@ -47,6 +47,11 @@ public sealed record SourceCommand
     /// 
     /// </summary>
     public required string Collection { get; set; }
+
+    public ReadOnlySpan<string> CommandSegments => CommandText
+        .Trim()
+        .Split(" ")
+        .AsSpan();
     
     /// <summary>
     /// 

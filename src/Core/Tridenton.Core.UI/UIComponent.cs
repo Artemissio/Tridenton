@@ -7,6 +7,9 @@ public abstract class UIComponent : ComponentBase
     [Parameter]
     public string Class { get; set; }
     
+    [Parameter]
+    public string Style { get; set; }
+    
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> Attributes { get; set; }
     
@@ -16,7 +19,7 @@ public abstract class UIComponent : ComponentBase
 
     protected UIComponent()
     {
-        Class = string.Empty;
+        Class = Style = string.Empty;
         Attributes = [];
     }
     

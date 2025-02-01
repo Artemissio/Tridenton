@@ -5,7 +5,8 @@
     @ChildContent
 </div>
 
-@code {
+@code
+{
     [Parameter]
     public int Columns { get; set; }
     
@@ -30,7 +31,8 @@
 
         strBuilder.Append($"grid-template-columns: {string.Join(' ', Enumerable.Repeat<string>("1fr", Columns))}");
         strBuilder.Append($"grid-template-rows: {string.Join(' ', Enumerable.Repeat<string>("1fr", Rows))}");
-
+        strBuilder.Append($"; {Style}");
+        
         _styleString = strBuilder.ToString();
     }
     
