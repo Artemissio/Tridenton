@@ -5,17 +5,17 @@
 
 @if (Disabled)
 {
-    <input id="@Id" class="@ClassList" type="number" title="@Tooltip" value="@Value" disabled />
+    <input id="@Id" class="@ClassList" type="number" title="@Tooltip" value="@Value" placeholder="@Placeholder" disabled />
 }
 else
 {
     if (Readonly)
     {
-        <input id="@Id" class="@ClassList" type="number" title="@Tooltip" value="@Value" readonly />
+        <input id="@Id" class="@ClassList" type="number" title="@Tooltip" value="@Value" placeholder="@Placeholder" readonly />
     }
     else
     {
-        <input id="@Id" class="@ClassList" type="number" title="@Tooltip" value="@Value" @oninput="@ValueChanged" @onclick="OnClick" />
+        <input id="@Id" class="@ClassList" type="number" title="@Tooltip" value="@Value" placeholder="@Placeholder" @oninput="@ValueChanged" @onclick="OnClick" />
     }
 }
 

@@ -1,3 +1,72 @@
 :root {
     
 }
+
+input {
+    border-collapse: separate;
+    border-spacing: 0;
+    caption-side: top;
+    cursor: auto;
+    direction: inherit;
+    empty-cells: show;
+    font-family: serif;
+    font-size: medium;
+    font-style: normal;
+    font-feature-settings: normal;
+    font-variant: normal;
+    font-stretch: normal;
+    line-height: normal;
+    -webkit-hyphens: none;
+    hyphens: none;
+    letter-spacing: normal;
+    list-style: disc none outside;
+    -moz-tab-size: 8;
+    tab-size: 8;
+    text-align: start;
+    text-indent: 0;
+    text-shadow: none;
+    text-transform: none;
+    visibility: visible;
+    white-space: normal;
+    word-spacing: normal;
+    font-weight: 400;
+    font-family: "Amazon Ember","Helvetica Neue",Roboto,Arial,sans-serif;
+    -webkit-font-smoothing: auto;
+    -moz-osx-font-smoothing: auto;
+    padding-block: 4px;
+    padding-inline: 8px;
+    color: #16191f;
+    inline-size: 100%;
+    cursor: text;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-start-start-radius: 2px;
+    border-start-end-radius: 2px;
+    border-end-start-radius: 2px;
+    border-end-end-radius: 2px;
+    border-block: 1px solid #687078;
+    border-inline: 1px solid #687078;
+    font-size: 14px;
+    line-height: 22px;
+    block-size: 32px;
+}
+
+input:focus {
+    outline: 2px dotted transparent;
+    border-block: 1px solid #0073bb;
+    border-inline: 1px solid #0073bb;
+    border-start-start-radius: 2px;
+    border-start-end-radius: 2px;
+    border-end-start-radius: 2px;
+    border-end-end-radius: 2px;
+    box-shadow: 0 0 0 1px #0073bb;
+}
+
+input::placeholder {
+    white-space-collapse: preserve;
+    text-wrap-mode: nowrap;
+    overflow-wrap: normal;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    line-height: initial;
+}

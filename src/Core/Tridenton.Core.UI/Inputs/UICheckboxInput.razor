@@ -2,11 +2,11 @@
 
 @if (Disabled)
 {
-    <input id="@Id" class="@ClassList" type="checkbox" title="@Tooltip" value="@Value" disabled />
+    <input id="@Id" class="@ClassList" type="checkbox" title="@Tooltip" value="@Value" placeholder="@Placeholder" disabled />
 }
 else
 {
-    <input id="@Id" class="@ClassList" type="checkbox" title="@Tooltip" value="@Value" @oninput="@ValueChanged" @onclick="OnClick" />
+    <input id="@Id" class="@ClassList" type="checkbox" title="@Tooltip" value="@Value" placeholder="@Placeholder" @oninput="@ValueChanged" @onclick="OnClick" />
 }
 
 @code

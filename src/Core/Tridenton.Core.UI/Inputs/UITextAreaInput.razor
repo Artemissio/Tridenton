@@ -3,7 +3,7 @@
 
 @if (Disabled)
 {
-    <textarea id="@Id" class="@ClassList" title="@Tooltip" disabled>
+    <textarea id="@Id" class="@ClassList" title="@Tooltip" placeholder="@Placeholder" disabled>
         @Value
     </textarea>
 }
@@ -11,13 +11,13 @@ else
 {
     if (Readonly)
     {
-        <textarea id="@Id" class="@ClassList" title="@Tooltip" readonly>
+        <textarea id="@Id" class="@ClassList" title="@Tooltip" placeholder="@Placeholder" readonly>
             @Value
         </textarea>
     }
     else
     {
-        <textarea id="@Id" class="@ClassList" title="@Tooltip" @oninput="@ValueChanged" @onclick="OnClick">
+        <textarea id="@Id" class="@ClassList" title="@Tooltip" placeholder="@Placeholder" @oninput="@ValueChanged" @onclick="OnClick">
             @Value
         </textarea>
     }

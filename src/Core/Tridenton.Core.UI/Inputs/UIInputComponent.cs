@@ -44,10 +44,13 @@ public abstract class UIInputComponent<T> : UIWrapperComponent, IInteractiveComp
     
     [Parameter]
     public string Tooltip { get; set; }
+    
+    [Parameter]
+    public string Placeholder { get; set; }
 
     protected UIInputComponent()
     {
         _value = Value = default!;
-        Tooltip = string.Empty;
+        Tooltip = Placeholder = string.Empty;
     }
 }

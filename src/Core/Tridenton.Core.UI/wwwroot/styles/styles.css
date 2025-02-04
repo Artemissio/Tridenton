@@ -9,3 +9,16 @@
     box-sizing: border-box;
 }
 
+body {
+    margin: 0;
+}
+
+::placeholder {
+    -webkit-text-security: none;
+    color: darkgray;
+    direction: inherit;
+    pointer-events: none;
+    text-orientation: inherit;
+    writing-mode: inherit;
+}
+
