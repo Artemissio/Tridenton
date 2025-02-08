@@ -1,8 +1,56 @@
+@using System.Text
+
 @inherits UIWrapperComponent
 @implements ICollapsibleComponent
 @implements IInteractiveComponent
 
-@code {
+@if (Variant == UIButtonVariant.Icon)
+{
+    if (Disabled)
+    {
+        <div id="@Id" class="@ClassList" style="@Style" @attributes="Attributes">
+            @ChildContent
+        </div>
+    }
+    else
+    {
+        <div id="@Id" class="@ClassList" style="@Style" @attributes="Attributes" @onclick="async() => await InvokeClickAsync()">
+            @ChildContent
+        </div>
+    }
+}
+else if (Variant == UIButtonVariant.Link)
+{
+    
+}
+else
+{
+    if (Disabled)
+    {
+        <button id="@Id" class="@ClassList" style="@Style" disabled>
+            @ChildContent
+        </button>
+    }
+    else
+    {
+        <button id="@Id" class="@ClassList" style="@Style" @onclick="async () => await InvokeClickAsync()">
+            @if (_loading)
+            {
+                <em>Loading</em>
+            }
+            else
+            {
+                @ChildContent
+            }
+        </button>
+    }
+}
+
+@code
+{
+    [Parameter, EditorRequired]
+    public required UIButtonVariant Variant { get; set; }
+    
     [Parameter]
     public bool Disabled { get; set; }
     
@@ -11,5 +59,52 @@
     
     public bool Collapsed { get; set; }
 
-    protected override string GetUIComponentClass() => $"tridenton-ui-button";
+    private bool _loading;
+
+    public void Collapse()
+    {
+        if (Disabled)
+        {
+            return;
+        }
+
+        Collapsed = !Collapsed;
+    }
+
+    private async ValueTask InvokeClickAsync()
+    {
+        _loading = true;
+
+        try
+        {
+            await OnClick.InvokeAsync();
+        }
+        catch (Exception)
+        {
+
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    protected override string GetUIComponentClass()
+    {
+        var strBuilder = new StringBuilder();
+
+        strBuilder.Append($"tridenton-ui-button {Variant}");
+
+        if (Disabled)
+        {
+            strBuilder.Append(" disabled");
+        }
+
+        if (_loading)
+        {
+            strBuilder.Append(" loading");
+        }
+        
+        return strBuilder.ToString();
+    }
 }

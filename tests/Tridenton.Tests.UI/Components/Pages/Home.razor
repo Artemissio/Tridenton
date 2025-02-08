@@ -2,14 +2,46 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
-
 <UIColumn>
-    <UITextInput Placeholder="example" />
+    <UIButton Variant="UIButtonVariant.Primary" OnClick="async () => await TestBtnClickAsync()">
+        Test
+    </UIButton>
     
-    <UIEmailInput Placeholder="username@example.com" />
+    @* <UITextInput Placeholder="example"/> *@
+    @* *@
+    @* <UIEmailInput Placeholder="username@example.com"/> *@
+    @* *@
+    @* <UIPasswordInput/> *@
+    @* *@
+    @* <UINumberInput TValue="int" Placeholder="Test number"/> *@
     
-    <UIPasswordInput />
-    
-    <UINumberInput TValue="int" Placeholder="Test number" />
+    @* <UISelectInput T="string" OptionsProvider="SelectProviderAsync" Placeholder="Search for items"> *@
+    @*     <SelectedItemTemplate Context="item"> *@
+    @*         <span>@item</span> *@
+    @*     </SelectedItemTemplate> *@
+    @*      *@
+    @*     <RowTemplate Context="item"> *@
+    @*         <p>@item</p> *@
+    @*     </RowTemplate> *@
+    @* </UISelectInput> *@
 </UIColumn>
+
+@code
+{
+    private async ValueTask TestBtnClickAsync()
+    {
+        await Task.Delay(3_000);
+
+        throw new Exception("Oh shit...");
+    }
+
+    private async ValueTask<IEnumerable<string>> SelectProviderAsync(SearchEventArgs args)
+    {
+        return
+        [
+            "Test 1",
+            "Test 2",
+            "Test 3",
+        ];
+    }
+}

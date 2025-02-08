@@ -1,64 +1,64 @@
-:root {
-    --size-border-button-default: 1px;
-    --size-border-radius-button-default: 2px;
-    --size-weight-button-default: 700;
-    --size-letter-spacing-button-default: .25px;
-    --size-space-horizontal-button-default: 20px;
-    
-    --color-background-button-default-default: #d5d5d5;
-    --color-background-button-default-hover: #d5d5d5;
-    --color-background-button-default-active: #d5d5d5;
-    --color-background-button-default-disabled: #d5d5d5;
+/*:root {*/
+/*    --size-border-button-default: 1px;*/
+/*    --size-border-radius-button-default: 2px;*/
+/*    --size-weight-button-default: 700;*/
+/*    --size-letter-spacing-button-default: .25px;*/
+/*    --size-space-horizontal-button-default: 20px;*/
+/*    */
+/*    --color-background-button-default-default: #d5d5d5;*/
+/*    --color-background-button-default-hover: #d5d5d5;*/
+/*    --color-background-button-default-active: #d5d5d5;*/
+/*    --color-background-button-default-disabled: #d5d5d5;*/
 
-    --color-background-button-primary-default: #d5d5d5;
-    --color-background-button-primary-hover: #d5d5d5;
-    --color-background-button-primary-active: #d5d5d5;
-    --color-background-button-primary-disabled: #d5d5d5;
-}
+/*    --color-background-button-primary-default: #d5d5d5;*/
+/*    --color-background-button-primary-hover: #d5d5d5;*/
+/*    --color-background-button-primary-active: #d5d5d5;*/
+/*    --color-background-button-primary-disabled: #d5d5d5;*/
+/*}*/
 
-button.tridenton-ui-button,
-input[type="submit"].tridenton-ui-button,
-input[type="button"].tridenton-ui-button,
-input[type="reset"].tridenton-ui-button {
-    border-collapse: separate;
-    border-spacing: 0;
-    box-sizing: border-box;
-    caption-side: top;
-    direction: inherit;
-    empty-cells: show;
-    font-style: normal;
-    font-feature-settings: normal;
-    font-variant: normal;
-    font-stretch: normal;
-    -webkit-hyphens: none;
-    hyphens: none;
-    list-style: disc none outside;
-    -moz-tab-size: 8;
-    tab-size: 8;
-    text-align: start;
-    text-indent: 0;
-    text-shadow: none;
-    text-transform: none;
-    visibility: visible;
-    white-space: normal;
-    word-spacing: normal;
-    font-size: var(--size-font-default, 14px);
-    line-height: var(--size-line-height-body-default, 22px);
-    color: var(--color-foreground-body-default, #d5d5d5);
-    font-family: var(--font-family-base-4om3hr, "Amazon Ember", "Helvetica Neue", Roboto, Arial, sans-serif), serif;
-    min-inline-size: 0;
-    word-break: break-word;
-    font-weight: var(--size-weight-button-default, 700);
-    letter-spacing: var(--size-letter-spacing-button-default, .25px);
-    border-start-start-radius: var(--size-border-radius-button-default, 2px);
-    border-start-end-radius: var(--size-border-radius-button-default, 2px);
-    border-end-start-radius: var(--size-border-radius-button-default, 2px);
-    border-end-end-radius: var(--size-border-radius-button-default, 2px);
-    border-block: var(--size-border-width-field-default, 1px) solid;
-    border-inline: var(--size-border-width-field-default, 1px) solid;
-    padding-block: var(--size-padding-block-default, 4px);
-    padding-inline: var(--size-space-horizontal-button-default, 20px);
-    display: inline-block;
-    text-decoration: none;
-    cursor: pointer;
-}
+/*button.tridenton-ui-button,*/
+/*input[type="submit"].tridenton-ui-button,*/
+/*input[type="button"].tridenton-ui-button,*/
+/*input[type="reset"].tridenton-ui-button {*/
+/*    border-collapse: separate;*/
+/*    border-spacing: 0;*/
+/*    box-sizing: border-box;*/
+/*    caption-side: top;*/
+/*    direction: inherit;*/
+/*    empty-cells: show;*/
+/*    font-style: normal;*/
+/*    font-feature-settings: normal;*/
+/*    font-variant: normal;*/
+/*    font-stretch: normal;*/
+/*    -webkit-hyphens: none;*/
+/*    hyphens: none;*/
+/*    list-style: disc none outside;*/
+/*    -moz-tab-size: 8;*/
+/*    tab-size: 8;*/
+/*    text-align: start;*/
+/*    text-indent: 0;*/
+/*    text-shadow: none;*/
+/*    text-transform: none;*/
+/*    visibility: visible;*/
+/*    white-space: normal;*/
+/*    word-spacing: normal;*/
+/*    font-size: var(--size-font-default, 14px);*/
+/*    line-height: var(--size-line-height-body-default, 22px);*/
+/*    color: var(--color-foreground-body-default, #d5d5d5);*/
+/*    font-family: var(--font-family-base-4om3hr, "Amazon Ember", "Helvetica Neue", Roboto, Arial, sans-serif), serif;*/
+/*    min-inline-size: 0;*/
+/*    word-break: break-word;*/
+/*    font-weight: var(--size-weight-button-default, 700);*/
+/*    letter-spacing: var(--size-letter-spacing-button-default, .25px);*/
+/*    border-start-start-radius: var(--size-border-radius-button-default, 2px);*/
+/*    border-start-end-radius: var(--size-border-radius-button-default, 2px);*/
+/*    border-end-start-radius: var(--size-border-radius-button-default, 2px);*/
+/*    border-end-end-radius: var(--size-border-radius-button-default, 2px);*/
+/*    border-block: var(--size-border-width-field-default, 1px) solid;*/
+/*    border-inline: var(--size-border-width-field-default, 1px) solid;*/
+/*    padding-block: var(--size-padding-block-default, 4px);*/
+/*    padding-inline: var(--size-space-horizontal-button-default, 20px);*/
+/*    display: inline-block;*/
+/*    text-decoration: none;*/
+/*    cursor: pointer;*/
+/*}*/

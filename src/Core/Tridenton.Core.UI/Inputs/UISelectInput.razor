@@ -1,7 +1,193 @@
-<h3>UISelectInput</h3>
+@typeparam T
+
+@inherits UIInputComponent<T>
+@implements ICollapsibleComponent
+
+<div id="@Id" class="@ClassList" style="@Style" @attributes="Attributes" @onclick="Collapse">
+    <UIRow>
+        @if (Value is not null)
+        {
+            @SelectedItemTemplate(Value)
+        }
+        else
+        {
+            <em>@Placeholder</em>
+        }
+    </UIRow>
+</div>
+
+@if (Collapsed)
+{
+    <div class="tridenton-ui-input-select-options-list-wrapper" @onmouseleave="Collapse">
+        @if (Flags.HasFlag(UISelectFlags.SearchEnabled))
+        {
+            <div class="tridenton-ui-input-select-options-search-wrapper">
+                <UISearchInput ValueChanged="async(args) => await OnSearchQueryChangedAsync(args.Value!.ToString()!)" />
+            </div>
+        }
+        
+        @if (_loading)
+        {
+            // Spinner
+        }
+        else
+        {
+            <ul class="tridenton-ui-input-select-options-list">
+                @foreach (var option in _options)
+                {
+                    <li class="@($"tridenton-ui-input-select-options-list-item{(option.Selected ? " selected" : string.Empty)}")"
+                        @onclick="async() => await OnOptionSelectedAsync(option)">
+                        <UIRow>
+                            @if (IsMultiSelect)
+                            {
+                                <UICheckboxInput Value="@option.Selected" ValueChanged="async() => await OnOptionSelectedAsync(option)" />
+                            }
+                            
+                            @RowTemplate(option.Item)
+                        </UIRow>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+}
+
+@if (IsMultiSelect)
+{
+    var selectedOptions = _options
+        .Where(o => o.Selected)
+        .ToArray();
+
+    if (selectedOptions.Length > 0)
+    {
+        <div class="tridenton-ui-input-select-selected-options-list-wrapper">
+            <ul class="tridenton-ui-input-select-selected-options-list">
+                @foreach (var selectedOption in selectedOptions)
+                {
+                    <li class="tridenton-ui-input-select-selected-options-list-item">
+                        <UIRow>
+                            @RowTemplate(selectedOption.Item)
+                            
+                            <UIButton Variant="UIButtonVariant.Icon">
+                                
+                            </UIButton>
+                        </UIRow>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+}
 
 @code
 {
     [Parameter, EditorRequired]
-    public UISelectFlags Flags { get; set; }
+    public required Func<SearchEventArgs, ValueTask<IEnumerable<T>>> OptionsProvider { get; set; }
+    
+    [Parameter, EditorRequired]
+    public required RenderFragment<T> SelectedItemTemplate { get; set; }
+    
+    [Parameter, EditorRequired]
+    public required RenderFragment<T> RowTemplate { get; set; } = default!;
+    
+    [Parameter]
+    public EventCallback<T[]> OnMultiSelect { get; set; }
+    
+    [Parameter]
+    public UISelectFlags Flags { get; set; } = UISelectFlags.None;
+    
+    [Parameter]
+    public T? DefaultValue { get; set; }
+
+    public bool Collapsed { get; set; }
+
+    private bool _loading;
+
+    private SelectableItemWrapper<T>[] _options = [];
+
+    private bool IsMultiSelect => Flags.HasFlag(UISelectFlags.MultiSelect);
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        
+        if (DefaultValue is not null)
+        {
+            Value = DefaultValue;
+        }
+
+        await OnSearchQueryChangedAsync(string.Empty);
+    }
+
+    private async ValueTask OnSearchQueryChangedAsync(string query)
+    {
+        _loading = true;
+
+        await RerenderAsync();
+
+        var items = await OptionsProvider.Invoke(new SearchEventArgs(query));
+
+        _options = items
+            .Select(i => new SelectableItemWrapper<T>(i))
+            .ToArray();
+        
+        _loading = false;
+
+        if (Value is not null)
+        {
+            var selectedOption = _options
+                .FirstOrDefault(o => o.Item!.Equals(Value));
+
+            if (selectedOption is not null)
+            {
+                selectedOption.Selected = true;
+            }
+        }
+        
+        await RerenderAsync();
+    }
+
+    private async ValueTask OnOptionSelectedAsync(SelectableItemWrapper<T> option)
+    {
+        if (!IsMultiSelect)
+        {
+            var alreadySelectedOption = _options
+                .FirstOrDefault(o => o.Selected);
+
+            if (alreadySelectedOption is not null)
+            {
+                alreadySelectedOption.Selected = false;
+            }
+            
+            option.Selected = !option.Selected;
+
+            await ValueChanged.InvokeAsync(new ChangeEventArgs
+            {
+                Value = option.Item,
+            });
+            
+            return;
+        }
+        
+        option.Selected = !option.Selected;
+
+        var selectedOptions = _options
+            .Where(o => o.Selected)
+            .Select(o => o.Item)
+            .ToArray();
+
+        await OnMultiSelect.InvokeAsync(selectedOptions);
+    }
+    
+    public void Collapse()
+    {
+        if (Disabled)
+        {
+            return;
+        }
+
+        Collapsed = !Collapsed;
+    }
+
+    protected override string GetUIComponentClass() => "tridenton-ui-input-select";
 }
