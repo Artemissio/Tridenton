@@ -2,5 +2,8 @@ namespace Tridenton.Internal.Core.Utilities;
 
 public readonly struct InternalConstants
 {
-    public const string TridentonWebServicesPartition = "tws";
+    public readonly struct Partitions
+    {
+        public const string Horizon = "horizon";
+    }
 }

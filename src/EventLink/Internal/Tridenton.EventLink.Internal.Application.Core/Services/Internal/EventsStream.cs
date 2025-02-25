@@ -1,4 +1,4 @@
-using System.Collections.Concurrent;
+using System.Threading.Channels;
 
 namespace Tridenton.EventLink.Internal.Application.Core.Services.Internal;
 
@@ -7,99 +7,34 @@ namespace Tridenton.EventLink.Internal.Application.Core.Services.Internal;
 /// </summary>
 internal sealed class EventsStream : IEventsStream
 {
-    private readonly SemaphoreSlim _readSemaphore;
-    private readonly SemaphoreSlim _snapshotSemaphore;
-    private readonly ConcurrentQueue<DataChangeEvent> _internalQueue;
+    private readonly Channel<DataChangeEvent> _channel;
     
-    public event AsyncEventHandler? OnStreamFilledAsync;
-
-    public StreamStatus Status { get; private set; }
-    
-    public EventsStream()
+    public EventsStream(Channel<DataChangeEvent> channel)
     {
-        _readSemaphore = new(1, 1);
-        _snapshotSemaphore = new(1, 1);
-        _internalQueue = new();
-        
-        Status = StreamStatus.Empty;
+        _channel = channel;
     }
     
     public async ValueTask WriteAsync(DataChangeEvent @event)
     {
-        if (_internalQueue.Count == int.MaxValue)
-        {
-            Status = StreamStatus.Full;
-            return;
-        }
-        
-        _internalQueue.Enqueue(@event);
-        
-        Status = StreamStatus.Ok;
+        await _channel.Writer.WriteAsync(@event);
+    }
 
-        if (_internalQueue.Count == 1)
-        {
-            await TriggerStreamFilledEventAsync();
-        }
+    public ValueTask<bool> WaitToReadAsync()
+    {
+        return _channel.Reader.WaitToReadAsync();
     }
 
     public async ValueTask<IEventsStreamingContext> ReadAsync()
     {
-        await _readSemaphore.WaitAsync();
+        var payload = await _channel.Reader.ReadAsync();
 
-        try
-        {
-            var context = EventsStreamingContext.Empty;
-
-            if (_internalQueue.IsEmpty)
-            {
-                Status = StreamStatus.Empty;
-                return context;
-            }
-        
-            if (_internalQueue.TryDequeue(out var payload))
-            {
-                context = new EventsStreamingContext(_internalQueue.Count, payload);
-            }
+        var context = new EventsStreamingContext(payload);
             
-            return context;
-        }
-        finally
-        {
-            _readSemaphore.Release();
-        }
-    }
-
-    public async ValueTask<StreamSnapshot> GetSnapshotAsync()
-    {
-        await _snapshotSemaphore.WaitAsync();
-        
-        var amountOfEvents = _internalQueue.Count;
-        
-        var snapshot = new StreamSnapshot(
-            status: Status,
-            capacity: int.MaxValue,
-            amountOfEvents: amountOfEvents,
-            remainingCapacity: int.MaxValue - amountOfEvents);
-        
-        _snapshotSemaphore.Release();
-        
-        return snapshot;
+        return context;
     }
 
     public void Dispose()
     {
-        _readSemaphore.Dispose();
-        _snapshotSemaphore.Dispose();
-        _internalQueue.Clear();
-    }
-
-    private async ValueTask TriggerStreamFilledEventAsync()
-    {
-        if (OnStreamFilledAsync is null)
-        {
-            return;
-        }
-        
-        await OnStreamFilledAsync.Invoke(EventArgs.Empty);
+        _channel.Writer.Complete();
     }
 }

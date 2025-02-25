@@ -22,22 +22,6 @@ public abstract class EventsDispatcher<TSettings> : IEventsDispatcher
         _stream = stream;
         Settings = GetSettings(settingsProvider);
         Status = DispatcherStatus.NotStarted;
-
-        _stream.OnStreamFilledAsync += StartDispatchingAsync;
-    }
-
-    public async ValueTask<Result> DispatchEventsAsync(DataChangeEvent payload)
-    {
-        try
-        {
-            await DispatchEventsCoreAsync(payload);
-            
-            return Result.Success;
-        }
-        catch (Exception exception)
-        {
-            return new InternalServerError("", exception.Message);
-        }
     }
     
     public async ValueTask<Result> StartAsync()
@@ -52,6 +36,8 @@ public abstract class EventsDispatcher<TSettings> : IEventsDispatcher
         await StartCoreAsync();
         
         Status = DispatcherStatus.Started;
+
+        await Task.Run(async () => await StartDispatchingAsync());
         
         return Result.Success;
     }
@@ -88,17 +74,11 @@ public abstract class EventsDispatcher<TSettings> : IEventsDispatcher
         return Result.Success;
     }
 
-    private async ValueTask StartDispatchingAsync(EventArgs args)
+    private async ValueTask StartDispatchingAsync()
     {
-        while (true)
+        while (Status == DispatcherStatus.Started && await _stream.WaitToReadAsync())
         {
             var context = await _stream.ReadAsync();
-
-            if (context.RemainingItemsCount == 0)
-            {
-                Status = DispatcherStatus.EmptyEventsStream;
-                break;
-            }
 
             await DispatchEventsCoreAsync(context.Payload);
         }
@@ -115,8 +95,6 @@ public abstract class EventsDispatcher<TSettings> : IEventsDispatcher
     public void Dispose()
     {
         OnDispose();
-        
-        _stream.OnStreamFilledAsync -= StartDispatchingAsync;
         
         GC.SuppressFinalize(this);
     }

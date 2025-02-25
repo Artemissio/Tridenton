@@ -3,8 +3,9 @@
 public readonly struct Constants
 {
     public const string EmptyString = "";
-    public const string EmptyJson   = "{}";
+    public const string EmptyJsonObject = "{}";
+    public const string EmptyJsonArray = "[]";
     public const string Treid = "treid";
-    public const string TreidDelimiter = ":";
+    public const char TreidDelimiter = ':';
     public const string Wildcard = "*";
 }

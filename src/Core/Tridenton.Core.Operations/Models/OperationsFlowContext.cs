@@ -15,6 +15,6 @@ public record OperationsFlowContext : OperationsFlowsOptionsBuilder
     /// </summary>
     public OperationsFlowContext() : base()
     {
-        Operations = Array.Empty<Operation>();
+        Operations = [];
     }
 }

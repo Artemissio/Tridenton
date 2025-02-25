@@ -5,10 +5,7 @@ namespace Tridenton.EventLink.Internal.Application.Core.Services;
 /// </summary>
 public interface IEventsStreamingContext
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    int RemainingItemsCount { get; }
+    // int RemainingItemsCount { get; }
     
     /// <summary>
     /// 

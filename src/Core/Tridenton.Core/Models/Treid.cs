@@ -162,13 +162,13 @@ public record Treid : IParsable<Treid>
             throw new MalformedTreidException();
         }
 
-        if (segments[0] != Constants.TreidDelimiter)
+        if (segments[0] != Constants.TreidDelimiter.ToString())
         {
             throw new MalformedTreidException();
         }
 
         var partition = segments[1];
-        if (string.IsNullOrWhiteSpace(input))
+        if (string.IsNullOrWhiteSpace(partition))
         {
             throw new MalformedTreidException("no Partition specified");
         }
@@ -178,13 +178,13 @@ public record Treid : IParsable<Treid>
         var service = segments[4];
 
         var resourceType = segments[5];
-        if (string.IsNullOrWhiteSpace(input))
+        if (string.IsNullOrWhiteSpace(resourceType))
         {
             throw new MalformedTreidException("no Resource type specified");
         }
 
         var resourceIdString = segments[6];
-        if (string.IsNullOrWhiteSpace(input))
+        if (string.IsNullOrWhiteSpace(resourceIdString))
         {
             throw new MalformedTreidException("no Resource Id specified");
         }

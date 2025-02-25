@@ -151,6 +151,7 @@ public abstract class EventsListener<TSettings> : IEventsListener
 
         var dataChangeEvent = ConvertToDataChangeEvent(sourceEventContext);
         
+        
         await _eventsStream.WriteAsync(dataChangeEvent);
     }
 

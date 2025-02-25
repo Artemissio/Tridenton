@@ -6,7 +6,7 @@ public sealed record EventLinkInstanceEntity : Entity
     public InstanceSettings Settings { get; init; }
     
     public EventLinkInstanceEntity() : base(
-        partition: InternalConstants.TridentonWebServicesPartition,
+        partition: InternalConstants.Partitions.Horizon,
         servicesGroup: "event-link",
         service: "core",
         resourceType: "instances")
