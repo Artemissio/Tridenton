@@ -17,14 +17,4 @@ public abstract class RelationalDatabaseEventsListener<TSettings> : EventsListen
         : base(limiter, eventsStream, errorsRepository, eventTypeDeterminator, commandParser, filters)
     {
     }
-
-    protected sealed override ValueTask StartCoreAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    protected sealed override ValueTask StopCoreAsync()
-    {
-        throw new NotImplementedException();
-    }
 }

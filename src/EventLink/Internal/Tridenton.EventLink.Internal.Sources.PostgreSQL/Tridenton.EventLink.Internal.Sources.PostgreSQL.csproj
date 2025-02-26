@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Core\Tridenton.Core\Tridenton.Core.csproj" />
+      <ProjectReference Include="..\Tridenton.EventLink.Internal.Application.Core\Tridenton.EventLink.Internal.Application.Core.csproj" />
     </ItemGroup>
 
 </Project>

@@ -24,6 +24,8 @@ public abstract class EventsListener<TSettings> : IEventsListener
     private readonly ImmutableArray<EventsFilter> _filters;
 
     public ListenerStatus Status { get; private set; }
+    
+    protected bool IsInitialized { get; private set; }
 
     protected EventsListener(
         IListeningLimiter limiter,
@@ -50,6 +52,13 @@ public abstract class EventsListener<TSettings> : IEventsListener
         try
         {
             await StartCoreAsync();
+            
+            if (!IsInitialized)
+            {
+                await InitializeCoreAsync();
+                
+                IsInitialized = true;
+            }
 
             Status = ListenerStatus.Started;
 
@@ -85,6 +94,11 @@ public abstract class EventsListener<TSettings> : IEventsListener
         return Result.Success;
     }
 
+    protected virtual ValueTask InitializeCoreAsync()
+    {
+        return ValueTask.CompletedTask;
+    }
+    
     /// <summary>
     /// 
     /// </summary>
