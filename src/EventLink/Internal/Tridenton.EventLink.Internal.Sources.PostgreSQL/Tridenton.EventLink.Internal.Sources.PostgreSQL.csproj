@@ -11,4 +11,15 @@
       <ProjectReference Include="..\Tridenton.EventLink.Internal.Application.Core\Tridenton.EventLink.Internal.Application.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Dapper" Version="2.1.66" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="SqlScripts\ChangesLoggingFunction.sql" />
+      <None Remove="SqlScripts\ChangesTable.sql" />
+      <None Remove="SqlScripts\TriggerApplyTemplate.sql" />
+    </ItemGroup>
+
 </Project>

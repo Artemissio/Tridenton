@@ -23,6 +23,11 @@ public abstract record RelationalDatabaseSettings : ISourceSettingsMarker
     /// <summary>
     /// 
     /// </summary>
+    public string? Schema { get; init; }
+
+    /// <summary>
+    /// 
+    /// </summary>
     [Required(ErrorMessage = "Database is required.")]
     public required string Database { get; init; }
 

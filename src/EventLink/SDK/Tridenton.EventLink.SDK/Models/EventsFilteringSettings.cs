@@ -1,28 +1,37 @@
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+// ReSharper disable TypeWithSuspiciousEqualityIsUsedInRecord.Global
 
 namespace Tridenton.EventLink.SDK;
 
 public sealed record EventsFilteringSettings
 {
-    [Required(ErrorMessage = "Event Types are required.")]
-    [Description("List of event types which EventLink will track. Set wildcard '*' to track all events.")]
-    public EventType[] EventTypes { get; init; }
-
-    [Required(ErrorMessage = "Collections are required.")]
-    [Description("List of collections (tables) names which EventLink will track. Set wildcard '*' to track all collections.")]
-    public string[] Collections { get; init; }
+    [Required(ErrorMessage = "Pairs are required.")]
+    public required FilteringPair[] Pairs { get; init; }
     
     public EventsFilteringSettings()
     {
-        EventTypes =
+        Pairs =
         [
-            EventType.All
-        ];
-
-        Collections =
-        [
-            Constants.Wildcard,
+            FilteringPair.All,
         ];
     }
+}
+
+public sealed record FilteringPair
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public required string Collection { get; init; }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    public required EventType[] EventTypes { get; init; }
+
+    public static readonly FilteringPair All = new()
+    {
+        Collection = Constants.Wildcard,
+        EventTypes = [],
+    };
 }

@@ -1,3 +1,4 @@
+// ReSharper disable VirtualMemberCallInConstructor
 using System.Collections.Immutable;
 
 namespace Tridenton.EventLink.Internal.Application.Core.Services;
@@ -12,6 +13,8 @@ public abstract class EventsListener<TSettings> : IEventsListener
     /*
      *
      */
+    
+    private readonly IEventLinkSettingsProvider _settingsProvider;
     private readonly IListeningLimiter _limiter;
     private readonly IEventsStream _eventsStream;
     private readonly IEventsErrorsRepository _errorsRepository;
@@ -23,11 +26,16 @@ public abstract class EventsListener<TSettings> : IEventsListener
     private readonly ISourceCommandParser _commandParser;
     private readonly ImmutableArray<EventsFilter> _filters;
 
-    public ListenerStatus Status { get; private set; }
+    private bool _isInitialized;
     
-    protected bool IsInitialized { get; private set; }
+    protected EventLinkSettings EventLinkSettings => _settingsProvider.GetSettings();
+    
+    protected TSettings Settings { get; private set; }
+    
+    public ListenerStatus Status { get; private set; }
 
     protected EventsListener(
+        IEventLinkSettingsProvider settingsProvider,
         IListeningLimiter limiter,
         IEventsStream eventsStream,
         IEventsErrorsRepository errorsRepository,
@@ -35,6 +43,7 @@ public abstract class EventsListener<TSettings> : IEventsListener
         ISourceCommandParser commandParser,
         IEnumerable<EventsFilter> filters)
     {
+        _settingsProvider = settingsProvider;
         _limiter = limiter;
         _eventsStream = eventsStream;
         _errorsRepository = errorsRepository;
@@ -43,21 +52,25 @@ public abstract class EventsListener<TSettings> : IEventsListener
         _filters = [..filters];
 
         Status = ListenerStatus.NotStarted;
+        
+        Settings = default!;
     }
 
     public async ValueTask<Result> StartAsync()
     {
+        Settings = GetSettings();
+        
         Status = ListenerStatus.Starting;
 
         try
         {
             await StartCoreAsync();
             
-            if (!IsInitialized)
+            if (!_isInitialized)
             {
                 await InitializeCoreAsync();
                 
-                IsInitialized = true;
+                _isInitialized = true;
             }
 
             Status = ListenerStatus.Started;
@@ -99,6 +112,8 @@ public abstract class EventsListener<TSettings> : IEventsListener
         return ValueTask.CompletedTask;
     }
     
+    protected abstract TSettings GetSettings();
+    
     /// <summary>
     /// 
     /// </summary>
@@ -119,6 +134,20 @@ public abstract class EventsListener<TSettings> : IEventsListener
     /// </summary>
     /// <returns></returns>
     protected abstract ValueTask StopCoreAsync();
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    protected abstract ValueTask DisposeCoreAsync();
+
+    public async ValueTask DisposeAsync()
+    {
+        await StopAsync();
+        await DisposeCoreAsync();
+        
+        GC.SuppressFinalize(this);
+    }
 
     protected async ValueTask HandleCommandAsync(SourceCommand command)
     {

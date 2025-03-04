@@ -46,7 +46,7 @@ public sealed record SourceCommand : Extendable
     /// <summary>
     /// 
     /// </summary>
-    public required string Collection { get; set; }
+    public required string Collection { get; init; }
 
     public ReadOnlySpan<string> CommandSegments => CommandText
         .Trim()

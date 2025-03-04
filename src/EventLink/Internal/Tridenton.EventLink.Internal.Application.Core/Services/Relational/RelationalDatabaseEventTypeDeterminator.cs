@@ -7,7 +7,7 @@ public class RelationalDatabaseEventTypeDeterminator : IEventTypeDeterminator
         var statement = command.CommandSegments[0];
         
         var relationalDbStatement = RelationalDatabaseHelpers.Statements
-            .FirstOrDefault(s => string.Equals(s.Statement, statement, StringComparison.OrdinalIgnoreCase));
+            .FirstOrDefault(s => string.Equals(s.Command, statement, StringComparison.OrdinalIgnoreCase));
 
         if (relationalDbStatement is null)
         {

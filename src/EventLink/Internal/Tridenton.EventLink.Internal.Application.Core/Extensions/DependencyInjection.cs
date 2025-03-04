@@ -15,8 +15,7 @@ public static class DependencyInjection
         services.AddSingleton<IEventsStream, EventsStream>();
         services.AddSingleton<IListeningLimiter, ListeningLimiter>();
 
-        services.AddSingleton<EventsFilter, EventTypeFilter>();
-        services.AddSingleton<EventsFilter, CollectionFilter>();
+        services.AddSingleton<EventsFilter, MainFilter>();
         
         services.AddScoped<IEventsErrorsRepository, EventsErrorsRepository>();
         

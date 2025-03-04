@@ -8,13 +8,16 @@ public abstract class RelationalDatabaseEventsListener<TSettings> : EventsListen
     where TSettings : RelationalDatabaseSettings
 {
     protected RelationalDatabaseEventsListener(
+        IEventLinkSettingsProvider settingsProvider,
         IListeningLimiter limiter,
         IEventsStream eventsStream,
         IEventsErrorsRepository errorsRepository,
         IEventTypeDeterminator eventTypeDeterminator,
         ISourceCommandParser commandParser,
         IEnumerable<EventsFilter> filters)
-        : base(limiter, eventsStream, errorsRepository, eventTypeDeterminator, commandParser, filters)
+        : base(settingsProvider, limiter, eventsStream, errorsRepository, eventTypeDeterminator, commandParser, filters)
     {
     }
+    
+    protected abstract string FormatConnectionString();
 }
