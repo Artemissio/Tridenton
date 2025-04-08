@@ -6,10 +6,15 @@
 }
 else
 {
-    <input id="@Id" class="@ClassList" type="checkbox" title="@Tooltip" value="@Value" placeholder="@Placeholder" @oninput="@ValueChanged" @onclick="OnClick" />
+    <input id="@Id" class="@ClassList" type="checkbox" title="@Tooltip" value="@Value" placeholder="@Placeholder" @oninput="@InvokeValueChangedAsync" @onclick="OnClick" />
 }
 
 @code
 {
+    protected override bool Parse(object? value)
+    {
+        return bool.TryParse(value?.ToString() ?? bool.FalseString, out var boolean) && boolean;
+    }
+    
     protected override string GetUIComponentClass() => "tridenton-ui-input-checkbox";
 }

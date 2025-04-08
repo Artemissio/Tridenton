@@ -1,3 +1,50 @@
 :root {
+    --color-foreground-link-default: #006CE0;
+    --color-foreground-link-hover: #045CC2;
+    --color-foreground-link-focus: #0257B7;
+    --color-foreground-link-active: #0257B7;
+    --color-foreground-link-visited: #0257B7;
+}
 
+a,
+a.tridenton-ui-link {
+    color: var(--color-foreground-link-default);
+    text-decoration: underline;
+    cursor: pointer;
+}
+a.tridenton-ui-link.external + svg {
+    stroke: var(--color-foreground-link-default);
+    cursor: pointer;
+}
+
+a:hover,
+a.tridenton-ui-link:hover {
+    color: var(--color-foreground-link-hover);
+}
+a.tridenton-ui-link.external:hover + svg {
+    stroke: var(--color-foreground-link-hover);
+}
+
+a:focus,
+a.tridenton-ui-link:focus {
+    color: var(--color-foreground-link-focus);
+}
+a.tridenton-ui-link.external:focus + svg {
+    stroke: var(--color-foreground-link-focus);
+}
+
+a:active,
+a.tridenton-ui-link:active {
+    color: var(--color-foreground-link-active);
+}
+a.tridenton-ui-link.external:active + svg {
+    stroke: var(--color-foreground-link-active);
+}
+
+a:visited,
+a.tridenton-ui-link:visited {
+    color: var(--color-foreground-link-visited);
+}
+a.tridenton-ui-link.external:visited + svg {
+    stroke: var(--color-foreground-link-visited);
 }

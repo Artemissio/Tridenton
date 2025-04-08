@@ -1,0 +1,34 @@
+:root {
+    --size-icon-width-default: 16px;
+    --size-icon-height-default: 16px;
+    --size-icon-stroke-width: 2px;
+    
+    --color-foreground-icon-default: #333333;
+    --color-foreground-icon-inverted: #F2F2F3;
+}
+
+.tridenton-ui-icon:not(.tridenton-ui-icon-inverted) path,
+.tridenton-ui-icon:not(.tridenton-ui-icon-inverted) circle,
+.tridenton-ui-icon:not(.tridenton-ui-icon-inverted) line {
+    stroke: var(--color-foreground-icon-default);
+}
+
+.tridenton-ui-icon.tridenton-ui-icon-inverted path,
+.tridenton-ui-icon.tridenton-ui-icon-inverted circle,
+.tridenton-ui-icon.tridenton-ui-icon-inverted line {
+    stroke: var(--color-foreground-icon-inverted);
+}
+
+svg {
+    width: var(--size-icon-width-default);
+    height: var(--size-icon-height-default);
+    fill: none;
+}
+
+path,
+circle,
+g {
+    stroke-width: var(--size-icon-stroke-width);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}

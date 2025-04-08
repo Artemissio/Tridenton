@@ -1,4 +1,5 @@
-@inherits UIInputComponent<string>
+@inherits UIInputComponent<string?>
+@using Microsoft.AspNetCore.Components.Forms
 @implements IReadonlyComponent
 
 @if (Disabled)
@@ -13,7 +14,8 @@ else
     }
     else
     {
-        <input id="@Id" class="@ClassList" type="email" value="@Value" placeholder="@Placeholder" @oninput="@ValueChanged" @onclick="OnClick" />
+        <InputText id="@Id" type="email" Value="@Value" ValueExpression="() => Value" ValueChanged="ValueChanged" placeholder="@Placeholder" />
+        @* <input id="@Id" class="@ClassList" type="email" value="@Value" placeholder="@Placeholder" @oninput="InvokeValueChangedAsync" @onclick="OnClick" /> *@
     }
 }
 
@@ -21,6 +23,11 @@ else
 {
     [Parameter]
     public bool Readonly { get; set; }
+
+    protected override string Parse(object? value)
+    {
+        return value?.ToString() ?? string.Empty;
+    }
 
     protected override string GetUIComponentClass() => "tridenton-ui-input-email";
 }

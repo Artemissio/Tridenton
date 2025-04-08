@@ -4,5 +4,10 @@
 
 @code
 {
+    protected override string Parse(object? value)
+    {
+        return value?.ToString() ?? string.Empty;
+    }
+    
     protected override string GetUIComponentClass() => "tridenton-ui-input-search";
 }

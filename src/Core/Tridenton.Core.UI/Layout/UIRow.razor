@@ -1,9 +1,12 @@
-@inherits UIWrapperComponent
+@inherits UIFlexComponent
 
-<div id="@Id" @attributes="Attributes" class="@ClassList">
+<div id="@Id" class="@ClassList" style="@Style" @attributes="Attributes">
     @ChildContent
 </div>
 
 @code {
-    protected override string GetUIComponentClass() => "tridenton-ui-row";
+    protected override string GetUIComponentClass()
+    {
+        return $"tridenton-ui-row {base.GetUIComponentClass()}";
+    }
 }

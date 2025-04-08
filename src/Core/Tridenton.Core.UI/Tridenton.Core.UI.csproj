@@ -19,11 +19,19 @@
     <Content Remove="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Links\" />
-    <Folder Include="Utilities\" />
-    <Folder Include="wwwroot\scripts\" />
+    <Folder Include="Components\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tridenton.Core\Tridenton.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\styles\styles.css" />
+    <EmbeddedResource Include="wwwroot\styles\styles.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <Content Remove="wwwroot\assets\loader.gif" />
+    <EmbeddedResource Include="wwwroot\assets\loader.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

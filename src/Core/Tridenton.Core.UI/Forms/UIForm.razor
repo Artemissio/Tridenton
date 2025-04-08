@@ -1,0 +1,42 @@
+@inherits UIWrapperComponent
+@using Microsoft.AspNetCore.Components.Forms
+@typeparam TModel where TModel : class
+
+<EditForm Model="Model" id="@Id" class="@ClassList" style="@Style" @attributes="Attributes">
+    <DataAnnotationsValidator />
+    
+    <UISection Class="tridenton-ui-form-header">
+        @if (HeaderTemplate is null)
+        {
+            <UIFormDefaultHeader Header="@Header" />
+        }
+        else
+        {
+            @HeaderTemplate
+        }
+    </UISection>
+
+    <UISection Class="tridenton-ui-form-content">
+        <UIColumn Class="gap">
+            @ContentTemplate
+        </UIColumn>
+    </UISection>
+
+    <ValidationSummary />
+</EditForm>
+
+@code {
+    [Parameter, EditorRequired]
+    public required TModel Model { get; set; }
+    
+    [Parameter, EditorRequired]
+    public required RenderFragment ContentTemplate { get; set; }
+    
+    [Parameter]
+    public RenderFragment? HeaderTemplate { get; set; }
+
+    [Parameter]
+    public string Header { get; set; } = string.Empty;
+    
+    protected override string GetUIComponentClass() => "tridenton-ui-form";
+}

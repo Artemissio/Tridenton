@@ -1,24 +1,215 @@
 @import "root.css";
 @import "styles.buttons.css";
+@import "styles.datagrid.css";
+@import "styles.forms.css";
+@import "styles.icons.css";
 @import "styles.inputs.css";
 @import "styles.links.css";
 @import "styles.layout.css";
 @import "styles.tables.css";
 
+@font-face {
+    font-family: 'Tridenton';
+    src: url(fonts/Regular.ttf);
+}
+
+@font-face {
+    font-family: 'Tridenton Italic';
+    src: url(fonts/Italic.ttf);
+}
+
+@font-face {
+    font-family: 'Tridenton Extra Light';
+    src: url(fonts/ExtraLight.ttf);
+}
+
+@font-face {
+    font-family: 'Tridenton Extra Light Italic';
+    src: url(fonts/ExtraLightItalic.ttf);
+}
+
+@font-face {
+    font-family: 'Tridenton Light';
+    src: url(fonts/Light.ttf);
+}
+
+@font-face {
+    font-family: 'Tridenton Light Italic';
+    src: url(fonts/LightItalic.ttf);
+}
+
+@font-face {
+    font-family: 'Tridenton Semi Bold';
+    src: url(fonts/SemiBold.ttf);
+}
+
+@font-face {
+    font-family: 'Tridenton Semi Bold Italic';
+    src: url(fonts/SemiBoldItalic.ttf);
+}
+
+@font-face {
+    font-family: 'Tridenton Bold';
+    src: url(fonts/Bold.ttf);
+}
+
+@font-face {
+    font-family: 'Tridenton Bold Italic';
+    src: url(fonts/BoldItalic.ttf);
+}
+
+@font-face {
+    font-family: 'Tridenton Extra Bold';
+    src: url(fonts/ExtraBold.ttf);
+}
+
+@font-face {
+    font-family: 'Tridenton Extra Bold Italic';
+    src: url(fonts/ExtraBoldItalic.ttf);
+}
+
+@font-face {
+    font-family: 'Tridenton Black';
+    src: url(fonts/Black.ttf);
+}
+
+@font-face {
+    font-family: 'Tridenton Black Italic';
+    src: url(fonts/Black.ttf);
+}
+
 * {
     box-sizing: border-box;
+    font-family: var(--font-family-default), sans-serif;
+    font-size: var(--size-font-default);
 }
 
 body {
     margin: 0;
+    background: var(--color-background-body-default);
+    color: var(--color-foreground-body-default);
 }
 
-::placeholder {
-    -webkit-text-security: none;
-    color: darkgray;
-    direction: inherit;
-    pointer-events: none;
-    text-orientation: inherit;
-    writing-mode: inherit;
+::-webkit-scrollbar {
+    width: var(--size-scrollbar-width-default);
+    height: var(--size-scrollbar-height-default);
 }
 
+::-webkit-scrollbar-track {
+    background: var(--color-background-scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: var(--size-scrollbar-border-radius-default);
+    background-color: var(--color-background-scrollbar-thumb);
+}
+
+::-webkit-input-placeholder,
+:-moz-placeholder,
+input::-webkit-input-placeholder,
+input::placeholder {
+    font-family: 'Tridenton Light Italic', serif;
+    color: var(--color-foreground-placeholder-default);
+}
+
+h4, strong, b {
+    font-family: 'Tridenton Bold', sans-serif;
+}
+
+.tridenton-ui-section {
+    padding: var(--size-padding-section-default);
+}
+
+.tridenton-ui-text-extra-light {
+    font-family: 'Tridenton Extra Light', sans-serif;
+}
+    .tridenton-ui-text-extra-light-italic {
+        font-family: 'Tridenton Extra Light Italic', sans-serif;
+    }
+
+.tridenton-ui-text-light {
+    font-family: 'Tridenton Light', sans-serif;
+}
+    .tridenton-ui-text-light-italic {
+        font-family: 'Tridenton Light Italic', sans-serif;
+    }
+
+.tridenton-ui-text-italic {
+    font-family: 'Tridenton Italic', sans-serif;
+}
+
+.tridenton-ui-text-semi-bold {
+    font-family: 'Tridenton Semi Bold', sans-serif;
+}
+    .tridenton-ui-text-semi-bold-italic {
+        font-family: 'Tridenton Semi Bold Italic', sans-serif;
+    }
+
+.tridenton-ui-text-bold {
+    font-family: 'Tridenton Bold', sans-serif;
+}
+    .tridenton-ui-text-bold-italic {
+        font-family: 'Tridenton Bold Italic', sans-serif;
+    }
+
+.tridenton-ui-text-extra-bold {
+    font-family: 'Tridenton Extra Bold', sans-serif;
+}
+    .tridenton-ui-text-extra-bold-italic {
+        font-family: 'Tridenton Extra Bold Italic', sans-serif;
+    }
+
+.tridenton-ui-text-black {
+    font-family: 'Tridenton Black', sans-serif;
+}
+    .tridenton-ui-text-black-italic {
+        font-family: 'Tridenton Black Italic', sans-serif;
+    }
+
+.align-items-center {
+    align-items: center;
+}
+
+.align-items-start {
+    align-items: start;
+}
+
+.align-items-end {
+    align-items: end;
+}
+
+.align-items-stretch {
+    align-items: stretch;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.justify-content-start {
+    justify-content: start;
+}
+
+.justify-content-end {
+    justify-content: end;
+}
+
+.justify-content-space-between {
+    justify-content: space-between;
+}
+
+.justify-content-space-around {
+    justify-content: space-around;
+}
+
+.justify-content-space-evenly {
+    justify-content: space-evenly;
+}
+
+.gap {
+    gap: 1rem;
+}
+
+.gap-05 {
+    gap: .5rem;
+}

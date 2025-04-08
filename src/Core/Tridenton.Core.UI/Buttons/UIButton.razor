@@ -8,41 +8,63 @@
 {
     if (Disabled)
     {
-        <div id="@Id" class="@ClassList" style="@Style" @attributes="Attributes">
+        <button id="@Id" class="@ClassList" style="@Style" @attributes="Attributes" disabled>
             @ChildContent
-        </div>
+        </button>
     }
     else
     {
-        <div id="@Id" class="@ClassList" style="@Style" @attributes="Attributes" @onclick="async() => await InvokeClickAsync()">
+        <button id="@Id" class="@ClassList" style="@Style" @attributes="Attributes" @onclick="InvokeClickAsync">
             @ChildContent
-        </div>
+        </button>
     }
 }
-else if (Variant == UIButtonVariant.Link)
+else if (Variant == UIButtonVariant.IconInverted)
 {
-    
+    if (Disabled)
+    {
+        <button id="@Id" class="@ClassList" style="@Style" @attributes="Attributes" disabled>
+            @ChildContent
+        </button>
+    }
+    else
+    {
+        <button id="@Id" class="@ClassList" style="@Style" @attributes="Attributes" @onclick="InvokeClickAsync">
+            @ChildContent
+        </button>
+    }
 }
 else
 {
     if (Disabled)
     {
         <button id="@Id" class="@ClassList" style="@Style" disabled>
-            @ChildContent
+            <UIRow FlexVariant="UIFlexVariant.JustifyContentCenter | UIFlexVariant.AlignItemsCenter">
+                @ChildContent
+                <span>@Text</span>
+            </UIRow>
         </button>
     }
     else
     {
-        <button id="@Id" class="@ClassList" style="@Style" @onclick="async () => await InvokeClickAsync()">
-            @if (_loading)
-            {
-                <em>Loading</em>
-            }
-            else
-            {
-                @ChildContent
-            }
-        </button>
+        if (_loading)
+        {
+            <button id="@Id" class="@ClassList" style="@Style" disabled>
+                <UIRow Class="gap-05" FlexVariant="UIFlexVariant.AlignItemsCenter">
+                    <UILoader />
+                    <span>Loading ...</span>
+                </UIRow>
+            </button>
+        }
+        else
+        {
+            <button id="@Id" class="@ClassList" style="@Style" @onclick="InvokeClickAsync">
+                <UIRow FlexVariant="UIFlexVariant.JustifyContentCenter | UIFlexVariant.AlignItemsCenter">
+                    @ChildContent
+                    <span>@Text</span>
+                </UIRow>
+            </button>
+        }
     }
 }
 
@@ -50,6 +72,9 @@ else
 {
     [Parameter, EditorRequired]
     public required UIButtonVariant Variant { get; set; }
+
+    [Parameter]
+    public string Text { get; set; } = string.Empty;
     
     [Parameter]
     public bool Disabled { get; set; }
@@ -71,7 +96,7 @@ else
         Collapsed = !Collapsed;
     }
 
-    private async ValueTask InvokeClickAsync()
+    private async Task InvokeClickAsync()
     {
         _loading = true;
 
@@ -81,7 +106,7 @@ else
         }
         catch (Exception)
         {
-
+            // Ignore any exception - must be handled in other place
         }
         finally
         {
@@ -91,14 +116,7 @@ else
 
     protected override string GetUIComponentClass()
     {
-        var strBuilder = new StringBuilder();
-
-        strBuilder.Append($"tridenton-ui-button {Variant}");
-
-        if (Disabled)
-        {
-            strBuilder.Append(" disabled");
-        }
+        var strBuilder = new StringBuilder($"tridenton-ui-button {Variant}");
 
         if (_loading)
         {

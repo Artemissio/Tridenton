@@ -1,5 +1,311 @@
-<h3>UIDatagrid</h3>
+@typeparam T where T : class
 
-@code {
+@using System.ComponentModel
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.JSInterop
+
+@inherits UIComponent
+@inject IJSRuntime Js
+
+<div id="@Id" class="@ClassList" style="@Style" @attributes="Attributes">
+    <UIColumn Class="gap">
+        <div class="tridenton-ui-datagrid-header">
+            
+        </div>
+
+        <div class="tridenton-ui-datagrid-controls">
+            <UIGrid Columns="2" Rows="1">
+                @if (Controls is null)
+                {
+                    <div></div>
+                }
+                else
+                {
+                    @Controls
+                }
+                
+                <UIRow Class="gap justify-content-end">
+                    <div class="tridenton-ui-datagrid-controls-pagination">
+                        
+                    </div>
+
+                    <UIButton Variant="UIButtonVariant.Icon" Text="Settings">
+                        <UISettingsIcon />
+                    </UIButton>
+                </UIRow>
+            </UIGrid>
+        </div>
+        
+        <div class="tridenton-ui-datagrid-table-container">
+            <table data-grid-id="@Id" class="tridenton-ui-datagrid-table">
+                <thead>
+                    <tr>
+                        @switch (Variant)
+                        {
+                            case UIDatagridVariant.Select:
+                                <th class="tridenton-ui-datagrid-selection-column"></th>
+                                break;
+
+                            case UIDatagridVariant.MultiSelect:
+                                <th class="tridenton-ui-datagrid-selection-column">
+                                    @{
+                                        UIThreeStatesCheckboxState checkboxState;
+
+                                        if (_allSelected)
+                                        {
+                                            checkboxState = UIThreeStatesCheckboxState.On;
+                                        }
+                                        else
+                                        {
+                                            checkboxState = _anySelected
+                                                ? UIThreeStatesCheckboxState.Middle
+                                                : UIThreeStatesCheckboxState.Off;
+                                        }
+                                    }
+
+                                    <UIThreeStatesCheckbox State="checkboxState"
+                                                           Disabled="@Loading"
+                                                           SwitchFormOnState="DeselectAllRowsAsync"
+                                                           SwitchFormMiddleState="SelectAllRowsAsync"
+                                                           SwitchFormOffState="SelectAllRowsAsync" />
+                                </th>
+                                break;
+
+                            case UIDatagridVariant.Default:
+                                break;
+
+                            default:
+                                throw new InvalidEnumArgumentException(nameof(Variant));
+                        }
+                        @TableHeaders
+                    </tr>
+                </thead>
+
+                <tbody>
+                @if (_columnsCount > 0)
+                {
+                    if (Loading)
+                    {
+                        <tr>
+                            <td colspan="@_columnsCount">
+                                <UIRow Class="gap-05" FlexVariant="UIFlexVariant.AlignItemsCenter | UIFlexVariant.JustifyContentCenter">
+                                    <UILoader/>
+                                    <em>Loading ...</em>
+                                </UIRow>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        if (_rows.Length == 0)
+                        {
+                            if (NoItemsRowTemplate is not null)
+                            {
+                                @NoItemsRowTemplate
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="@_columnsCount">
+                                        <UIRow Class="gap-05" FlexVariant="UIFlexVariant.AlignItemsCenter | UIFlexVariant.JustifyContentCenter">
+                                            <label>No items</label>
+                                        </UIRow>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            foreach (var item in _rows)
+                            {
+                                <tr class="@($"tridenton-ui-datagrid-row{(item.Selected ? " selected" : string.Empty)}")"
+                                    data-row-position="@item.Position"
+                                    data-selected="@item.Selected">
+                                    @switch (Variant)
+                                    {
+                                        case UIDatagridVariant.Select:
+                                        case UIDatagridVariant.MultiSelect:
+                                            <td class="tridenton-ui-datagrid-selection-column">
+                                                <InputCheckbox Value="@item.Selected"
+                                                               ValueExpression="() => item.Selected"
+                                                               ValueChanged="async (selected) => await OnItemSelectionChanged(item, selected)"/>
+                                            </td>
+                                            break;
+
+                                        case UIDatagridVariant.Default:
+                                            break;
+
+                                        default:
+                                            throw new InvalidEnumArgumentException(nameof(Variant));
+                                    }
+                                    @RowTemplate(item.Item)
+                                </tr>
+                            }
+                        }
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tridenton-ui-datagrid-footer">
+            
+        </div>
+    </UIColumn>
+</div>
+
+@code
+{
+    [Parameter, EditorRequired]
+    public UIDatagridVariant Variant { get; set; }
     
+    [Parameter, EditorRequired]
+    public required RenderFragment Actions { get; set; }
+    
+    [Parameter]
+    public RenderFragment? Controls { get; set; }
+
+    [Parameter, EditorRequired]
+    public required RenderFragment TableHeaders { get; set; }
+    
+    [Parameter, EditorRequired]
+    public required RenderFragment<T> RowTemplate { get; set; }
+    
+    [Parameter]
+    public RenderFragment? Footer { get; set; }
+    
+    [Parameter, EditorRequired]
+    public required Func<PaginatedRequest, Task<Result<PaginatedResponse<T>>>> Handler { get; set; }
+    
+    [Parameter]
+    public RenderFragment? NoItemsRowTemplate { get; set; }
+    
+    [Parameter]
+    public EventCallback<DatagridSelectionChangedEventArgs<T>> OnRowsSelected { get; set; }
+
+    private readonly PaginatedRequest _request = new();
+
+    private bool _initialized;
+    private int _columnsCount = 0;
+    private Error? _error;
+    private PaginatedResponse<T>? _response;
+    private UISelectable<T>[] _rows = [];
+
+    private bool _allSelected;
+    private bool _anySelected;
+    
+    private bool Loading => _response is null;
+
+    protected override async ValueTask OnFirstRenderAsync()
+    {
+        await base.OnFirstRenderAsync();
+
+        var initializationResult = await Js.InvokeAsync<DatagridInitializationResult>("initializeDatagrid", Id);
+
+        _columnsCount = initializationResult.Columns;
+    
+        StateHasChanged();
+    
+        await LoadItemsAsync();
+    }
+
+    private async Task SelectAllRowsAsync()
+    {
+        foreach (var row in _rows)
+        {
+            row.Selected = true;
+        }
+        
+        await InvokeRowsSelectionAsync();
+    }
+    
+    private async Task DeselectAllRowsAsync()
+    {
+        foreach (var row in _rows)
+        {
+            row.Selected = false;
+        }
+        
+        await InvokeRowsSelectionAsync();
+    }
+
+    private async Task OnItemSelectionChanged(UISelectable<T> item, bool selected)
+    {
+        switch (Variant)
+        {
+            case UIDatagridVariant.Default:
+                return;
+                
+            case UIDatagridVariant.Select:
+                var alreadySelectedItem = _rows.FirstOrDefault(r => r.Selected);
+
+                if (alreadySelectedItem is not null)
+                {
+                    if (alreadySelectedItem.Position != item.Position)
+                    {
+                        alreadySelectedItem.Selected = false;
+                    }
+                }
+
+                break;
+                
+            case UIDatagridVariant.MultiSelect:
+                break;
+                
+            default:
+                throw new InvalidEnumArgumentException(nameof(Variant));
+        }
+
+        item.Selected = selected;
+
+        await InvokeRowsSelectionAsync();
+    }
+
+    private async ValueTask InvokeRowsSelectionAsync()
+    {
+        var selectedRows = _rows
+            .Where(r => r.Selected)
+            .Select(r => r.Item)
+            .ToArray();
+
+        _allSelected = selectedRows.Length == _rows.Length;
+        _anySelected = selectedRows.Length > 0;
+
+        await OnRowsSelected.InvokeAsync(new DatagridSelectionChangedEventArgs<T>(selectedRows));
+    }
+
+    private async ValueTask LoadItemsAsync()
+    {
+        _response = null;
+
+        try
+        {
+            var result = await Handler.Invoke(_request);
+
+            if (result.Successful)
+            {
+                _response = result.Value;
+
+                _rows = _response.Items
+                    .Select((item, index) => new UISelectable<T>(item, index + 1))
+                    .ToArray();
+            }
+            else
+            {
+                _error = result.Error;
+                _response = new();
+                _rows = [];
+            }
+        }
+        catch (Exception exception)
+        {
+            _error = new InternalServerError("Datagrid.LoadFailed", exception.Message);
+        }
+        finally
+        {
+            await RerenderAsync();
+        }
+    }
+
+    protected override string GetUIComponentClass() => "tridenton-ui-datagrid";
 }

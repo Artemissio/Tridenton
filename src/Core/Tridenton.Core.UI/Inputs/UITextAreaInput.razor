@@ -17,7 +17,7 @@ else
     }
     else
     {
-        <textarea id="@Id" class="@ClassList" title="@Tooltip" placeholder="@Placeholder" @oninput="@ValueChanged" @onclick="OnClick">
+        <textarea id="@Id" class="@ClassList" title="@Tooltip" placeholder="@Placeholder" @oninput="@InvokeValueChangedAsync" @onclick="OnClick">
             @Value
         </textarea>
     }
@@ -27,6 +27,11 @@ else
 {
     [Parameter]
     public bool Readonly { get; set; }
+
+    protected override string Parse(object? value)
+    {
+        return value?.ToString() ?? string.Empty;
+    }
 
     protected override string GetUIComponentClass() => "tridenton-ui-input-textarea";
 }

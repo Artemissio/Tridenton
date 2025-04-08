@@ -1,22 +1,38 @@
 :root {
     --size-font-default: 14px;
-    --size-line-height-body-default: 22px;
+    --size-line-height-body-default: 20px;
     
     --size-border-width-default: 1px;
     --size-border-width-field-default: 1px;
     --size-padding-block-default: 4px;
+    --size-padding-section-default: 16px;
+    
+    --size-scrollbar-width-default: 7px;
+    --size-scrollbar-height-default: 7px;
+    --size-scrollbar-border-radius-default: 4px;
+    
+    --font-family-default: 'Tridenton';
 
-    --color-background-body-default: #333335;
-    --color-foreground-body-default: #d5d5d5;
+    --color-background-body-default: #F2F2F3;
+    --color-foreground-body-default: #333333;
     
-    --color-primary-lightest: #FFC507;
-    --color-primary-light: #CF9F05;
-    --color-primary-default: #A17B00;
-    
-    --color-secondary-default: #25599C;
-    --color-accent-default: #803CB8;
+    --color-background-scrollbar-track: #F1F1F1;
+    --color-background-scrollbar-thumb: #888888;
     
     --color-common-success: #147000;
-    --color-common-info: #0366c8;
-    --color-common-error: #d13212;
+    --color-common-info: #006CE0;
+    --color-common-error: #D13212;
+    
+    --color-foreground-placeholder-default: #FFFFFF;
+    
+    /*--color-dark: #232426;*/
+    
+    /*--color-common-info: #0366c8;*/
+    
+    /*--color-primary-lightest: #FFC507;*/
+    /*--color-primary-light: #CF9F05;*/
+    /*--color-primary-default: #A17B00;*/
+    
+    /*--color-secondary-default: #25599C;*/
+    /*--color-accent-default: #803CB8;*/
 }

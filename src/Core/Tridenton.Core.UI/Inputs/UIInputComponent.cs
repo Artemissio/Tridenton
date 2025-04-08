@@ -26,15 +26,12 @@ public abstract class UIInputComponent<T> : UIWrapperComponent, IInteractiveComp
             
             _value = value;
 
-            ValueChanged.InvokeAsync(new ChangeEventArgs
-            {
-                Value = _value,
-            });
+            ValueChanged.InvokeAsync(_value);
         }
     }
     
     [Parameter]
-    public EventCallback<ChangeEventArgs> ValueChanged { get; set; }
+    public EventCallback<T> ValueChanged { get; set; }
 
     [Parameter]
     public bool Disabled { get; set; }
@@ -53,4 +50,10 @@ public abstract class UIInputComponent<T> : UIWrapperComponent, IInteractiveComp
         _value = Value = default!;
         Tooltip = Placeholder = string.Empty;
     }
+
+    protected async Task InvokeValueChangedAsync(ChangeEventArgs args) {
+        await ValueChanged.InvokeAsync(Parse(args.Value));
+    }
+    
+    protected abstract T Parse(object? value);
 }

@@ -22,7 +22,7 @@
         @if (Flags.HasFlag(UISelectFlags.SearchEnabled))
         {
             <div class="tridenton-ui-input-select-options-search-wrapper">
-                <UISearchInput ValueChanged="async(args) => await OnSearchQueryChangedAsync(args.Value!.ToString()!)" />
+                <UISearchInput ValueChanged="async(args) => await OnSearchQueryChangedAsync(args)" />
             </div>
         }
         
@@ -88,7 +88,7 @@
     public required RenderFragment<T> SelectedItemTemplate { get; set; }
     
     [Parameter, EditorRequired]
-    public required RenderFragment<T> RowTemplate { get; set; } = default!;
+    public required RenderFragment<T> RowTemplate { get; set; }
     
     [Parameter]
     public EventCallback<T[]> OnMultiSelect { get; set; }
@@ -161,10 +161,7 @@
             
             option.Selected = !option.Selected;
 
-            await ValueChanged.InvokeAsync(new ChangeEventArgs
-            {
-                Value = option.Item,
-            });
+            await ValueChanged.InvokeAsync(option.Item);
             
             return;
         }
@@ -187,6 +184,11 @@
         }
 
         Collapsed = !Collapsed;
+    }
+
+    protected override T Parse(object? value)
+    {
+        return (T)value!;
     }
 
     protected override string GetUIComponentClass() => "tridenton-ui-input-select";

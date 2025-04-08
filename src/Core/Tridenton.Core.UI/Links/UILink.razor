@@ -1,0 +1,35 @@
+@using System.Text
+@inherits UIComponent
+
+<UIRow FlexVariant="UIFlexVariant.AlignItemsCenter">
+    <a id="@Id" class="@ClassList" style="@Style" @attributes="@Attributes" href="@Href">
+        @Text
+    </a>
+    @if (External)
+    {
+        <UIExternalLinkIcon />
+    }
+</UIRow>
+
+@code {
+    [Parameter, EditorRequired]
+    public required string Text { get; set; }
+    
+    [Parameter, EditorRequired]
+    public required string Href { get; set; }
+    
+    [Parameter]
+    public bool External { get; set; }
+
+    protected override string GetUIComponentClass()
+    {
+        var strBuilder = new StringBuilder("tridenton-ui-link");
+
+        if (External)
+        {
+            strBuilder.Append(" external");
+        }
+        
+        return strBuilder.ToString();
+    }
+}

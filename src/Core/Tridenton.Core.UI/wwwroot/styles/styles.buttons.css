@@ -1,64 +1,303 @@
-/*:root {*/
-/*    --size-border-button-default: 1px;*/
-/*    --size-border-radius-button-default: 2px;*/
-/*    --size-weight-button-default: 700;*/
-/*    --size-letter-spacing-button-default: .25px;*/
-/*    --size-space-horizontal-button-default: 20px;*/
-/*    */
-/*    --color-background-button-default-default: #d5d5d5;*/
-/*    --color-background-button-default-hover: #d5d5d5;*/
-/*    --color-background-button-default-active: #d5d5d5;*/
-/*    --color-background-button-default-disabled: #d5d5d5;*/
+:root {
+    --size-padding-button-default: 4px 20px;
+    --size-border-button-default: 1px;
+    --size-border-radius-default: 4px;
+    --size-weight-button-default: 700;
+    --size-letter-spacing-button-default: .25px;
+    --size-margin-button-icon: 8px;
+    --size-loader-height-default: 16px;
+    
+    /* Default button */
 
-/*    --color-background-button-primary-default: #d5d5d5;*/
-/*    --color-background-button-primary-hover: #d5d5d5;*/
-/*    --color-background-button-primary-active: #d5d5d5;*/
-/*    --color-background-button-primary-disabled: #d5d5d5;*/
-/*}*/
+    --color-background-button-default-default: #F2F2F3;
+    --color-background-button-default-hover: #FAFAFA;
+    --color-background-button-default-active: #FFFFFF;
+    --color-background-button-default-disabled: #FFFFFF;
 
-/*button.tridenton-ui-button,*/
-/*input[type="submit"].tridenton-ui-button,*/
-/*input[type="button"].tridenton-ui-button,*/
-/*input[type="reset"].tridenton-ui-button {*/
-/*    border-collapse: separate;*/
-/*    border-spacing: 0;*/
-/*    box-sizing: border-box;*/
-/*    caption-side: top;*/
-/*    direction: inherit;*/
-/*    empty-cells: show;*/
-/*    font-style: normal;*/
-/*    font-feature-settings: normal;*/
-/*    font-variant: normal;*/
-/*    font-stretch: normal;*/
-/*    -webkit-hyphens: none;*/
-/*    hyphens: none;*/
-/*    list-style: disc none outside;*/
-/*    -moz-tab-size: 8;*/
-/*    tab-size: 8;*/
-/*    text-align: start;*/
-/*    text-indent: 0;*/
-/*    text-shadow: none;*/
-/*    text-transform: none;*/
-/*    visibility: visible;*/
-/*    white-space: normal;*/
-/*    word-spacing: normal;*/
-/*    font-size: var(--size-font-default, 14px);*/
-/*    line-height: var(--size-line-height-body-default, 22px);*/
-/*    color: var(--color-foreground-body-default, #d5d5d5);*/
-/*    font-family: var(--font-family-base-4om3hr, "Amazon Ember", "Helvetica Neue", Roboto, Arial, sans-serif), serif;*/
-/*    min-inline-size: 0;*/
-/*    word-break: break-word;*/
-/*    font-weight: var(--size-weight-button-default, 700);*/
-/*    letter-spacing: var(--size-letter-spacing-button-default, .25px);*/
-/*    border-start-start-radius: var(--size-border-radius-button-default, 2px);*/
-/*    border-start-end-radius: var(--size-border-radius-button-default, 2px);*/
-/*    border-end-start-radius: var(--size-border-radius-button-default, 2px);*/
-/*    border-end-end-radius: var(--size-border-radius-button-default, 2px);*/
-/*    border-block: var(--size-border-width-field-default, 1px) solid;*/
-/*    border-inline: var(--size-border-width-field-default, 1px) solid;*/
-/*    padding-block: var(--size-padding-block-default, 4px);*/
-/*    padding-inline: var(--size-space-horizontal-button-default, 20px);*/
-/*    display: inline-block;*/
-/*    text-decoration: none;*/
-/*    cursor: pointer;*/
-/*}*/
+    --color-foreground-button-default-default: #333333; /* 545B64 */
+    --color-foreground-button-default-hover: #000000;
+    --color-foreground-button-default-active: #000000;
+    --color-foreground-button-default-disabled: #C0C0C0;
+
+    --color-border-button-default-default: #333333;
+    --color-border-button-default-hover: #000000;
+    --color-border-button-default-active: #000000;
+    --color-border-button-default-disabled: #C0C0C0;
+
+    /* Primary button */
+
+    --color-background-button-primary-default: #045CC2; /* 006CE0 */
+    --color-background-button-primary-hover: #0257B7; /* 045CC2 */
+    --color-background-button-primary-active: #0257B7; /* 0257B7 */
+    --color-background-button-primary-disabled: #FFFFFF;
+
+    --color-foreground-button-primary-default: #F2F2F3;
+    --color-foreground-button-primary-hover: #FAFAFA;
+    --color-foreground-button-primary-active: #FFFFFF;
+    --color-foreground-button-primary-disabled: #C0C0C0;
+
+    --color-border-button-primary-default: #045CC2;
+    --color-border-button-primary-hover: #0257B7;
+    --color-border-button-primary-active: #0257B7;
+    --color-border-button-primary-disabled: #C0C0C0;
+
+    /* Icon button */
+
+    --color-background-button-icon-default: transparent; /* 006CE0 */
+    --color-background-button-icon-hover: transparent; /* 045CC2 */
+    --color-background-button-icon-active: transparent; /* 0257B7 */
+    --color-background-button-icon-disabled: transparent;
+
+    --color-foreground-button-icon-default: #333333;
+    --color-foreground-button-icon-hover: #000000;
+    --color-foreground-button-icon-active: #000000;
+    --color-foreground-button-icon-disabled: #C0C0C0;
+
+    --color-border-button-icon-default: transparent;
+    --color-border-button-icon-hover: transparent;
+    --color-border-button-icon-active: transparent;
+    --color-border-button-icon-disabled: transparent;
+
+    /* Icon inverted button */
+
+    --color-background-button-icon-inverted-default: transparent; /* 006CE0 */
+    --color-background-button-icon-inverted-hover: transparent; /* 045CC2 */
+    --color-background-button-icon-inverted-active: transparent; /* 0257B7 */
+    --color-background-button-icon-inverted-disabled: transparent;
+
+    --color-foreground-button-icon-inverted-default: #F2F2F3;
+    --color-foreground-button-icon-inverted-hover: #FAFAFA;
+    --color-foreground-button-icon-inverted-active: #FFFFFF;
+    --color-foreground-button-icon-inverted-disabled: #C0C0C0;
+
+    --color-border-button-icon-inverted-default: transparent;
+    --color-border-button-icon-inverted-hover: transparent;
+    --color-border-button-icon-inverted-active: transparent;
+    --color-border-button-icon-inverted-disabled: transparent;
+}
+
+button.tridenton-ui-button,
+input[type="submit"].tridenton-ui-button,
+input[type="button"].tridenton-ui-button,
+input[type="reset"].tridenton-ui-button {
+    border-collapse: separate;
+    border-spacing: 0;
+    box-sizing: border-box;
+    caption-side: top;
+    direction: inherit;
+    empty-cells: show;
+    font-style: normal;
+    font-feature-settings: normal;
+    font-variant: normal;
+    font-stretch: normal;
+    -webkit-hyphens: none;
+    hyphens: none;
+    list-style: disc none outside;
+    -moz-tab-size: 8;
+    tab-size: 8;
+    text-align: start;
+    text-indent: 0;
+    text-shadow: none;
+    text-transform: none;
+    visibility: visible;
+    white-space: normal;
+    word-spacing: normal;
+    font-size: var(--size-font-default);
+    line-height: var(--size-line-height-body-default);
+    color: var(--color-foreground-button-default-default);
+    font-family: var(--font-family-default), sans-serif;
+    min-inline-size: 0;
+    word-break: break-word;
+    font-weight: var(--size-weight-button-default);
+    letter-spacing: var(--size-letter-spacing-button-default);
+    border: var(--size-border-button-default) solid var(--color-border-button-default-default);
+    border-radius: var(--size-border-radius-default);
+    padding: var(--size-padding-button-default);
+    display: inline-block;
+    text-decoration: none;
+}
+.tridenton-ui-button:not(:disabled){
+    cursor: pointer;
+}
+.tridenton-ui-button.tridenton-ui-button-default svg,
+.tridenton-ui-button.tridenton-ui-button-primary svg {
+    margin-right: var(--size-margin-button-icon);
+}
+
+.tridenton-ui-button .tridenton-ui-loader {
+    height: var(--size-loader-height-default);
+}
+
+/* Default button */
+.tridenton-ui-button.tridenton-ui-button-default:disabled {
+    background-color: var(--color-background-button-default-disabled);
+    border-color: var(--color-border-button-default-disabled);
+    color: var(--color-foreground-button-default-disabled);
+}
+.tridenton-ui-button.tridenton-ui-button-default:not(:disabled) {
+    background-color: var(--color-background-button-default-default);
+    border-color: var(--color-border-button-default-default);
+    color: var(--color-foreground-button-default-default);
+}
+    .tridenton-ui-button.tridenton-ui-button-default:not(:disabled):hover {
+        background-color: var(--color-background-button-default-hover);
+        border-color: var(--color-border-button-default-hover);
+        color: var(--color-foreground-button-default-hover);
+    }
+    .tridenton-ui-button.tridenton-ui-button-default:not(:disabled):active {
+        background-color: var(--color-background-button-default-active);
+        border-color: var(--color-border-button-default-active);
+        color: var(--color-foreground-button-default-active);
+    }
+.tridenton-ui-button.tridenton-ui-button-default:disabled path,
+.tridenton-ui-button.tridenton-ui-button-default:disabled circle,
+.tridenton-ui-button.tridenton-ui-button-default:disabled line {
+    stroke: var(--color-foreground-button-default-disabled);
+}
+.tridenton-ui-button.tridenton-ui-button-default:not(:disabled) path,
+.tridenton-ui-button.tridenton-ui-button-default:not(:disabled) circle,
+.tridenton-ui-button.tridenton-ui-button-default:not(:disabled) line {
+    stroke: var(--color-foreground-button-default-default);
+}
+.tridenton-ui-button.tridenton-ui-button-default:not(:disabled):hover path,
+.tridenton-ui-button.tridenton-ui-button-default:not(:disabled):hover circle,
+.tridenton-ui-button.tridenton-ui-button-default:not(:disabled):hover line {
+    stroke: var(--color-foreground-button-default-hover);
+}
+.tridenton-ui-button.tridenton-ui-button-default:not(:disabled):active path,
+.tridenton-ui-button.tridenton-ui-button-default:not(:disabled):active circle,
+.tridenton-ui-button.tridenton-ui-button-default:not(:disabled):active line  {
+    stroke: var(--color-foreground-button-default-active);
+}
+    
+/* Primary button */
+.tridenton-ui-button.tridenton-ui-button-primary:disabled {
+    background-color: var(--color-background-button-primary-disabled);
+    border-color: var(--color-border-button-primary-disabled);
+    color: var(--color-foreground-button-primary-disabled);
+}
+.tridenton-ui-button.tridenton-ui-button-primary:not(:disabled) {
+    background-color: var(--color-background-button-primary-default);
+    border-color: var(--color-border-button-primary-default);
+    color: var(--color-foreground-button-primary-default);
+}
+    .tridenton-ui-button.tridenton-ui-button-primary:not(:disabled):hover {
+        background-color: var(--color-background-button-primary-hover);
+        border-color: var(--color-border-button-primary-hover);
+        color: var(--color-foreground-button-primary-hover);
+    }
+    .tridenton-ui-button.tridenton-ui-button-primary:not(:disabled):active {
+        background-color: var(--color-background-button-primary-active);
+        border-color: var(--color-border-button-primary-active);
+        color: var(--color-foreground-button-primary-active);
+    }
+.tridenton-ui-button.tridenton-ui-button-primary:disabled path,
+.tridenton-ui-button.tridenton-ui-button-primary:disabled circle,
+.tridenton-ui-button.tridenton-ui-button-primary:disabled line {
+    stroke: var(--color-foreground-button-primary-disabled);
+}
+.tridenton-ui-button.tridenton-ui-button-primary:not(:disabled) path,
+.tridenton-ui-button.tridenton-ui-button-primary:not(:disabled) circle,
+.tridenton-ui-button.tridenton-ui-button-primary:not(:disabled) line  {
+    stroke: var(--color-foreground-button-primary-default);
+}
+.tridenton-ui-button.tridenton-ui-button-primary:not(:disabled):hover path,
+.tridenton-ui-button.tridenton-ui-button-primary:not(:disabled):hover circle,
+.tridenton-ui-button.tridenton-ui-button-primary:not(:disabled):hover line {
+    stroke: var(--color-foreground-button-primary-hover);
+}
+.tridenton-ui-button.tridenton-ui-button-primary:not(:disabled):active path,
+.tridenton-ui-button.tridenton-ui-button-primary:not(:disabled):active circle,
+.tridenton-ui-button.tridenton-ui-button-primary:not(:disabled):active line {
+    stroke: var(--color-foreground-button-primary-active);
+}
+
+/* Icon button */
+.tridenton-ui-button.tridenton-ui-button-icon,
+.tridenton-ui-button.tridenton-ui-button-icon-inverted {
+    display: flex;
+    padding: 4px;
+}
+
+.tridenton-ui-button.tridenton-ui-button-icon:disabled {
+    background-color: var(--color-background-button-icon-disabled);
+    border-color: var(--color-border-button-icon-disabled);
+    color: var(--color-foreground-button-icon-disabled);
+}
+.tridenton-ui-button.tridenton-ui-button-icon:not(:disabled) {
+    background-color: var(--color-background-button-icon-default);
+    border-color: var(--color-border-button-icon-default);
+    color: var(--color-foreground-button-icon-default);
+}
+.tridenton-ui-button.tridenton-ui-button-icon:not(:disabled):hover {
+    background-color: var(--color-background-button-icon-hover);
+    border-color: var(--color-border-button-icon-hover);
+    color: var(--color-foreground-button-icon-hover);
+}
+.tridenton-ui-button.tridenton-ui-button-icon:not(:disabled):active {
+    background-color: var(--color-background-button-icon-active);
+    border-color: var(--color-border-button-icon-active);
+    color: var(--color-foreground-button-icon-active);
+}
+.tridenton-ui-button.tridenton-ui-button-icon:disabled path,
+.tridenton-ui-button.tridenton-ui-button-icon:disabled circle,
+.tridenton-ui-button.tridenton-ui-button-icon:disabled line  {
+    stroke: var(--color-foreground-button-icon-disabled);
+}
+.tridenton-ui-button.tridenton-ui-button-icon:not(:disabled) path,
+.tridenton-ui-button.tridenton-ui-button-icon:not(:disabled) circle,
+.tridenton-ui-button.tridenton-ui-button-icon:not(:disabled) line {
+    stroke: var(--color-foreground-button-icon-default);
+}
+.tridenton-ui-button.tridenton-ui-button-icon:not(:disabled):hover path,
+.tridenton-ui-button.tridenton-ui-button-icon:not(:disabled):hover circle,
+.tridenton-ui-button.tridenton-ui-button-icon:not(:disabled):hover line {
+    stroke: var(--color-foreground-button-icon-hover);
+}
+.tridenton-ui-button.tridenton-ui-button-icon:not(:disabled):active path,
+.tridenton-ui-button.tridenton-ui-button-icon:not(:disabled):active circle,
+.tridenton-ui-button.tridenton-ui-button-icon:not(:disabled):active line {
+    stroke: var(--color-foreground-button-icon-active);
+}
+
+/* Icon inverted button */
+.tridenton-ui-button.tridenton-ui-button-icon-inverted:disabled {
+    background-color: var(--color-background-button-icon-inverted-disabled);
+    border-color: var(--color-border-button-icon-inverted-disabled);
+    color: var(--color-foreground-button-icon-inverted-disabled);
+}
+.tridenton-ui-button.tridenton-ui-button-icon-inverted:not(:disabled) {
+    background-color: var(--color-background-button-icon-inverted-default);
+    border-color: var(--color-border-button-icon-inverted-default);
+    color: var(--color-foreground-button-icon-inverted-default);
+}
+.tridenton-ui-button.tridenton-ui-button-icon-inverted:not(:disabled):hover {
+    background-color: var(--color-background-button-icon-inverted-hover);
+    border-color: var(--color-border-button-icon-inverted-hover);
+    color: var(--color-foreground-button-icon-inverted-hover);
+}
+.tridenton-ui-button.tridenton-ui-button-icon-inverted:not(:disabled):active {
+    background-color: var(--color-background-button-icon-inverted-active);
+    border-color: var(--color-border-button-icon-inverted-active);
+    color: var(--color-foreground-button-icon-inverted-active);
+}
+.tridenton-ui-button.tridenton-ui-button-icon-inverted:disabled path,
+.tridenton-ui-button.tridenton-ui-button-icon-inverted:disabled circle,
+.tridenton-ui-button.tridenton-ui-button-icon-inverted:disabled line {
+    stroke: var(--color-foreground-button-icon-inverted-disabled);
+}
+.tridenton-ui-button.tridenton-ui-button-icon-inverted:not(:disabled) path,
+.tridenton-ui-button.tridenton-ui-button-icon-inverted:not(:disabled) circle,
+.tridenton-ui-button.tridenton-ui-button-icon-inverted:not(:disabled) line {
+    stroke: var(--color-foreground-button-icon-inverted-default);
+}
+.tridenton-ui-button.tridenton-ui-button-icon-inverted:not(:disabled):hover path,
+.tridenton-ui-button.tridenton-ui-button-icon-inverted:not(:disabled):hover circle,
+.tridenton-ui-button.tridenton-ui-button-icon-inverted:not(:disabled):hover line {
+    stroke: var(--color-foreground-button-icon-inverted-hover);
+}
+.tridenton-ui-button.tridenton-ui-button-icon-inverted:not(:disabled):active path,
+.tridenton-ui-button.tridenton-ui-button-icon-inverted:not(:disabled):active circle,
+.tridenton-ui-button.tridenton-ui-button-icon-inverted:not(:disabled):active line {
+    stroke: var(--color-foreground-button-icon-inverted-active);
+}

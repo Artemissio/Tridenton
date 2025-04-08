@@ -18,6 +18,8 @@ public static class DependencyInjection
         services.AddSingleton<EventsFilter, MainFilter>();
         
         services.AddScoped<IEventsErrorsRepository, EventsErrorsRepository>();
+
+        services.AddDbContext<ApplicationDbContext>();
         
         return services;
     }

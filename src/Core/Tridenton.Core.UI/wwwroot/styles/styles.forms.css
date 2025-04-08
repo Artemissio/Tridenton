@@ -1,0 +1,52 @@
+:root {
+    --color-background-form-default: #FFFFFF;
+    --color-foreground-form-header-default: #333333;
+    --color-foreground-form-header: #F2F2F3;
+    --size-border-form-radius: 4px;
+    --size-font-form-field-label-default: 14px;
+    --size-line-height-form-field-label-default: 16px;
+    --size-font-form-field-description-default: 12px;
+    --size-line-height-form-field-description-default: 18px;
+    
+    --color-foreground-form-field-label-default: #333333;
+    --color-foreground-form-field-description-default: #888888;
+}
+
+.tridenton-ui-form {
+    background: var(--color-background-form-default);
+    width: 100%;
+    -webkit-box-shadow: 0 1px 1px 0 rgb(0 28 36 / 30%), 1px 1px 1px 0 rgb(0 28 36 / 15%), -1px 1px 1px 0 rgb(0 28 36 / 15%);
+    box-shadow: 0 1px 1px 0 rgb(0 28 36 / 30%), 1px 1px 1px 0 rgb(0 28 36 / 15%), -1px 1px 1px 0 rgb(0 28 36 / 15%);
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    border-radius: var(--size-border-form-radius);
+}
+
+.tridenton-ui-form-header {
+    background: var(--color-foreground-form-header-default);
+    border-top-left-radius: var(--size-border-form-radius);
+    border-top-right-radius: var(--size-border-form-radius);
+}
+.tridenton-ui-form-header header {
+    color: var(--color-foreground-form-header);
+}
+
+.tridenton-ui-form-content {
+    
+}
+
+.tridenton-ui-form-field-label {
+    box-sizing: border-box;
+    color: var(--color-foreground-form-field-label-default);
+    display: inline;
+    font-size: var(--size-font-form-field-label-default);
+    line-height: var(--size-line-height-form-field-label-default);
+}
+
+.tridenton-ui-form-field-description {
+    color: var(--color-foreground-form-field-description-default);
+    font-size: var(--size-font-form-field-description-default);
+    line-height: var(--size-line-height-form-field-description-default);
+    letter-spacing: normal;
+}

@@ -1,0 +1,7 @@
+@inherits UIComponent
+
+<img id="@Id" class="@ClassList" style="@Style" @attributes="Attributes" src="@AssetsManager.GetAssetPath("loader.gif")" alt="Loading..." />
+
+@code {
+    protected override string GetUIComponentClass() => "tridenton-ui-loader";
+}

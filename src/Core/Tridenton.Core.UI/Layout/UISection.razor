@@ -1,0 +1,9 @@
+@inherits UIWrapperComponent
+
+<div id="@Id" class="@ClassList" style="@Style" @attributes="Attributes">
+    @ChildContent
+</div>
+
+@code {
+    protected override string GetUIComponentClass() => $"tridenton-ui-section";
+}

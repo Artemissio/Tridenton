@@ -1,0 +1,22 @@
+@inherits UIWrapperComponent
+
+<UIColumn Class="@ClassList" Style="@Style" Attributes="Attributes">
+    <label class="tridenton-ui-form-field-label tridenton-ui-text-bold">@Label</label>
+    
+    @if (!string.IsNullOrWhiteSpace(Description))
+    {
+        <small class="tridenton-ui-form-field-description">@Description</small>
+    }
+    
+    @ChildContent
+</UIColumn>
+
+@code {
+    [Parameter, EditorRequired]
+    public required string Label { get; set; }
+    
+    [Parameter]
+    public string? Description { get; set; }
+    
+    protected override string GetUIComponentClass() => "tridenton-ui-form-field";
+}

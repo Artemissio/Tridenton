@@ -15,7 +15,7 @@ else
     }
     else
     {
-        <input id="@Id" class="@ClassList" type="number" title="@Tooltip" value="@Value" placeholder="@Placeholder" @oninput="@ValueChanged" @onclick="OnClick" />
+        <input id="@Id" class="@ClassList" type="number" title="@Tooltip" value="@Value" placeholder="@Placeholder" @oninput="@InvokeValueChangedAsync" @onclick="OnClick" />
     }
 }
 
@@ -23,6 +23,11 @@ else
 {
     [Parameter]
     public bool Readonly { get; set; }
-    
+
+    protected override TValue Parse(object? value)
+    {
+        throw new NotImplementedException();
+    }
+
     protected override string GetUIComponentClass() => "tridenton-ui-input-number";
 }

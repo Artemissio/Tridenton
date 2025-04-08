@@ -1,21 +1,31 @@
 :root {
+    --color-background-input-default: #FFFFFF;
+    --color-foreground-input-default: #333333; /* 16191f */
     
+    --color-background-checkbox-default: #FFFFFF;
+    --color-border-checkbox-default: #C6C6CD;
+    --color-background-checkbox-checked: #006CE0;
+    --color-border-checkbox-checked: #006CE0;
+    --color-background-checkbox-disabled: #C0C0C0;
+    --color-border-checkbox-disabled: #C0C0C0;
+    --color-foreground-checkbox-default: #F2F2F3;
+    
+    --size-border-radius-input-default: 2px;
+    --size-checkbox-width-default: 16px;
+    --size-checkbox-height-default: 16px;
 }
 
 input {
     border-collapse: separate;
     border-spacing: 0;
     caption-side: top;
-    cursor: auto;
     direction: inherit;
     empty-cells: show;
-    font-family: serif;
-    font-size: medium;
+    font-family: 'Tridenton', sans-serif;
     font-style: normal;
     font-feature-settings: normal;
     font-variant: normal;
     font-stretch: normal;
-    line-height: normal;
     -webkit-hyphens: none;
     hyphens: none;
     letter-spacing: normal;
@@ -30,43 +40,76 @@ input {
     white-space: normal;
     word-spacing: normal;
     font-weight: 400;
-    font-family: "Amazon Ember","Helvetica Neue",Roboto,Arial,sans-serif;
-    -webkit-font-smoothing: auto;
-    -moz-osx-font-smoothing: auto;
     padding-block: 4px;
     padding-inline: 8px;
-    color: #16191f;
+    color: var(--color-foreground-input-default);
     inline-size: 100%;
-    cursor: text;
     box-sizing: border-box;
-    background-color: #fff;
-    border-start-start-radius: 2px;
-    border-start-end-radius: 2px;
-    border-end-start-radius: 2px;
-    border-end-end-radius: 2px;
-    border-block: 1px solid #687078;
-    border-inline: 1px solid #687078;
-    font-size: 14px;
+    background-color: var(--color-background-input-default);
+    border-radius: var(--size-border-radius-input-default);
+    border: 1px solid var(--color-foreground-input-default);
     line-height: 22px;
-    block-size: 32px;
 }
 
 input:focus {
-    outline: 2px dotted transparent;
-    border-block: 1px solid #0073bb;
-    border-inline: 1px solid #0073bb;
-    border-start-start-radius: 2px;
-    border-start-end-radius: 2px;
-    border-end-start-radius: 2px;
-    border-end-end-radius: 2px;
-    box-shadow: 0 0 0 1px #0073bb;
+    /*outline: 2px dotted transparent;*/
+    border-color: var(--color-common-info);
+    /*box-shadow: 0 0 0 1px var(--color-common-info); !* #0073bb *!*/
 }
 
-input::placeholder {
-    white-space-collapse: preserve;
-    text-wrap-mode: nowrap;
-    overflow-wrap: normal;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    line-height: initial;
+input:focus-visible {
+    box-shadow: none;
 }
+
+input.invalid:not(:focus) {
+    border: 2px solid var(--color-common-error);
+    border-left-width: 6px;
+}
+
+input[type="checkbox"],
+input:is([type="radio"], [type="checkbox"]) {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--color-background-checkbox-default);
+    margin: 0;
+    padding: 0;
+    width: var(--size-checkbox-width-default);
+    height: var(--size-checkbox-width-default);
+    border: 1px solid var(--color-border-checkbox-default);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+input[type="checkbox"]:checked,
+input:is([type="radio"], [type="checkbox"]):checked {
+    background-color: var(--color-background-checkbox-checked);
+    border-color: var(--color-background-checkbox-checked);
+}
+input[type="checkbox"]:checked::before,
+input:is([type="radio"], [type="checkbox"]):checked::before {
+    content: ' ';
+    background-image: url('../assets/checkmark.svg');
+    width: 10px;
+    height: 10px;
+    position: absolute;
+}
+input[type="checkbox"]:disabled,
+input:is([type="radio"], [type="checkbox"]):disabled {
+    background-color: var(--color-background-checkbox-disabled);
+    border-color: var(--color-border-checkbox-disabled);
+}
+
+.tridenton-ui-three-states-checkbox.middle-state::before {
+    background-image: url('../assets/minus.svg') !important;
+}
+
+/*input::placeholder {*/
+/*    white-space-collapse: preserve;*/
+/*    text-wrap-mode: nowrap;*/
+/*    overflow-wrap: normal;*/
+/*    overflow-x: hidden;*/
+/*    overflow-y: hidden;*/
+/*    line-height: initial;*/
+/*}*/
