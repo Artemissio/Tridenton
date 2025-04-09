@@ -1,0 +1,28 @@
+@using System.Text
+@inherits DatagridCascadeChild
+
+<td id="@Id" class="@ClassList" style="@Style" @attributes="Attributes">
+    @ChildContent
+</td>
+
+@code
+{
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        Datagrid.Columns.Add(this);
+    }
+
+    protected override string GetUIComponentClass()
+    {
+        var strBuilder = new StringBuilder("tridenton-ui-datagrid-column");
+
+        return strBuilder.ToString();
+    }
+
+    public override void Dispose()
+    {
+        Datagrid.Columns.Remove(this);
+    }
+}

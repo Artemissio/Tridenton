@@ -1,0 +1,43 @@
+@using System.Text
+@inherits DatagridCascadeChild
+
+<th id="@Id" class="@ClassList" style="@Style" @attributes="Attributes">
+    @ChildContent
+</th>
+
+@code
+{
+    [Parameter]
+    public bool Sortable { get; set; }
+    
+    internal bool Visible { get; private set; }
+    
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        Datagrid.Headers.Add(this);
+    }
+
+    protected override string GetUIComponentClass()
+    {
+        var strBuilder = new StringBuilder("tridenton-ui-datagrid-header");
+
+        return strBuilder.ToString();
+    }
+
+    public void Hide()
+    {
+        Visible = false;
+    }
+
+    public void Show()
+    {
+        Visible = true;
+    }
+
+    public override void Dispose()
+    {
+        Datagrid.Headers.Remove(this);
+    }
+}

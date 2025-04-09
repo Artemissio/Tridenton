@@ -9,17 +9,17 @@
     <UIColumn Class="gap">
         <UIDatagrid T="FormTestModel" Variant="UIDatagridVariant.MultiSelect" Handler="GetTestModelsAsync">
             <TableHeaders>
-                <th>Email</th>
-                <th>Password</th>
+                <UIDatagridHeader Sortable="true">Email</UIDatagridHeader>
+                <UIDatagridHeader Sortable="true">Password</UIDatagridHeader>
             </TableHeaders>
-            
+
             <RowTemplate>
-                <td>@context.Email</td>
-                <td>@context.Password</td>
+                <UIDatagridColumn>@context.Email</UIDatagridColumn>
+                <UIDatagridColumn>@context.Password</UIDatagridColumn>
             </RowTemplate>
-            
+
             <Actions>
-                
+
             </Actions>
         </UIDatagrid>
         
