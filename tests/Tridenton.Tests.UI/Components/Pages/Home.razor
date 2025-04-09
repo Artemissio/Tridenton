@@ -7,15 +7,22 @@
 
 <UISection>
     <UIColumn Class="gap">
-        <UIDatagrid T="FormTestModel" Variant="UIDatagridVariant.MultiSelect" Handler="GetTestModelsAsync">
+        <UIDatagrid T="FormTestModel" 
+                    PreferencesKey="tridenton-ui-datagrid-test"
+                    Variant="UIDatagridVariant.MultiSelect" 
+                    Handler="GetTestModelsAsync">
             <TableHeaders>
-                <UIDatagridHeader Sortable="true">Email</UIDatagridHeader>
-                <UIDatagridHeader Sortable="true">Password</UIDatagridHeader>
+                <UIDatagridHeader Label="Email" Sortable="true" CanNotBeHidden="true" />
+                <UIDatagridHeader Label="Password" Sortable="true" />
+                <UIDatagridHeader Label="Age" Sortable="true" />
+                <UIDatagridHeader Label="Date of birth" Sortable="true" />
             </TableHeaders>
 
             <RowTemplate>
                 <UIDatagridColumn>@context.Email</UIDatagridColumn>
                 <UIDatagridColumn>@context.Password</UIDatagridColumn>
+                <UIDatagridColumn>@context.Age</UIDatagridColumn>
+                <UIDatagridColumn>@context.DateOfBirth</UIDatagridColumn>
             </RowTemplate>
 
             <Actions>
@@ -553,6 +560,10 @@
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
 
+        public int Age { get; init; }
+
+        public DateOnly DateOfBirth { get; init; }
+
         public FormTestModel()
         {
             Email = string.Empty;
@@ -569,7 +580,7 @@
 
     private async Task<Result<PaginatedResponse<FormTestModel>>> GetTestModelsAsync(PaginatedRequest request)
     {
-        await Task.Delay(3_000);
+        await Task.Delay(1_000);
 
         var items = Enumerable
             .Range(0, 5)
@@ -577,6 +588,8 @@
             {
                 Email = $"test{i + 1}@gmail.com",
                 Password = $"P@$$w0r|){i}",
+                Age = i,
+                DateOfBirth = DateOnly.FromDateTime(DateTime.UtcNow),
             })
             .ToArray();
 

@@ -1,12 +1,17 @@
 @using System.Text
 @inherits DatagridCascadeChild
 
-<td id="@Id" class="@ClassList" style="@Style" @attributes="Attributes">
-    @ChildContent
-</td>
+@if (Visible)
+{
+    <td id="@Id" class="@ClassList" style="@Style" @attributes="Attributes">
+        @ChildContent
+    </td>
+}
 
 @code
 {
+    internal bool Visible { get; set; } = true;
+    
     protected override void OnInitialized()
     {
         base.OnInitialized();

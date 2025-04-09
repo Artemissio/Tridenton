@@ -42,6 +42,11 @@ public abstract class UIFlexComponent : UIWrapperComponent
             strBuilder.Append("justify-content-start ");
         }
         
+        if (FlexVariant.HasFlag(UIFlexVariant.JustifyContentEnd))
+        {
+            strBuilder.Append("justify-content-end ");
+        }
+        
         if (FlexVariant.HasFlag(UIFlexVariant.JustifyContentSpaceBetween))
         {
             strBuilder.Append("justify-content-space-between ");

@@ -9,10 +9,21 @@
     --color-background-checkbox-disabled: #C0C0C0;
     --color-border-checkbox-disabled: #C0C0C0;
     --color-foreground-checkbox-default: #F2F2F3;
+
+    --color-background-radio-button-default: #FFFFFF;
+    --color-border-radio-button-default: #C6C6CD;
+    --color-background-radio-button-checked: transparent;
+    --color-border-radio-button-checked: #006CE0;
+    --color-background-radio-button-disabled: transparent;
+    --color-border-radio-button-disabled: #C0C0C0;
     
     --size-border-radius-input-default: 2px;
     --size-checkbox-width-default: 16px;
     --size-checkbox-height-default: 16px;
+
+    --size-radio-button-width-default: 16px;
+    --size-radio-button-height-default: 16px;
+    --size-radio-button-border-width-checked: 5px;
 }
 
 input {
@@ -67,7 +78,7 @@ input.invalid:not(:focus) {
 }
 
 input[type="checkbox"],
-input:is([type="radio"], [type="checkbox"]) {
+input:is([type="checkbox"]) {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -83,12 +94,12 @@ input:is([type="radio"], [type="checkbox"]) {
     justify-content: center;
 }
 input[type="checkbox"]:checked,
-input:is([type="radio"], [type="checkbox"]):checked {
+input:is([type="checkbox"]):checked {
     background-color: var(--color-background-checkbox-checked);
     border-color: var(--color-background-checkbox-checked);
 }
 input[type="checkbox"]:checked::before,
-input:is([type="radio"], [type="checkbox"]):checked::before {
+input:is([type="checkbox"]):checked::before {
     content: ' ';
     background-image: url('../assets/checkmark.svg');
     width: 10px;
@@ -96,9 +107,40 @@ input:is([type="radio"], [type="checkbox"]):checked::before {
     position: absolute;
 }
 input[type="checkbox"]:disabled,
-input:is([type="radio"], [type="checkbox"]):disabled {
+input:is([type="checkbox"]):disabled {
     background-color: var(--color-background-checkbox-disabled);
     border-color: var(--color-border-checkbox-disabled);
+}
+
+
+input[type="radio"],
+input:is([type="radio"]) {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--color-background-radio-button-default);
+    margin: 0;
+    padding: 0;
+    width: var(--size-radio-button-width-default);
+    height: var(--size-radio-button-height-default);
+    border: 1px solid var(--color-border-radio-button-default);
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+input[type="radio"]:checked,
+input:is([type="radio"]):checked {
+    background-color: var(--color-background-radio-button-checked);
+    border-color: var(--color-border-radio-button-checked);
+    border-width: var(--size-radio-button-border-width-checked);
+}
+
+input[type="radio"]:disabled,
+input:is([type="radio"]):disabled {
+    background-color: var(--color-background-radio-button-disabled);
+    border-color: var(--color-border-radio-button-disabled);
 }
 
 .tridenton-ui-three-states-checkbox.middle-state::before {

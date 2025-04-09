@@ -109,3 +109,7 @@ th, td {
 .tridenton-ui-datagrid table tbody tr td:last-child {
     border-right: 1px solid transparent;
 }
+
+.tridenton-ui-datagrid-preferences-container {
+    width: 50%;
+}

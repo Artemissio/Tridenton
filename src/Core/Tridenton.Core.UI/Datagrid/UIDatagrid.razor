@@ -1,11 +1,71 @@
 @typeparam T where T : class
 
-@using System.ComponentModel
-@using Microsoft.AspNetCore.Components.Forms
-@using Microsoft.JSInterop
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 
 @inherits UIDatagridBase
+
 @inject IJSRuntime Js
+@inject ProtectedLocalStorage LocalStorage
+
+@if (_settingsPopupVisible)
+{
+    <UIPopup>
+        <div class="tridenton-ui-datagrid-preferences-container">
+            <UIForm Model="_preferences" Header="Preferences">
+                <HeaderTemplate>
+                    <UIRow FlexVariant="UIFlexVariant.AlignItemsCenter | UIFlexVariant.JustifyContentSpaceBetween">
+                        <UIFormDefaultHeader Header="Preferences" />
+                        <UIButton Variant="UIButtonVariant.IconInverted" Text="Close" OnClick="() => _settingsPopupVisible = false">
+                            <UICloseIcon/>
+                        </UIButton>
+                    </UIRow>
+                </HeaderTemplate>
+                
+                <ContentTemplate>
+                    <UIFormField Label="Page size" Description="Amount of items per page">
+                        <InputRadioGroup TValue="int" @bind-Value="_preferences!.PageSize">
+                            <UIRow Class="gap" FlexVariant="UIFlexVariant.AlignItemsCenter">
+                                <InputRadio Value="25" />
+                                <label>25</label>
+                            </UIRow>
+                            <UIRow Class="gap" FlexVariant="UIFlexVariant.AlignItemsCenter">
+                                <InputRadio Value="50" />
+                                <label>50</label>
+                            </UIRow>
+                            <UIRow Class="gap" FlexVariant="UIFlexVariant.AlignItemsCenter">
+                                <InputRadio Value="100" />
+                                <label>100</label>
+                            </UIRow>
+                        </InputRadioGroup>
+                    </UIFormField>
+                    
+                    <UIFormField Label="Columns" Description="Select visible columns">
+                        <UIColumn>
+                            @foreach (var header in Headers)
+                            {
+                                <UIRow Class="gap" FlexVariant="UIFlexVariant.AlignItemsCenter">
+                                    <input type="checkbox" checked="@header.Visible" @oninput="(args) => ChangeColumnVisibility(header, (bool)args.Value!)" disabled="@header.CanNotBeHidden" />
+                                    @* <InputCheckbox Value="@header.Visible" *@
+                                    @*                ValueExpression="() => header.Visible" *@
+                                    @*                ValueChanged="visible => ChangeColumnVisibility(header, visible)" *@
+                                    @*                disabled="@header.CanNotBeHidden"/> *@
+                                    <label>@header.Label</label>
+                                </UIRow>
+                            }
+                        </UIColumn>
+                    </UIFormField>
+                </ContentTemplate>
+                
+                <ControlsTemplate>
+                    <UIRow Class="gap" FlexVariant="UIFlexVariant.AlignItemsCenter | UIFlexVariant.JustifyContentEnd">
+                        <UIButton Variant="UIButtonVariant.Default" Text="Cancel" OnClick="() => _settingsPopupVisible = false" />
+                        <UIButton Variant="UIButtonVariant.Primary" Text="Confirm" OnClick="SavePreferencesAsync" />
+                    </UIRow>
+                </ControlsTemplate>
+            </UIForm>
+        </div>
+    </UIPopup>
+}
 
 <CascadingValue Value="this">
     <div id="@Id" class="@ClassList" style="@Style" @attributes="Attributes">
@@ -34,7 +94,7 @@
                             <UIRefreshIcon />
                         </UIButton>
                         
-                        <UIButton Variant="UIButtonVariant.Icon" Disabled="Loading" Text="Settings">
+                        <UIButton Variant="UIButtonVariant.Icon" Disabled="Loading" Text="Settings" OnClick="() => _settingsPopupVisible = true">
                             <UISettingsIcon />
                         </UIButton>
                     </UIRow>
@@ -162,6 +222,9 @@
 @code
 {
     [Parameter, EditorRequired]
+    public required string PreferencesKey { get; set; }
+    
+    [Parameter, EditorRequired]
     public UIDatagridVariant Variant { get; set; }
     
     [Parameter, EditorRequired]
@@ -196,16 +259,101 @@
 
     private bool _allSelected;
     private bool _anySelected;
+
+    private bool _settingsPopupVisible;
     
     private bool Loading => _response is null;
+
+    private DatagridPreferences? _preferences;
 
     protected override async ValueTask OnFirstRenderAsync()
     {
         await base.OnFirstRenderAsync();
+
+        await InitializePreferencesAsync();
+
+        ApplyHeadersPreferences();
     
+        StateHasChanged();
+        
         await LoadItemsAsync();
     }
 
+    private async ValueTask InitializePreferencesAsync()
+    {
+        if (_preferences is not null)
+        {
+            return;
+        }
+
+        var preferencesFromLocalStorage = await LocalStorage.GetAsync<DatagridPreferences>(PreferencesKey);
+
+        if (preferencesFromLocalStorage is { Success: true, Value: not null })
+        {
+            _preferences = preferencesFromLocalStorage.Value;
+            return;
+        }
+
+        _preferences = new();
+
+        await LocalStorage.SetAsync(PreferencesKey, _preferences);
+    }
+
+    private async Task LoadItemsAsync()
+    {
+        _response = null;
+
+        try
+        {
+            _request.Size = _preferences!.PageSize;
+            
+            var result = await Handler.Invoke(_request);
+
+            if (result.Successful)
+            {
+                _response = result.Value;
+
+                _rows = _response.Items
+                    .Select((item, index) => new UISelectable<T>(item, index + 1))
+                    .ToArray();
+            }
+            else
+            {
+                _error = result.Error;
+                _response = new();
+                _rows = [];
+            }
+        }
+        catch (Exception exception)
+        {
+            _error = new InternalServerError("Datagrid.LoadFailed", exception.Message);
+        }
+        finally
+        {
+            StateHasChanged();
+            
+            ApplyCellsPreferences();
+            
+            StateHasChanged();
+        }
+    }
+
+    private void ApplyHeadersPreferences()
+    {
+        for (var i = 0; i < Headers.Count; i++)
+        {
+            Headers[i].Visible = !_preferences!.HiddenHeadersIndices.Contains(i);
+        }
+    }
+
+    private void ApplyCellsPreferences()
+    {
+        for (var i = 0; i < Columns.Count; i++)
+        {
+            Columns[i].Visible = !_preferences!.HiddenCellsIndices.Contains(i);
+        }
+    }
+    
     private async Task SelectAllRowsAsync()
     {
         foreach (var row in _rows)
@@ -271,37 +419,63 @@
         await OnRowsSelected.InvokeAsync(new DatagridSelectionChangedEventArgs<T>(selectedRows));
     }
 
-    private async Task LoadItemsAsync()
+    private void ChangeColumnVisibility(UIDatagridHeader header, bool visible)
     {
-        _response = null;
-
-        try
+        var headerIndex = header.Position - 1;
+        
+        if (visible)
         {
-            var result = await Handler.Invoke(_request);
-
-            if (result.Successful)
+            _preferences!.HiddenHeadersIndices.Remove(headerIndex);
+        }
+        else
+        {
+            _preferences!.HiddenHeadersIndices.Add(headerIndex);
+        }
+        
+        for (var i = 0; i < Columns.Count; i++)
+        {
+            var currentColumn = i % Headers.Count;
+            
+            if (currentColumn != headerIndex)
             {
-                _response = result.Value;
+                continue;
+            }
 
-                _rows = _response.Items
-                    .Select((item, index) => new UISelectable<T>(item, index + 1))
-                    .ToArray();
+            if (visible)
+            {
+                _preferences.HiddenCellsIndices.Remove(i);
             }
             else
             {
-                _error = result.Error;
-                _response = new();
-                _rows = [];
+                _preferences.HiddenCellsIndices.Add(i);
             }
         }
-        catch (Exception exception)
-        {
-            _error = new InternalServerError("Datagrid.LoadFailed", exception.Message);
-        }
-        finally
-        {
-            await RerenderAsync();
-        }
+        
+        // header.Visible = visible;
+        
+        // for (var i = 0; i < Columns.Count; i++)
+        // {
+        //     var currentColumn = i % Headers.Count;
+        //     
+        //     if (currentColumn != header.Position - 1)
+        //     {
+        //         continue;
+        //     }
+        //     
+        //     Columns[i].Visible = visible;
+        // }
+    }
+
+    private async Task SavePreferencesAsync()
+    {
+        await LocalStorage.SetAsync(PreferencesKey, _preferences!);
+
+        ApplyHeadersPreferences();
+        ApplyCellsPreferences();
+
+        StateHasChanged();
+        
+        _settingsPopupVisible = false;
     }
 
     protected override string GetUIComponentClass() => "tridenton-ui-datagrid";

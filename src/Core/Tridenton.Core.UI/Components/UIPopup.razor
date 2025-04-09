@@ -1,0 +1,26 @@
+@inherits UIWrapperComponent
+@implements IAsyncDisposable
+@inject IJSRuntime Js
+
+<div id="@Id" class="@ClassList" style="@Style" @attributes="Attributes">
+    <div class="tridenton-ui-popup">
+        @ChildContent
+    </div>
+    <div class="tridenton-ui-popup-background"></div>
+</div>
+
+@code {
+    protected override async ValueTask OnFirstRenderAsync()
+    {
+        await base.OnFirstRenderAsync();
+
+        await Js.InvokeVoidAsync("disableBodyScroll");
+    }
+
+    protected override string GetUIComponentClass() => "tridenton-ui-popup-container";
+
+    public async ValueTask DisposeAsync()
+    {
+        await Js.InvokeVoidAsync("enableBodyScroll");
+    }
+}

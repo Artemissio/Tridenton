@@ -17,13 +17,13 @@ public record PaginatedRequest
     /// Index of page to display
     /// </summary>
     [ValidateProperty(Required = true, Min = PaginationConstants.DefaultPageIndex, Max = int.MaxValue, ErrorMessage = $"Page is required and should be between 1 and 2147483647")]
-    public int Page { get; init; }
+    public int Page { get; set; }
 
     /// <summary>
     /// Amount of elements to display per one page
     /// </summary>
     [ValidateProperty(Required = true, Min = 1, Max = int.MaxValue, ErrorMessage = "Size is required and should be between 1 and 2147483647")]
-    public int Size { get; init; }
+    public int Size { get; set; }
 
     /// <summary>
     /// Ordering specification

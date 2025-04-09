@@ -1,5 +1,4 @@
 @inherits UIWrapperComponent
-@using Microsoft.AspNetCore.Components.Forms
 @typeparam TModel where TModel : class
 
 <EditForm Model="Model" id="@Id" class="@ClassList" style="@Style" @attributes="Attributes">
@@ -19,10 +18,19 @@
     <UISection Class="tridenton-ui-form-content">
         <UIColumn Class="gap">
             @ContentTemplate
+
+            <ValidationSummary />
+
+            @if (ControlsTemplate is null)
+            {
+
+            }
+            else
+            {
+                @ControlsTemplate
+            }
         </UIColumn>
     </UISection>
-
-    <ValidationSummary />
 </EditForm>
 
 @code {
@@ -34,6 +42,9 @@
     
     [Parameter]
     public RenderFragment? HeaderTemplate { get; set; }
+    
+    [Parameter]
+    public RenderFragment? ControlsTemplate { get; set; }
 
     [Parameter]
     public string Header { get; set; } = string.Empty;

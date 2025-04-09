@@ -1,20 +1,42 @@
 @using System.Text
 @inherits DatagridCascadeChild
 
-<th id="@Id" class="@ClassList" style="@Style" @attributes="Attributes">
-    @ChildContent
-</th>
+@if (Visible)
+{
+    <th id="@Id" class="@ClassList" style="@Style" @attributes="Attributes" data-position="@Position">
+        @if (Sortable)
+        {
+            <UIRow FlexVariant="UIFlexVariant.AlignItemsCenter | UIFlexVariant.JustifyContentSpaceBetween">
+                @Label
+            </UIRow>
+        }
+        else
+        {
+            @Label
+        }
+    </th>
+}
 
 @code
 {
+    [Parameter, EditorRequired]
+    public required string Label { get; set; }
+    
     [Parameter]
     public bool Sortable { get; set; }
     
-    internal bool Visible { get; private set; }
+    [Parameter]
+    public bool CanNotBeHidden { get; set; }
+
+    internal bool Visible { get; set; } = true;
+    
+    internal int Position { get; private set; }
     
     protected override void OnInitialized()
     {
         base.OnInitialized();
+
+        Position = Datagrid.Headers.Count + 1;
         
         Datagrid.Headers.Add(this);
     }
@@ -24,16 +46,6 @@
         var strBuilder = new StringBuilder("tridenton-ui-datagrid-header");
 
         return strBuilder.ToString();
-    }
-
-    public void Hide()
-    {
-        Visible = false;
-    }
-
-    public void Show()
-    {
-        Visible = true;
     }
 
     public override void Dispose()

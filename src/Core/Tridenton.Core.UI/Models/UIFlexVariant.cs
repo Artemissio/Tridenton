@@ -9,7 +9,8 @@ public enum UIFlexVariant
     AlignItemsStretch = 8,
     JustifyContentCenter = 16,
     JustifyContentStart = 32,
-    JustifyContentSpaceBetween = 64,
-    JustifyContentSpaceAround = 128,
-    JustifyContentSpaceEvenly = 256,
+    JustifyContentEnd = 64,
+    JustifyContentSpaceBetween = 128,
+    JustifyContentSpaceAround = 256,
+    JustifyContentSpaceEvenly = 512,
 }

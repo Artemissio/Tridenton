@@ -19,9 +19,6 @@
     <Content Remove="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Components\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Tridenton.Core\Tridenton.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -33,5 +30,10 @@
     <EmbeddedResource Include="wwwroot\assets\loader.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Components.Server">
+      <HintPath>..\..\..\..\..\..\..\..\usr\local\share\dotnet\shared\Microsoft.AspNetCore.App\8.0.8\Microsoft.AspNetCore.Components.Server.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
