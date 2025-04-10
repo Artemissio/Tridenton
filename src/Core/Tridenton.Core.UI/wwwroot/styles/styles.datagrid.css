@@ -1,26 +1,35 @@
 :root {
+    --size-datagrid-column-padding-default: 8px;
     
+    --color-background-datagrid-default: #FFFFFF;
+    --color-foreground-datagrid-default: #545b64;
+    
+    --color-background-datagrid-header-default: #F2F2F3;
+    --color-foreground-datagrid-header-default: #333333;
+    
+    --color-background-datagrid-row-selected: #F1FAFF;
+    
+    --color-border-datagrid-default: #D5DBDB;
+    --color-border-datagrid-row-selected: #006CE0;
+    --color-border-datagrid-resizer: #000000;
 }
 
 .tridenton-ui-datagrid table {
-    box-shadow: 0 1px 1px 0 rgb(0 28 36 / 30%), 1px 1px 1px 0 rgb(0 28 36 / 15%), -1px 1px 1px 0 rgb(0 28 36 / 15%), 0 -1px 1px 0 rgb(0 28 36 / 30%);
+    box-shadow: 0 1px 1px 0 rgb(0 28 36 / 30%), 1px 1px 1px 0 rgb(0 28 36 / 15%), -1px 1px 1px 0 rgb(0 28 36 / 15%), 0 -1px 1px 0 rgb(0 28 36 / 15%);
     border-spacing: 0;
     width: max-content;
     min-width: 100%;
     box-sizing: border-box;
-    background: #fff;
+    background: var(--color-background-datagrid-default);
 }
 
 .tridenton-ui-datagrid table thead {
-    /*background: #333333;*/
-    /*color: #f2f2f3;*/
-
-    background: #f2f2f3;
-    color: #333333;
+    background: var(--color-background-datagrid-header-default);
+    color: var(--color-foreground-datagrid-header-default);
 }
 
 th, td {
-    padding: 8px;
+    padding: var(--size-datagrid-column-padding-default);
     text-align: left;
 }
 
@@ -33,14 +42,14 @@ th, td {
 }
 
 .tridenton-ui-datagrid-row.selected td {
-    border-top: 2px solid #006CE0;
-    border-bottom: 2px solid #006CE0;
+    border-top: 2px solid var(--color-border-datagrid-row-selected);
+    border-bottom: 2px solid var(--color-border-datagrid-row-selected);
 }
     .tridenton-ui-datagrid-row.selected td:first-child {
-        border-left: 2px solid #006CE0;
+        border-left: 2px solid var(--color-border-datagrid-row-selected);
     }
     .tridenton-ui-datagrid-row.selected td:last-child {
-        border-right: 2px solid #006CE0;
+        border-right: 2px solid var(--color-border-datagrid-row-selected);
     }
 
 .tridenton-ui-datagrid table thead tr {
@@ -48,23 +57,12 @@ th, td {
     box-sizing: border-box;
 }
 .tridenton-ui-datagrid table thead th {
-    /*background-color: var(--color-background-form-section-header);*/
     white-space: nowrap;
-    padding: 0 1rem;
-    border-bottom: 1px solid #d5dbdb;
+    padding: 0 14px;
+    border-bottom: 1px solid var(--color-border-datagrid-default);
     position: relative;
     box-sizing: border-box;
-}
-.tridenton-ui-datagrid table thead th.checkbox {
     border-left: 1px solid transparent;
-}
-.tridenton-ui-datagrid table thead th.active * {
-    /*color: var(--color-text-body-default);*/
-    /*font-weight: 700;*/
-}
-.tridenton-ui-datagrid table thead th.active i {
-    /*content: url('ascending-filled.png');*/
-    /*height: var(--size-font-1-2-rem);*/
 }
 .tridenton-ui-datagrid table thead th:not(:first-child):before {
     content: "";
@@ -72,35 +70,35 @@ th, td {
     left: 0;
     bottom: 25%;
     height: 50%;
-    border-left: 1px solid #d5dbdb;
+    border-left: 1px solid var(--color-border-datagrid-default);
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 .tridenton-ui-datagrid table thead th,
 .tridenton-ui-datagrid table thead tr:not(:last-child) td {
-    border-bottom: 1px solid #d5dbdb;
+    border-bottom: 1px solid var(--color-border-datagrid-default);
 }
 
 .tridenton-ui-datagrid table tbody tr.selected td {
-    background: #f1faff;
-    border-top: 1px solid #006CE0;
-    border-bottom: 1px solid #006CE0;
+    background: var(--color-background-datagrid-row-selected);
+    border-top: 1px solid var(--color-border-datagrid-row-selected);
+    border-bottom: 1px solid var(--color-border-datagrid-row-selected);
 }
 .tridenton-ui-datagrid table tbody tr.selected td:first-child {
-    border-left: 1px solid #006CE0;
+    border-left: 1px solid var(--color-border-datagrid-row-selected);
 }
 .tridenton-ui-datagrid table tbody tr.selected td:last-child {
-    border-right: 1px solid #006CE0;
+    border-right: 1px solid var(--color-border-datagrid-row-selected);
 }
 .tridenton-ui-datagrid table tbody tr {
     box-sizing: border-box;
     position: relative;
 }
 .tridenton-ui-datagrid table tbody td {
-    color: #545b64;
+    color: var(--color-foreground-datagrid-default);
     border-top: 1px solid transparent;
-    border-bottom: 1px solid #d5dbdb;
-    padding: .4rem 1rem;
+    border-bottom: 1px solid var(--color-border-datagrid-default);
+    padding: 6px 14px;
     box-sizing: border-box;
 }
 .tridenton-ui-datagrid table tbody tr td:first-child {
@@ -112,4 +110,18 @@ th, td {
 
 .tridenton-ui-datagrid-preferences-container {
     width: 50%;
+}
+
+.tridenton-ui-datagrid-column-resizer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    cursor: col-resize;
+    user-select: none;
+    z-index: 2;
+}
+.tridenton-ui-datagrid-column-resizer:hover,
+.tridenton-ui-datagrid-column-resizer-active {
+    border-right: 2px dashed var(--color-border-datagrid-resizer);
 }

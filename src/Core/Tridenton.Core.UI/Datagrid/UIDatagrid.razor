@@ -45,10 +45,6 @@
                             {
                                 <UIRow Class="gap" FlexVariant="UIFlexVariant.AlignItemsCenter">
                                     <input type="checkbox" checked="@header.Visible" @oninput="(args) => ChangeColumnVisibility(header, (bool)args.Value!)" disabled="@header.CanNotBeHidden" />
-                                    @* <InputCheckbox Value="@header.Visible" *@
-                                    @*                ValueExpression="() => header.Visible" *@
-                                    @*                ValueChanged="visible => ChangeColumnVisibility(header, visible)" *@
-                                    @*                disabled="@header.CanNotBeHidden"/> *@
                                     <label>@header.Label</label>
                                 </UIRow>
                             }
@@ -108,11 +104,11 @@
                             @switch (Variant)
                             {
                                 case UIDatagridVariant.Select:
-                                    <th class="tridenton-ui-datagrid-selection-column"></th>
+                                    <th class="tridenton-ui-datagrid-selection-column resizing-ignored"></th>
                                     break;
 
                                 case UIDatagridVariant.MultiSelect:
-                                    <th class="tridenton-ui-datagrid-selection-column">
+                                    <th class="tridenton-ui-datagrid-selection-column resizing-ignored">
                                         @{
                                             UIThreeStatesCheckboxState checkboxState;
 
@@ -335,6 +331,8 @@
             ApplyCellsPreferences();
             
             StateHasChanged();
+
+            await InitializeUIDatagridAsync();
         }
     }
 
@@ -352,6 +350,11 @@
         {
             Columns[i].Visible = !_preferences!.HiddenCellsIndices.Contains(i);
         }
+    }
+
+    private async ValueTask InitializeUIDatagridAsync()
+    {
+        await Js.InvokeVoidAsync("initializeDatagrid", Id);
     }
     
     private async Task SelectAllRowsAsync()
@@ -474,6 +477,8 @@
         ApplyCellsPreferences();
 
         StateHasChanged();
+        
+        await InitializeUIDatagridAsync();
         
         _settingsPopupVisible = false;
     }
