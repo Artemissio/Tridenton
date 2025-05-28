@@ -301,3 +301,17 @@ input[type="reset"].tridenton-ui-button {
 .tridenton-ui-button.tridenton-ui-button-icon-inverted:not(:disabled):active line {
     stroke: var(--color-foreground-button-icon-inverted-active);
 }
+
+.tridenton-ui-button-dropdown-container {
+    position: relative;
+    width: fit-content;
+}
+
+.tridenton-ui-button-dropdown-data-table-container {
+    position: absolute;
+    z-index: 2;
+    top: 30px;
+    width: 100%;
+    max-height: 320px;
+    height: 320px;
+}

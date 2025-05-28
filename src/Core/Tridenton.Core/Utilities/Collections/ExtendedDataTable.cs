@@ -2,22 +2,6 @@ using System.Data;
 
 namespace Tridenton.Core.Utilities.Collections;
 
-public class ExtendedDataTable : DataTable
-{
-    public ExtendedDataTable(string[] columns)
-    {
-        foreach (var column in columns)
-        {
-            Columns.Add(column);
-        }
-    }
-
-    public ExtendedDataTable(DataColumn[] columns)
-    {
-        Columns.AddRange(columns);
-    }
-}
-
 public class DropdownDataTable : DataTable
 {
 	private readonly DataTable _tempCopy;

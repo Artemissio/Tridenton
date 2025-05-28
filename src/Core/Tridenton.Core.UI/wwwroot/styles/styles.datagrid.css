@@ -79,6 +79,12 @@ th, td {
     border-bottom: 1px solid var(--color-border-datagrid-default);
 }
 
+.tridenton-ui-datagrid table tbody tr.selectable:hover {
+    cursor: pointer;
+}
+.tridenton-ui-datagrid table tbody tr.selectable:hover td {
+    background: #F2F2F3;
+}
 .tridenton-ui-datagrid table tbody tr.selected td {
     background: var(--color-background-datagrid-row-selected);
     border-top: 1px solid var(--color-border-datagrid-row-selected);

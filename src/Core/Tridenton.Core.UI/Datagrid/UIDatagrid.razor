@@ -24,18 +24,13 @@
                 <ContentTemplate>
                     <UIFormField Label="Page size" Description="Amount of items per page">
                         <InputRadioGroup TValue="int" @bind-Value="_preferences!.PageSize">
-                            <UIRow Class="gap" FlexVariant="UIFlexVariant.AlignItemsCenter">
-                                <InputRadio Value="25" />
-                                <label>25</label>
-                            </UIRow>
-                            <UIRow Class="gap" FlexVariant="UIFlexVariant.AlignItemsCenter">
-                                <InputRadio Value="50" />
-                                <label>50</label>
-                            </UIRow>
-                            <UIRow Class="gap" FlexVariant="UIFlexVariant.AlignItemsCenter">
-                                <InputRadio Value="100" />
-                                <label>100</label>
-                            </UIRow>
+                            @foreach (var pageSize in PaginationConstants.PageSizeOptions)
+                            {
+                                <UIRow Class="gap" FlexVariant="UIFlexVariant.AlignItemsCenter">
+                                    <InputRadio Value="@pageSize"/>
+                                    <label>@pageSize</label>
+                                </UIRow>
+                            }
                         </InputRadioGroup>
                     </UIFormField>
                     
@@ -246,7 +241,7 @@
     
     [Parameter]
     public EventCallback<DatagridSelectionChangedEventArgs<T>> OnRowsSelected { get; set; }
-
+    
     private readonly PaginatedRequest _request = new();
 
     private Error? _error;
@@ -260,7 +255,7 @@
     
     private bool Loading => _response is null;
 
-    private DatagridPreferences? _preferences;
+    private UIDatagridPreferences? _preferences;
 
     protected override async ValueTask OnFirstRenderAsync()
     {
@@ -282,7 +277,7 @@
             return;
         }
 
-        var preferencesFromLocalStorage = await LocalStorage.GetAsync<DatagridPreferences>(PreferencesKey);
+        var preferencesFromLocalStorage = await LocalStorage.GetAsync<UIDatagridPreferences>(PreferencesKey);
 
         if (preferencesFromLocalStorage is { Success: true, Value: not null })
         {
@@ -297,6 +292,7 @@
 
     private async Task LoadItemsAsync()
     {
+        _allSelected = _anySelected = false;
         _response = null;
 
         try

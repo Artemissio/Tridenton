@@ -1,14 +1,14 @@
 namespace Tridenton.Core.UI.Models;
 
-public record DatagridPreferences
+public record UIDatagridPreferences
 {
     public int PageSize { get; set; }
     public List<int> HiddenHeadersIndices { get; init; }
     public List<int> HiddenCellsIndices { get; init; }
 
-    public DatagridPreferences()
+    public UIDatagridPreferences()
     {
-        PageSize = 100;
+        PageSize = PaginationConstants.DefaultPageSize;
         HiddenHeadersIndices = [];
         HiddenCellsIndices = [];
     }

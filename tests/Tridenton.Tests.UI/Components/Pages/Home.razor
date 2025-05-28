@@ -1,21 +1,44 @@
 ﻿@page "/"
 @using System.ComponentModel.DataAnnotations
+@using System.Data
 @using Tridenton.Core
 @using Tridenton.Core.UI.Models
+@using Tridenton.Core.Utilities
 
 <PageTitle>Home</PageTitle>
 
+@{
+    var dataTable = new ExtendedDataTable();
+
+    dataTable.Columns.Add(new DataColumn("Code"));
+    dataTable.Columns.Add(new DataColumn("Description"));
+
+    dataTable.Rows.Add("101", "Fire fighter");
+    dataTable.Rows.Add("102", "Police");
+    dataTable.Rows.Add("103", "Ambulance");
+
+    dataTable.PrimaryKey =
+    [
+        dataTable.Columns[0]
+    ];
+}
+
 <UISection>
+    <UIDropdownButton Variant="UIDropdownButtonVariant.Primary"
+                      Text="Create instance"
+                      DataTable="dataTable"
+                      ValueChanged="() => { }"/>
+    
     <UIColumn Class="gap">
-        <UIDatagrid T="FormTestModel" 
+        <UIDatagrid T="FormTestModel"
                     PreferencesKey="tridenton-ui-datagrid-test"
-                    Variant="UIDatagridVariant.MultiSelect" 
+                    Variant="UIDatagridVariant.MultiSelect"
                     Handler="GetTestModelsAsync">
             <TableHeaders>
-                <UIDatagridHeader Label="Email" Sortable="true" CanNotBeHidden="true" />
-                <UIDatagridHeader Label="Password" Sortable="true" />
-                <UIDatagridHeader Label="Age" Sortable="true" />
-                <UIDatagridHeader Label="Date of birth" Sortable="true" />
+                <UIDatagridHeader Label="Email" Sortable="true" CanNotBeHidden="true"/>
+                <UIDatagridHeader Label="Password" Sortable="true"/>
+                <UIDatagridHeader Label="Age" Sortable="true"/>
+                <UIDatagridHeader Label="Date of birth" Sortable="true"/>
             </TableHeaders>
 
             <RowTemplate>
@@ -29,7 +52,7 @@
 
             </Actions>
         </UIDatagrid>
-        
+
         <UIColumn FlexVariant="UIFlexVariant.AlignItemsCenter">
             <UIRow Class="gap" FlexVariant="UIFlexVariant.AlignItemsCenter">
                 <p class="tridenton-ui-text-extra-light">Extra Light Text</p>
@@ -56,7 +79,7 @@
                 <p class="tridenton-ui-text-black-italic">Black Text Italic</p>
             </UIRow>
         </UIColumn>
-        
+
         <UIForm TModel="FormTestModel" Model="_formTestModelInstance" Header="Test">
             <HeaderTemplate>
                 <UIRow FlexVariant="UIFlexVariant.AlignItemsCenter | UIFlexVariant.JustifyContentSpaceBetween">

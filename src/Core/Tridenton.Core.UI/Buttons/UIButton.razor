@@ -1,7 +1,6 @@
 @using System.Text
 
 @inherits UIWrapperComponent
-@implements ICollapsibleComponent
 @implements IInteractiveComponent
 
 @if (Variant == UIButtonVariant.Icon)
@@ -81,20 +80,8 @@ else
     
     [Parameter]
     public EventCallback OnClick { get; set; }
-    
-    public bool Collapsed { get; set; }
 
     private bool _loading;
-
-    public void Collapse()
-    {
-        if (Disabled)
-        {
-            return;
-        }
-
-        Collapsed = !Collapsed;
-    }
 
     private async Task InvokeClickAsync()
     {

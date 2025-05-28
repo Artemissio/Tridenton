@@ -5,10 +5,12 @@ namespace Tridenton.Core;
 public readonly struct PaginationConstants
 {
     public const int DefaultPageIndex = 1;
-    public const int DefaultPageSize = 25;
+    public const int DefaultPageSize = 100;
     public const char FilteringValuesDelimiter = ',';
     public const string Or = " OR ";
     public const string And = " AND ";
+    
+    public static readonly int[] PageSizeOptions = [25, 50, 100];
 }
 
 public record PaginatedRequest

@@ -1,0 +1,128 @@
+@using System.Data
+@using System.Text
+
+@inherits UIComponent
+@implements ICollapsibleComponent
+@implements IInteractiveComponent
+
+<div id="@Id" class="tridenton-ui-button-dropdown-container" @onmouseleave="() => Collapsed = true">
+    <UIButton Variant="Variant == UIDropdownButtonVariant.Primary ? UIButtonVariant.Primary : UIButtonVariant.Default"
+              Class="@GetUIComponentClass()"
+              Text="@Text"
+              Disabled="Disabled"
+              OnClick="Collapse">
+        @if (Collapsed)
+        {
+            <UIArrowDownIcon />
+        }
+        else
+        {
+            <UIArrowUpIcon />
+        }
+    </UIButton>
+
+    @if (!Collapsed)
+    {
+        <div class="tridenton-ui-button-dropdown-data-table-container tridenton-ui-datagrid">
+            <table class="tridenton-ui-datagrid-table">
+                <thead>
+                    <tr>
+                        @foreach (DataColumn column in DataTable.Columns)
+                        {
+                            var name = column.Caption;
+
+                            if (string.IsNullOrWhiteSpace(name))
+                            {
+                                name = column.ColumnName;
+                            }
+                            
+                            <th>@name</th>
+                        }
+                    </tr>
+                </thead>
+            
+                <tbody>
+                    @if (DataTable.Rows.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="100%">
+                                <UIRow Class="gap-05" FlexVariant="UIFlexVariant.AlignItemsCenter | UIFlexVariant.JustifyContentCenter">
+                                    <label>No items</label>
+                                </UIRow>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (DataRow dataRow in DataTable.Rows)
+                        {
+                            <tr class="selectable" @onclick="async() => await InvokeRowSelectionAsync(dataRow)">
+                                @foreach (DataColumn column in DataTable.Columns)
+                                {
+                                    if (DataTable.PrimaryKey.Contains(column))
+                                    {
+                                        <td class="tridenton-ui-text-bold">@dataRow[column]</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@dataRow[column]</td>
+                                    }
+                                }
+                            </tr>
+                        }   
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public required UIDropdownButtonVariant Variant { get; set; }
+
+    [Parameter, EditorRequired]
+    public required string Text { get; set; }
+    
+    [Parameter, EditorRequired]
+    public required ExtendedDataTable DataTable { get; set; }
+
+    [Parameter, EditorRequired]
+    public EventCallback<DataRow> ValueChanged { get; set; }
+    
+    [Parameter]
+    public bool SearchEnabled { get; set; }
+    
+    [Parameter]
+    public bool Disabled { get; set; }
+    
+    public EventCallback OnClick { get; set; }
+
+    public bool Collapsed { get; set; } = true;
+
+    public void Collapse()
+    {
+        if (Disabled)
+        {
+            return;
+        }
+
+        Collapsed = !Collapsed;
+    }
+
+    private async Task InvokeRowSelectionAsync(DataRow dataRow)
+    {
+        await ValueChanged.InvokeAsync(dataRow);
+
+        Collapsed = true;
+    }
+    
+    protected override string GetUIComponentClass()
+    {
+        var strBuilder = new StringBuilder("tridenton-ui-button-dropdown");
+
+        strBuilder.Append($" {Variant}");
+
+        return strBuilder.ToString();
+    }
+}
