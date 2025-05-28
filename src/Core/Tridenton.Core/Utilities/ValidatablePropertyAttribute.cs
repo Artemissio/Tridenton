@@ -72,6 +72,7 @@ public sealed class ValidatablePropertyAttribute  : ValidationAttribute
                 case DateOnly dateOnly when dateOnly == DateOnly.MinValue:
                 case TimeOnly timeOnly when timeOnly == TimeOnly.MinValue:
                 case TimeSpan timeSpan when timeSpan == TimeSpan.MinValue:
+                case DateTimeOffset dateTimeOffset when dateTimeOffset == DateTimeOffset.MinValue:
                 case Enumeration enumeration when Enumeration.GetValue(enumeration.GetType(), enumeration.Value) is null:
                 // case IEnumerable enumerable when !enumerable.GetEnumerator().MoveNext():
                 case IList { Count: 0 }:
