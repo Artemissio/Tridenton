@@ -13,7 +13,7 @@ public readonly struct PaginationConstants
     public static readonly int[] PageSizeOptions = [25, 50, 100];
 }
 
-public record PaginatedRequest
+public record PaginatedRequest : ITridentonRequest
 {
     /// <summary>
     /// Index of page to display

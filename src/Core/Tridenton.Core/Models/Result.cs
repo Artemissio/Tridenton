@@ -1,19 +1,31 @@
 ﻿namespace Tridenton.Core;
 
-/// <summary>
-/// 
-/// </summary>
-public readonly struct Result
+public interface IResult
 {
     /// <summary>
     /// 
     /// </summary>
-    [JsonIgnore]
-    public bool Successful { get; }
-
+    bool Successful { get; }
+    
     /// <summary>
     /// 
     /// </summary>
+    bool Failed { get; }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    Error? Error { get; }
+}
+
+/// <summary>
+/// 
+/// </summary>
+public readonly struct Result : IResult
+{
+    [JsonIgnore]
+    public bool Successful { get; }
+
     [JsonIgnore]
     public bool Failed { get; }
 
@@ -42,7 +54,7 @@ public readonly struct Result
 /// 
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public readonly struct Result<T>
+public readonly struct Result<T> : IResult
 {
     [JsonIgnore]
     public bool Successful { get; }
