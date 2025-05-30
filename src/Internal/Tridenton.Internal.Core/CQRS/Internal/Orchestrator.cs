@@ -1,20 +1,26 @@
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Tridenton.Internal.Core.CQRS.Internal;
 
 internal sealed class Orchestrator : IOrchestrator
 {
-    private readonly Dictionary<Type, object> _handlers;
+    private readonly OrchestratorSetup _setup;
+    private readonly IServiceProvider _serviceProvider;
 
-    public Orchestrator(Dictionary<Type, object> handlers)
+    public Orchestrator(OrchestratorSetup setup, IServiceProvider serviceProvider)
     {
-        _handlers = handlers;
+        _serviceProvider = serviceProvider;
+        _setup = setup;
     }
 
     public async Task<Result> InvokeAsync<TRequest>(TRequest request, CancellationToken cancellationToken = default) where TRequest : ITridentonRequest
     {
-        if (!_handlers.TryGetValue(typeof(TRequest), out var handler))
+        if (!_setup.Handlers.TryGetValue(typeof(TRequest), out var handlerType))
         {
             return new NoRequestHandlerSpecifiedError();
         }
+        
+        var handler = GetHandler(handlerType);
         
         var requestHandler = handler as IRequestHandler<TRequest>;
         
@@ -22,14 +28,42 @@ internal sealed class Orchestrator : IOrchestrator
     }
 
     public async Task<Result<TResponse>> InvokeAsync<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken = default) where TRequest : ITridentonRequest<TResponse>
+        where TResponse : class
     {
-        if (!_handlers.TryGetValue(typeof(TRequest), out var handler))
+        if (!_setup.Handlers.TryGetValue(typeof(TRequest), out var handlerType))
         {
             return new NoRequestHandlerSpecifiedError();
         }
+
+        var handler = GetHandler(handlerType);
         
         var requestHandler = handler as IRequestHandler<TRequest, TResponse>;
         
         return await requestHandler!.HandleAsync(request, cancellationToken);
+    }
+
+    private object GetHandler(Type handlerType)
+    {
+        object? handler = null;
+
+        try
+        {
+            handler = _serviceProvider.GetService(handlerType);
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
+
+        if (handler is not null)
+        {
+            return handler;
+        }
+        
+        using var scope = _serviceProvider.CreateScope();
+            
+        handler = scope.ServiceProvider.GetService(handlerType);
+
+        return handler!;
     }
 }

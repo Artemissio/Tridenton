@@ -1,10 +1,16 @@
 namespace Tridenton.Internal.Core.CQRS;
 
 /// <summary>
+/// Marker interface
+/// </summary>
+public interface IRequestHandler;
+
+/// <summary>
 /// 
 /// </summary>
 /// <typeparam name="TRequest"></typeparam>
-public interface IRequestHandler<in TRequest> where TRequest : ITridentonRequest
+public interface IRequestHandler<in TRequest> : IRequestHandler
+    where TRequest : ITridentonRequest
 {
     /// <summary>
     /// 
@@ -20,7 +26,9 @@ public interface IRequestHandler<in TRequest> where TRequest : ITridentonRequest
 /// </summary>
 /// <typeparam name="TRequest"></typeparam>
 /// <typeparam name="TResponse"></typeparam>
-public interface IRequestHandler<in TRequest, TResponse> where TRequest : ITridentonRequest<TResponse>
+public interface IRequestHandler<in TRequest, TResponse> : IRequestHandler
+    where TRequest : ITridentonRequest<TResponse>
+    where TResponse : class
 {
     /// <summary>
     /// 

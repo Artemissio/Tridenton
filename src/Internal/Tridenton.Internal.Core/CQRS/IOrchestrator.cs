@@ -22,5 +22,7 @@ public interface IOrchestrator
     /// <typeparam name="TRequest"></typeparam>
     /// <typeparam name="TResponse"></typeparam>
     /// <returns></returns>
-    Task<Result<TResponse>> InvokeAsync<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken = default) where TRequest : ITridentonRequest<TResponse>;
+    Task<Result<TResponse>> InvokeAsync<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken = default)
+        where TRequest : ITridentonRequest<TResponse>
+        where TResponse : class;
 }
