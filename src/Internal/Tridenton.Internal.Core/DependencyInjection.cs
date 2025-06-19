@@ -70,19 +70,8 @@ public static class DependencyInjection
                 i => i.RequestType,
                 i => i.HandlerType);
 
-        foreach (var handler in handlers)
-        {
-            services = services.AddScoped(handler.Value);
-            
-            // var interfaceType = handler.Value
-            //     .GetInterfaces()
-            //     .First(i =>
-            //         i.IsGenericType &&
-            //         (i.GetGenericTypeDefinition() == typeof(IRequestHandler<>) ||
-            //          i.GetGenericTypeDefinition() == typeof(IRequestHandler<,>)));
-            //
-            // services = services.AddScoped(interfaceType, handler.Value);
-        }
+        services = handlers
+            .Aggregate(services, (current, handler) => current.AddScoped(handler.Value));
 
         var orchestratorSetup = new OrchestratorSetup(handlers);
         
